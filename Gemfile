@@ -21,6 +21,7 @@ gem "mission_control-jobs"
 gem "motor-admin"
 
 group :development, :test do
+  gem "annotaterb"
   gem "dotenv"
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
 

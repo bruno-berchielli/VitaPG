@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_05_011745) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_05_015412) do
+  create_table "database_connections", force: :cascade do |t|
+    t.string "name"
+    t.string "host"
+    t.integer "port"
+    t.string "username"
+    t.string "password"
+    t.string "database_name"
+    t.string "sslmode"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "motor_alert_locks", force: :cascade do |t|
     t.integer "alert_id", null: false
     t.string "lock_timestamp", null: false
