@@ -24,7 +24,7 @@ class BackupRoutine < ApplicationRecord
   belongs_to :database_connection
   belongs_to :destination
 
-  has_many :backup_logs, dependent: :destroy
+  has_many :backup_runs, dependent: :destroy
 
   enum :frequency, {
     daily: "daily",
