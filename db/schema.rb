@@ -10,7 +10,53 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_05_011745) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_05_022243) do
+  create_table "backup_logs", force: :cascade do |t|
+    t.integer "backup_routine_id", null: false
+    t.string "status"
+    t.text "message"
+    t.string "file_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["backup_routine_id"], name: "index_backup_logs_on_backup_routine_id"
+  end
+
+  create_table "backup_routines", force: :cascade do |t|
+    t.string "name"
+    t.string "frequency"
+    t.integer "database_connection_id", null: false
+    t.integer "destination_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["database_connection_id"], name: "index_backup_routines_on_database_connection_id"
+    t.index ["destination_id"], name: "index_backup_routines_on_destination_id"
+  end
+
+  create_table "database_connections", force: :cascade do |t|
+    t.string "name"
+    t.string "host"
+    t.integer "port"
+    t.string "username"
+    t.string "password"
+    t.string "database_name"
+    t.string "sslmode"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "destinations", force: :cascade do |t|
+    t.string "name"
+    t.string "provider"
+    t.string "bucket"
+    t.string "region"
+    t.string "access_key_id"
+    t.string "secret_access_key"
+    t.string "project_id"
+    t.string "credentials_path"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "motor_alert_locks", force: :cascade do |t|
     t.integer "alert_id", null: false
     t.string "lock_timestamp", null: false
@@ -204,6 +250,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_05_011745) do
     t.index ["name"], name: "motor_tags_name_unique_index", unique: true
   end
 
+  add_foreign_key "backup_logs", "backup_routines"
+  add_foreign_key "backup_routines", "database_connections"
+  add_foreign_key "backup_routines", "destinations"
   add_foreign_key "motor_alert_locks", "motor_alerts", column: "alert_id"
   add_foreign_key "motor_alerts", "motor_queries", column: "query_id"
   add_foreign_key "motor_note_tag_tags", "motor_note_tags", column: "tag_id"
