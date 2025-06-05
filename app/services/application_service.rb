@@ -28,13 +28,11 @@ class ApplicationService
   private
 
   def log_info(message)
-    puts "[INFO] #{message}"
-    backup_run.log!(message: { message: message }, status: :info)
+    backup_run.log!(message:, status: :info)
   end
 
   def log_error(message)
-    puts "[ERROR] #{message}"
-    backup_run.log!(message: { message: message }, status: :error)
+    backup_run.log!(message:, status: :error)
   end
 
   def log_output(output)
@@ -42,8 +40,7 @@ class ApplicationService
       line = line.strip
       next if line.empty?
 
-      puts "[OUTPUT] #{line}"
-      backup_run.log!(message: { output: line }, status: :info)
+      backup_run.log!(line, status: :info)
     end
   end
 end

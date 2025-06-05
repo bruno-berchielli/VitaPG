@@ -18,6 +18,8 @@
 #  backup_run_id  (backup_run_id => backup_runs.id)
 #
 class BackupLog < ApplicationRecord
+  after_save :print_to_rails_log
+
   belongs_to :backup_run, inverse_of: :logs
 
   enum :status, {
@@ -27,4 +29,12 @@ class BackupLog < ApplicationRecord
   }
 
   validates :status, presence: true
+
+  private
+
+  def print_to_rails_log
+    Rails.logger.send(status, "[BackupLog] #{message}")
+  rescue => e
+    Rails.logger.error("[BackupLog] Failed to log message: #{e.message}")
+  end
 end

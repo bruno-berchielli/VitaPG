@@ -54,6 +54,10 @@ class BackupRoutine < ApplicationRecord
     SolidQueue::RecurringTask.where(key: solid_queue_key).destroy_all
   end
 
+  def run!
+    BackupRunnerService.call(self)
+  end
+
   private
 
   def solid_queue_key
