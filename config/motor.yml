@@ -1,7 +1,33 @@
 ---
 engine_version: 0.4.36
-file_version: 2025-06-05 01:41:36.141097000 -03:00
+file_version: 2025-06-05 12:32:08.056332000 -03:00
 resources:
+- name: backup_log
+  preferences:
+    scopes:
+    - visible: false
+      name: not_success
+    - visible: false
+      name: not_failure
+  updated_at: 2025-06-05 12:31:37.435406000 +00:00
+- name: backup_routine
+  preferences:
+    scopes:
+    - visible: false
+      name: not_daily
+    - visible: false
+      name: not_hourly
+    - visible: false
+      name: not_weekly
+  updated_at: 2025-06-05 12:31:15.106243000 +00:00
+- name: destination
+  preferences:
+    scopes:
+    - visible: false
+      name: not_s3
+    - visible: false
+      name: not_google_drive
+  updated_at: 2025-06-05 12:30:56.618353000 +00:00
 - name: solid_queue/blocked_execution
   preferences:
     visible: false
@@ -49,9 +75,29 @@ resources:
 configs:
 - key: header.links
   value:
-  - name: "⭐ Star on GitHub"
-    path: https://github.com/motor-admin/motor-admin-rails
-  updated_at: 2025-06-05 01:17:46.533089000 +00:00
+  - name: Reports
+    link_type: reports
+  - name: Forms
+    link_type: forms
+  updated_at: 2025-06-05 12:31:50.527958000 +00:00
+- key: resources.order
+  value:
+  - destination
+  - database_connection
+  - backup_routine
+  - backup_log
+  - solid_queue/blocked_execution
+  - solid_queue/claimed_execution
+  - solid_queue/failed_execution
+  - solid_queue/job
+  - solid_queue/pause
+  - solid_queue/process
+  - solid_queue/ready_execution
+  - solid_queue/recurring_execution
+  - solid_queue/recurring_task
+  - solid_queue/scheduled_execution
+  - solid_queue/semaphore
+  updated_at: 2025-06-05 12:32:08.056332000 +00:00
 queries: []
 dashboards: []
 forms: []

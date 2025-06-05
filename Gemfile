@@ -19,12 +19,13 @@ gem "kamal", require: false
 gem "thruster", require: false
 gem "mission_control-jobs"
 gem "motor-admin"
+gem "aws-sdk-s3"
 
 group :development, :test do
   gem "annotaterb"
   gem "dotenv"
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
-
+  gem 'foreman'
   gem "rubocop-rails-omakase", require: false
 end
 
