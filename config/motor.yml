@@ -1,6 +1,6 @@
 ---
 engine_version: 0.4.36
-file_version: 2025-06-05 12:32:08.056332000 -03:00
+file_version: 2025-06-05 12:45:54.240004000 -03:00
 resources:
 - name: backup_log
   preferences:
@@ -9,7 +9,8 @@ resources:
       name: not_success
     - visible: false
       name: not_failure
-  updated_at: 2025-06-05 12:31:37.435406000 +00:00
+    visible: false
+  updated_at: 2025-06-05 12:45:54.240004000 +00:00
 - name: backup_routine
   preferences:
     scopes:
