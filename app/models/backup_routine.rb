@@ -32,7 +32,7 @@ class BackupRoutine < ApplicationRecord
   belongs_to :database_connection
   belongs_to :destination
 
-  has_many :backup_runs, dependent: :destroy
+  has_many :runs, class_name: "BackupRun", dependent: :destroy
 
   validates :name, :cron, presence: true
 
@@ -57,6 +57,6 @@ class BackupRoutine < ApplicationRecord
   private
 
   def solid_queue_key
-    "backup_routine_#{id}"
+    "backup_routine_id_#{id}_#{name}"
   end
 end

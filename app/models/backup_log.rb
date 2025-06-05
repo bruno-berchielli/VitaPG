@@ -18,11 +18,12 @@
 #  backup_run_id  (backup_run_id => backup_runs.id)
 #
 class BackupLog < ApplicationRecord
-  belongs_to :backup_run
+  belongs_to :backup_run, inverse_of: :logs
 
   enum :status, {
-    success: "success",
-    failure: "failure"
+    info: "info",
+    warning: "warning",
+    error: "error",
   }
 
   validates :status, presence: true
