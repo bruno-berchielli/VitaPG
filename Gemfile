@@ -19,6 +19,7 @@ gem "kamal", require: false
 gem "thruster", require: false
 gem "mission_control-jobs"
 gem "dotenv-rails"
+gem "motor-admin", github: "motor-admin/motor-admin-rails"
 
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
