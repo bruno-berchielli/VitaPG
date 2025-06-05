@@ -15,4 +15,9 @@
 #  project_id        :string
 #
 class Destination < ApplicationRecord
+  enum :provider, { s3: "s3", google_drive: "google_drive" }
+
+  has_many :backup_routines, dependent: :nullify
+
+  validates :name, :provider, :bucket, presence: true
 end

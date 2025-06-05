@@ -14,4 +14,11 @@
 #  updated_at    :datetime         not null
 #
 class DatabaseConnection < ApplicationRecord
+  has_many :backup_routines, dependent: :destroy
+
+  validates :name, :host, :port, :username, :password, :database_name, :sslmode, presence: true
+
+  def connection_url
+    "postgres://#{username}:#{password}@#{host}:#{port}/#{database_name}?sslmode=#{sslmode}"
+  end
 end
