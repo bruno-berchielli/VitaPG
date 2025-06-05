@@ -5,6 +5,10 @@
 #  id                     :integer          not null, primary key
 #  frequency              :string
 #  name                   :string
+#  no_owner               :boolean          default(FALSE), not null
+#  no_privileges          :boolean          default(FALSE), not null
+#  tables_to_exclude      :text
+#  tables_to_exclude_data :text
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  database_connection_id :integer          not null
@@ -31,6 +35,9 @@ class BackupRoutine < ApplicationRecord
     hourly: "hourly",
     weekly: "weekly"
   }
+
+  serialize :tables_to_exclude, coder: JSON, type: Array
+  serialize :tables_to_exclude_data, coder: JSON, type: Array
 
   validates :name, :frequency, presence: true
 end
