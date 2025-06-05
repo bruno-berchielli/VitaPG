@@ -34,7 +34,5 @@ class BackupLog < ApplicationRecord
 
   def print_to_rails_log
     Rails.logger.send(status, "[BackupLog] #{message}")
-  rescue => e
-    Rails.logger.error("[BackupLog] Failed to log message: #{e.message}")
   end
 end
