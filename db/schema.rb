@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_05_022132) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_05_022243) do
+  create_table "backup_logs", force: :cascade do |t|
+    t.integer "backup_routine_id", null: false
+    t.string "status"
+    t.text "message"
+    t.string "file_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["backup_routine_id"], name: "index_backup_logs_on_backup_routine_id"
+  end
+
   create_table "backup_routines", force: :cascade do |t|
     t.string "name"
     t.string "frequency"
@@ -240,6 +250,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_05_022132) do
     t.index ["name"], name: "motor_tags_name_unique_index", unique: true
   end
 
+  add_foreign_key "backup_logs", "backup_routines"
   add_foreign_key "backup_routines", "database_connections"
   add_foreign_key "backup_routines", "destinations"
   add_foreign_key "motor_alert_locks", "motor_alerts", column: "alert_id"
