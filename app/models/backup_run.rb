@@ -22,5 +22,16 @@
 class BackupRun < ApplicationRecord
   belongs_to :backup_routine
 
-  has_many :backup_logs, dependent: :destroy
+  has_many :logs, class_name: "BackupLog", dependent: :destroy
+
+  enum :status, {
+    running: "running",
+    completed: "completed",
+    failed: "failed",
+    cancelled: "cancelled",
+  }
+
+  def log!(message:, status:)
+    logs.create!(message:, status:)
+  end
 end

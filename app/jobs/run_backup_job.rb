@@ -5,6 +5,6 @@ class RunBackupJob < ApplicationJob
     routine = BackupRoutine.find_by(id: backup_routine_id)
     return unless routine&.enabled?
 
-    BackupRunner.new(routine).call
+    routine.run!
   end
 end
