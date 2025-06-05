@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_05_015412) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_05_020603) do
   create_table "database_connections", force: :cascade do |t|
     t.string "name"
     t.string "host"
@@ -19,6 +19,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_05_015412) do
     t.string "password"
     t.string "database_name"
     t.string "sslmode"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "destinations", force: :cascade do |t|
+    t.string "name"
+    t.string "provider"
+    t.string "bucket"
+    t.string "region"
+    t.string "access_key_id"
+    t.string "secret_access_key"
+    t.string "project_id"
+    t.string "credentials_path"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
