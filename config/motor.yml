@@ -1,6 +1,6 @@
 ---
 engine_version: 0.4.36
-file_version: 2025-06-05 12:45:54.240004000 -03:00
+file_version: 2025-06-05 14:03:49.090657000 -03:00
 resources:
 - name: backup_log
   preferences:
@@ -20,7 +20,14 @@ resources:
       name: not_hourly
     - visible: false
       name: not_weekly
-  updated_at: 2025-06-05 12:31:15.106243000 +00:00
+    columns:
+    - default_value: "[]"
+      description: Comma separated
+      name: tables_to_exclude
+    - default_value: "[]"
+      description: Comma separated
+      name: tables_to_exclude_data
+  updated_at: 2025-06-05 14:03:49.090657000 +00:00
 - name: destination
   preferences:
     scopes:
