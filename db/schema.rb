@@ -10,15 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_05_022243) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_05_123650) do
   create_table "backup_logs", force: :cascade do |t|
-    t.integer "backup_routine_id", null: false
     t.string "status"
-    t.text "message"
-    t.string "file_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["backup_routine_id"], name: "index_backup_logs_on_backup_routine_id"
+    t.integer "backup_run_id", null: false
+    t.json "message"
+    t.index ["backup_run_id"], name: "index_backup_logs_on_backup_run_id"
   end
 
   create_table "backup_routines", force: :cascade do |t|
@@ -30,6 +29,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_05_022243) do
     t.datetime "updated_at", null: false
     t.index ["database_connection_id"], name: "index_backup_routines_on_database_connection_id"
     t.index ["destination_id"], name: "index_backup_routines_on_destination_id"
+  end
+
+  create_table "backup_runs", force: :cascade do |t|
+    t.integer "backup_routine_id", null: false
+    t.string "status"
+    t.string "file_url"
+    t.datetime "started_at"
+    t.datetime "finished_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["backup_routine_id"], name: "index_backup_runs_on_backup_routine_id"
   end
 
   create_table "database_connections", force: :cascade do |t|
@@ -250,9 +260,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_05_022243) do
     t.index ["name"], name: "motor_tags_name_unique_index", unique: true
   end
 
-  add_foreign_key "backup_logs", "backup_routines"
+  add_foreign_key "backup_logs", "backup_runs"
   add_foreign_key "backup_routines", "database_connections"
   add_foreign_key "backup_routines", "destinations"
+  add_foreign_key "backup_runs", "backup_routines"
   add_foreign_key "motor_alert_locks", "motor_alerts", column: "alert_id"
   add_foreign_key "motor_alerts", "motor_queries", column: "query_id"
   add_foreign_key "motor_note_tag_tags", "motor_note_tags", column: "tag_id"
