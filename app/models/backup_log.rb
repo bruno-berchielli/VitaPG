@@ -20,7 +20,6 @@
 #
 class BackupLog < ApplicationRecord
   belongs_to :backup_routine
-
   belongs_to :backup_routine
 
   enum :status, {
