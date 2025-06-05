@@ -18,10 +18,10 @@ gem "bootsnap", require: false
 gem "kamal", require: false
 gem "thruster", require: false
 gem "mission_control-jobs"
-gem "dotenv-rails"
-gem "motor-admin", github: "motor-admin/motor-admin-rails"
+gem "motor-admin"
 
 group :development, :test do
+  gem "dotenv"
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
 
   gem "rubocop-rails-omakase", require: false
