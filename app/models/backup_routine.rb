@@ -3,7 +3,8 @@
 # Table name: backup_routines
 #
 #  id                     :integer          not null, primary key
-#  frequency              :string
+#  cron                   :string           default("0 0 * * *"), not null
+#  enabled                :boolean          default(TRUE), not null
 #  name                   :string
 #  no_owner               :boolean          default(FALSE), not null
 #  no_privileges          :boolean          default(FALSE), not null
@@ -25,19 +26,37 @@
 #  destination_id          (destination_id => destinations.id)
 #
 class BackupRoutine < ApplicationRecord
+  after_commit :sync_solid_queue_task, on: %i[create update]
+  after_destroy :remove_solid_queue_task
+
   belongs_to :database_connection
   belongs_to :destination
 
   has_many :backup_runs, dependent: :destroy
 
-  enum :frequency, {
-    daily: "daily",
-    hourly: "hourly",
-    weekly: "weekly"
-  }
+  validates :name, :cron, presence: true
 
-  serialize :tables_to_exclude, coder: JSON, type: Array
-  serialize :tables_to_exclude_data, coder: JSON, type: Array
+  def sync_solid_queue_task
+    return remove_solid_queue_task unless enabled?
 
-  validates :name, :frequency, presence: true
+    SolidQueue::RecurringTask.find_or_initialize_by(key: solid_queue_key).tap do |task|
+      task.assign_attributes(
+        static: false,
+        class_name: "RunBackupJob",
+        schedule: cron,
+        arguments: [id]
+      )
+      task.save!
+    end
+  end
+
+  def remove_solid_queue_task
+    SolidQueue::RecurringTask.where(key: solid_queue_key).destroy_all
+  end
+
+  private
+
+  def solid_queue_key
+    "backup_routine_#{id}"
+  end
 end

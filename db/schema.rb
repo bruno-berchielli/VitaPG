@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_05_135307) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_05_145208) do
   create_table "backup_logs", force: :cascade do |t|
     t.string "status"
     t.datetime "created_at", null: false
@@ -22,7 +22,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_05_135307) do
 
   create_table "backup_routines", force: :cascade do |t|
     t.string "name"
-    t.string "frequency"
     t.integer "database_connection_id", null: false
     t.integer "destination_id", null: false
     t.datetime "created_at", null: false
@@ -31,6 +30,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_05_135307) do
     t.text "tables_to_exclude_data"
     t.boolean "no_owner", default: false, null: false
     t.boolean "no_privileges", default: false, null: false
+    t.string "cron", default: "0 0 * * *", null: false
+    t.boolean "enabled", default: true, null: false
     t.index ["database_connection_id"], name: "index_backup_routines_on_database_connection_id"
     t.index ["destination_id"], name: "index_backup_routines_on_destination_id"
   end
