@@ -9,22 +9,6 @@ class ApplicationService
     raise NotImplementedError, "You must implement the call method"
   end
 
-  def initialize(*args)
-    @args = args
-  end
-
-  def call
-    raise NotImplementedError, "You must implement the call method"
-  end
-
-  def valid?
-    super && errors.empty?
-  end
-
-  def errors
-    @errors ||= ActiveModel::Errors.new(self)
-  end
-
   private
 
   def log_info(message)
