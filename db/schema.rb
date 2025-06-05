@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_05_125036) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_05_135307) do
   create_table "backup_logs", force: :cascade do |t|
     t.string "status"
     t.datetime "created_at", null: false
@@ -53,7 +53,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_05_125036) do
     t.string "username"
     t.string "password"
     t.string "database_name"
-    t.string "sslmode"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
