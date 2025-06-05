@@ -1,0 +1,65 @@
+---
+engine_version: 0.4.36
+file_version: 2025-06-05 01:41:36.141097000 -03:00
+resources:
+- name: solid_queue/blocked_execution
+  preferences:
+    visible: false
+  updated_at: 2025-06-05 01:41:13.480425000 +00:00
+- name: solid_queue/claimed_execution
+  preferences:
+    visible: false
+  updated_at: 2025-06-05 01:41:14.694352000 +00:00
+- name: solid_queue/failed_execution
+  preferences:
+    visible: false
+  updated_at: 2025-06-05 01:41:15.171853000 +00:00
+- name: solid_queue/job
+  preferences:
+    visible: false
+  updated_at: 2025-06-05 01:41:24.430922000 +00:00
+- name: solid_queue/pause
+  preferences:
+    visible: false
+  updated_at: 2025-06-05 01:41:25.191725000 +00:00
+- name: solid_queue/process
+  preferences:
+    visible: false
+  updated_at: 2025-06-05 01:41:30.731994000 +00:00
+- name: solid_queue/ready_execution
+  preferences:
+    visible: false
+  updated_at: 2025-06-05 01:41:31.928974000 +00:00
+- name: solid_queue/recurring_execution
+  preferences:
+    visible: false
+  updated_at: 2025-06-05 01:41:32.835668000 +00:00
+- name: solid_queue/recurring_task
+  preferences:
+    visible: false
+  updated_at: 2025-06-05 01:41:33.864010000 +00:00
+- name: solid_queue/scheduled_execution
+  preferences:
+    visible: false
+  updated_at: 2025-06-05 01:41:34.907225000 +00:00
+- name: solid_queue/semaphore
+  preferences:
+    visible: false
+  updated_at: 2025-06-05 01:41:36.141097000 +00:00
+configs:
+- key: header.links
+  value:
+  - name: "⭐ Star on GitHub"
+    path: https://github.com/motor-admin/motor-admin-rails
+  updated_at: 2025-06-05 01:17:46.533089000 +00:00
+queries: []
+dashboards: []
+forms: []
+alerts: []
+api_configs:
+- id: 1
+  name: origin
+  url: "/"
+  preferences: {}
+  description:
+  updated_at: 2025-06-05 01:17:46.548138000 +00:00
