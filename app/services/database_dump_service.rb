@@ -20,18 +20,15 @@ class DatabaseDumpService < ApplicationService
     ENV["PGPASSWORD"] = connection.password
     stdout, stderr, status = Open3.capture3(*dump_command)
 
-    log_info("Command output:\n#{stdout}")
-    log_error("Command error output:\n#{stderr}") if stderr.present?
-
     if status.success?
-      log_info("Backup completed successfully")
+      log_info("Backup completed successfully. Command output:\n#{stdout}")
       log_output(stdout)
       filepath
     else
       log_error("Backup failed with status #{status.exitstatus}")
       log_output(stderr)
       backup_run.update!(status: :failed, finished_at: Time.current)
-      raise StandardError, "pg_dump failed: #{stderr}"
+      raise StandardError, "PG_DUMP command failed: #{stderr}"
     end
 
   rescue => e
