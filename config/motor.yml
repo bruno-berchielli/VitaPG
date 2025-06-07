@@ -1,6 +1,6 @@
 ---
 engine_version: 0.4.36
-file_version: 2025-06-07 13:13:16.644519000 -03:00
+file_version: 2025-06-07 13:19:12.808158000 -03:00
 resources:
 - name: backup_log
   preferences:
@@ -23,10 +23,18 @@ resources:
     columns:
     - default_value: "[]"
       description: Comma separated
+      access_type: hidden
       name: tables_to_exclude
     - default_value: "[]"
       description: Comma separated
+      access_type: hidden
       name: tables_to_exclude_data
+    - access_type: hidden
+      name: no_owner
+    - access_type: hidden
+      name: no_privileges
+    - access_type: hidden
+      name: cron
     actions:
     - name: run_backup
       display_name: Run Backup
@@ -34,7 +42,7 @@ resources:
       preferences:
         method_name: run!
         show_on_table: true
-  updated_at: 2025-06-07 13:13:16.644519000 +00:00
+  updated_at: 2025-06-07 13:19:12.808158000 +00:00
 - name: backup_run
   preferences:
     actions:
@@ -114,18 +122,18 @@ configs:
 - key: resources.backup_routine.columns.order
   value:
   - id
+  - enabled
   - database_connection_id
   - destination_id
   - name
-  - frequency
-  - run_at
   - tables_to_exclude
   - tables_to_exclude_data
   - no_owner
   - no_privileges
   - updated_at
   - created_at
-  updated_at: 2025-06-05 14:17:01.715615000 +00:00
+  - cron
+  updated_at: 2025-06-07 13:19:09.186694000 +00:00
 - key: resources.order
   value:
   - destination

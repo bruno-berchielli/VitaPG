@@ -21,14 +21,14 @@ class DatabaseDumpService < ApplicationService
     stdout, stderr, status = Open3.capture3(*dump_command)
 
     if status.success?
-      log_info("Backup completed successfully. Command output:\n#{stdout}")
+      log_info("Backup completed successfully. Command output:\n#{stderr}")
       log_output(stdout)
       filepath
     else
       log_error("Backup failed with status #{status.exitstatus}")
       log_output(stderr)
       backup_run.update!(status: :failed, finished_at: Time.current)
-      raise StandardError, "PG_DUMP command failed: #{stderr}"
+      raise StandardError, "pg_dump command failed: #{stderr}"
     end
 
   rescue => e
@@ -55,6 +55,7 @@ class DatabaseDumpService < ApplicationService
 
     cmd << "--no-owner" if routine.no_owner
     cmd << "--no-privileges" if routine.no_privileges
+    cmd << "--verbose"
 
     routine.tables_to_exclude.split(',').each do |table|
       cmd << "--exclude-table=#{table.strip}"
