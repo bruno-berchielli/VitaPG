@@ -131,4 +131,4 @@ Please ensure your code adheres to the project's coding standards (e.g., by runn
 
 This project is released under the **MIT License**.
 
-See the `LICENSE` file in the repository for the full license text. (If a `LICENSE` file does not exist, you might want to add one, e.g., by choosing a standard license like MIT from [choosealicense.com](https://choosealicense.com/)).
+See the `LICENSE` file in the repository for the full license text. 
