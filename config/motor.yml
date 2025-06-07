@@ -1,6 +1,6 @@
 ---
 engine_version: 0.4.36
-file_version: 2025-06-05 21:59:24.032596000 -03:00
+file_version: 2025-06-07 12:58:04.244667000 -03:00
 resources:
 - name: backup_log
   preferences:
@@ -36,7 +36,14 @@ resources:
       action_type: method
       preferences:
         method_name: delete_remote_file!
-  updated_at: 2025-06-05 21:59:24.032596000 +00:00
+    scopes:
+    - visible: false
+      name: not_failed
+    - visible: false
+      name: not_running
+    - visible: false
+      name: not_completed
+  updated_at: 2025-06-07 12:58:04.244667000 +00:00
 - name: destination
   preferences:
     scopes:
