@@ -1,6 +1,6 @@
 ---
 engine_version: 0.4.36
-file_version: 2025-06-05 14:03:49.090657000 -03:00
+file_version: 2025-06-05 21:59:24.032596000 -03:00
 resources:
 - name: backup_log
   preferences:
@@ -28,6 +28,15 @@ resources:
       description: Comma separated
       name: tables_to_exclude_data
   updated_at: 2025-06-05 14:03:49.090657000 +00:00
+- name: backup_run
+  preferences:
+    actions:
+    - name: delete_file_from_storage
+      display_name: Delete file from Storage
+      action_type: method
+      preferences:
+        method_name: delete_remote_file!
+  updated_at: 2025-06-05 21:59:24.032596000 +00:00
 - name: destination
   preferences:
     scopes:
@@ -88,6 +97,21 @@ configs:
   - name: Forms
     link_type: forms
   updated_at: 2025-06-05 12:31:50.527958000 +00:00
+- key: resources.backup_routine.columns.order
+  value:
+  - id
+  - database_connection_id
+  - destination_id
+  - name
+  - frequency
+  - run_at
+  - tables_to_exclude
+  - tables_to_exclude_data
+  - no_owner
+  - no_privileges
+  - updated_at
+  - created_at
+  updated_at: 2025-06-05 14:17:01.715615000 +00:00
 - key: resources.order
   value:
   - destination

@@ -22,6 +22,7 @@
 class BackupRun < ApplicationRecord
   belongs_to :backup_routine
 
+  has_one :destination, through: :backup_routine
   has_many :logs, class_name: "BackupLog", dependent: :destroy
 
   enum :status, {
@@ -33,5 +34,17 @@ class BackupRun < ApplicationRecord
 
   def log!(message:, status:)
     logs.create!(message:, status:)
+  end
+
+  def delete_remote_file!
+    raise "No file URL to delete" unless file_url.present?
+
+    if Storage::DeleteService.call(destination, file_url)
+      update!(file_url: nil)
+      log!(message: "Remote backup deleted from #{destination.name}", status: :info)
+    else
+      log!(message: "Failed to delete remote backup from #{destination.name}", status: :error)
+      raise "Failed to delete remote backup"
+    end
   end
 end
