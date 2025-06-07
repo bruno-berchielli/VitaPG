@@ -20,6 +20,9 @@ class DatabaseDumpService < ApplicationService
     ENV["PGPASSWORD"] = connection.password
     stdout, stderr, status = Open3.capture3(*dump_command)
 
+    log_info("Command output:\n#{stdout}")
+    log_error("Command error output:\n#{stderr}") if stderr.present?
+
     if status.success?
       log_info("Backup completed successfully")
       log_output(stdout)
