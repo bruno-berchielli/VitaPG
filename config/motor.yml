@@ -1,6 +1,6 @@
 ---
 engine_version: 0.4.36
-file_version: 2025-06-07 12:58:04.244667000 -03:00
+file_version: 2025-06-07 13:13:16.644519000 -03:00
 resources:
 - name: backup_log
   preferences:
@@ -27,7 +27,14 @@ resources:
     - default_value: "[]"
       description: Comma separated
       name: tables_to_exclude_data
-  updated_at: 2025-06-05 14:03:49.090657000 +00:00
+    actions:
+    - name: run_backup
+      display_name: Run Backup
+      action_type: method
+      preferences:
+        method_name: run!
+        show_on_table: true
+  updated_at: 2025-06-07 13:13:16.644519000 +00:00
 - name: backup_run
   preferences:
     actions:
