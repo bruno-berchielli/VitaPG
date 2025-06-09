@@ -132,3 +132,7 @@ Please ensure your code adheres to the project's coding standards (e.g., by runn
 This project is released under the **MIT License**.
 
 See the `LICENSE` file in the repository for the full license text. 
+
+## Author
+
+This project was first created by [Bruno Berchielli](https://github.com/bruno-berchielli)
