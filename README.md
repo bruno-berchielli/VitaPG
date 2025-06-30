@@ -21,7 +21,7 @@ VitaPG offers a robust set of features to manage your PostgreSQL backups:
 
 ## Technology Stack
 
-VitaPG is built with a modern and reliable technology stack:
+VitaPG technology stack:
 
 - **Backend:** Ruby on Rails
 - **Application Database:** SQLite3 (manages application data, no separate server setup needed for this)
@@ -49,8 +49,7 @@ Follow these steps to get VitaPG up and running on your local machine for develo
     git clone https://github.com/your-username/vitapg.git
     cd vitapg
     ```
-    **(Important: Replace `https://github.com/your-username/vitapg.git` with the actual URL of the VitaPG repository if you are not the owner or if it's hosted elsewhere.)**
-
+    
 2.  **Install dependencies:**
     ```bash
     bundle install
