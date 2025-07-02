@@ -80,7 +80,7 @@ Follow these steps to get VitaPG up and running on your local machine for develo
 Once VitaPG is running, you can manage your backup operations through the Motor-Admin interface:
 
 1.  **Access the Admin Interface:**
-    Open your web browser and navigate to `http://localhost:3000/admin` (or your production URL followed by `/admin`). Username = `admin`, Password = `/admin`.
+    Open your web browser and navigate to `http://localhost:3000/admin` (or your production URL followed by `/admin`). The default credentials are Username = `admin` and Password = `admin`.
 
 2.  **Configure Database Connections:**
     - Go to the "Database Connections" section.
