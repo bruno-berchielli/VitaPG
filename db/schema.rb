@@ -56,6 +56,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_05_145208) do
     t.string "database_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "sslmode"
   end
 
   create_table "destinations", force: :cascade do |t|
