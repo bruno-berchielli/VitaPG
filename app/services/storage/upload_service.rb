@@ -40,8 +40,23 @@ module Storage
     end
 
     def upload_to_google_drive
-      destination.ensure_valid_token!
-      client = destination.oauth_client
+      client = Signet::OAuth2::Client.new(
+        client_id: destination.client_id,
+        client_secret: destination.client_secret,
+        token_credential_uri: "https://oauth2.googleapis.com/token",
+        access_token: destination.access_token,
+        refresh_token: destination.refresh_token,
+        expires_at: destination.expires_at,
+        scope: "https://www.googleapis.com/auth/drive.file"
+      )
+
+      if destination.expires_at < Time.current
+        client.refresh!
+        destination.update!(
+          access_token: client.access_token,
+          expires_at: client.expires_at
+        )
+      end
 
       service = Google::Apis::DriveV3::DriveService.new
       service.authorization = client
