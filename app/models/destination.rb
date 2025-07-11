@@ -49,4 +49,24 @@ class GoogleDriveDestination < Destination
   def ensure_provider_is_google_drive
     errors.add(:provider, "must be 'google_drive'") unless provider == "google_drive"
   end
+
+  def oauth_client
+      Signet::OAuth2::Client.new(
+      client_id: client_id,
+      client_secret: client_secret,
+      token_credential_uri: "https://oauth2.googleapis.com/token",
+      access_token: access_token,
+      refresh_token: refresh_token,
+      expires_at: expires_at,
+      scope: "https://www.googleapis.com/auth/drive.file"
+    )
+  end
+
+  def ensure_valid_token!
+    if expires_at.nil? || expires_at < Time.current
+      client = oauth_client
+      client.refresh!
+      update!(access_token: client.access_token, expires_at: client.expires_at)
+    end
+  end
 end
