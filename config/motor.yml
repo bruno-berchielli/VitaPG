@@ -1,6 +1,6 @@
 ---
 engine_version: 0.4.36
-file_version: 2025-06-07 13:19:12.808158000 -03:00
+file_version: 2025-07-11 21:30:02.771883000 -04:00
 resources:
 - name: backup_log
   preferences:
@@ -66,7 +66,10 @@ resources:
       name: not_s3
     - visible: false
       name: not_google_drive
-  updated_at: 2025-06-05 12:30:56.618353000 +00:00
+    columns:
+    - access_type: read_only
+      name: type
+  updated_at: 2025-07-11 21:30:02.771883000 +00:00
 - name: solid_queue/blocked_execution
   preferences:
     visible: false
