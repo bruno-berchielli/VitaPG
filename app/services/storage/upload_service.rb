@@ -40,6 +40,10 @@ module Storage
     end
 
     def upload_to_google_drive
+      if destination.access_token.blank? || destination.refresh_token.blank? || destination.expires_at.nil?
+        redirect_to google_auth_start_path(destination_id: destination.id)
+      end
+
       client = Signet::OAuth2::Client.new(
         client_id: destination.client_id,
         client_secret: destination.client_secret,
@@ -54,6 +58,7 @@ module Storage
         client.refresh!
         destination.update!(
           access_token: client.access_token,
+          refresh_token: client.refresh_token,
           expires_at: client.expires_at
         )
       end
