@@ -20,12 +20,15 @@ gem "thruster", require: false
 gem "mission_control-jobs"
 gem "motor-admin"
 gem "aws-sdk-s3"
+gem "googleauth"
+gem "google-api-client", "~> 0.53.0"
 
 group :development, :test do
   gem "annotaterb"
   gem "dotenv"
+  gem "dotenv-rails"
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
-  gem 'foreman'
+  gem "foreman"
   gem "rubocop-rails-omakase", require: false
 end
 

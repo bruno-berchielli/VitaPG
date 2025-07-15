@@ -1,6 +1,6 @@
 ---
 engine_version: 0.4.36
-file_version: 2025-06-07 13:19:12.808158000 -03:00
+file_version: 2025-07-15 00:15:32.016139000 -04:00
 resources:
 - name: backup_log
   preferences:
@@ -66,7 +66,26 @@ resources:
       name: not_s3
     - visible: false
       name: not_google_drive
-  updated_at: 2025-06-05 12:30:56.618353000 +00:00
+    columns:
+    - access_type: read_only
+      name: type
+    - display_name: Folder ID
+      name: folder_id
+  updated_at: 2025-07-15 00:15:32.016139000 +00:00
+- name: google_drive_destination
+  preferences:
+    columns:
+    - name: connect_url
+      display_name: connect_url
+      column_type: link
+      access_type: read_write
+      virtual: true
+      format:
+        link_text: Authenticate Google Drive
+      validators: []
+    - display_name: Client ID
+      name: client_id
+  updated_at: 2025-07-13 23:08:24.996597000 +00:00
 - name: solid_queue/blocked_execution
   preferences:
     visible: false
@@ -134,6 +153,28 @@ configs:
   - created_at
   - cron
   updated_at: 2025-06-07 13:19:09.186694000 +00:00
+- key: resources.google_drive_destination.columns.order
+  value:
+  - id
+  - name
+  - provider
+  - bucket
+  - region
+  - access_key_id
+  - secret_access_key
+  - project_id
+  - credentials_path
+  - client_id
+  - client_secret
+  - connect_url
+  - access_token
+  - refresh_token
+  - expires_at
+  - folder_id
+  - type
+  - updated_at
+  - created_at
+  updated_at: 2025-07-13 23:13:53.018198000 +00:00
 - key: resources.order
   value:
   - destination

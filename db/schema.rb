@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_05_145208) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_11_210809) do
   create_table "backup_logs", force: :cascade do |t|
     t.string "status"
     t.datetime "created_at", null: false
@@ -62,14 +62,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_05_145208) do
   create_table "destinations", force: :cascade do |t|
     t.string "name"
     t.string "provider"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "bucket"
     t.string "region"
     t.string "access_key_id"
     t.string "secret_access_key"
     t.string "project_id"
     t.string "credentials_path"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string "client_id"
+    t.string "client_secret"
+    t.string "access_token"
+    t.string "refresh_token"
+    t.datetime "expires_at"
+    t.string "folder_id"
+    t.string "type"
   end
 
   create_table "motor_alert_locks", force: :cascade do |t|

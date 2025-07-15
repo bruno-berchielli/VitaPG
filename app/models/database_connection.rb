@@ -8,6 +8,7 @@
 #  name          :string
 #  password      :string
 #  port          :integer
+#  sslmode       :string
 #  username      :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
@@ -17,7 +18,7 @@ class DatabaseConnection < ApplicationRecord
 
   validates :name, :host, :port, :username, :password, :database_name, :sslmode, presence: true
 
-  enum :sslmode, { disable: "disable", allow: "allow" , prefer: "prefer", require: "require", verify_ca: "verify-ca", verify_full: "verify-full" }, default: :disable
+  enum :sslmode, { disable: "disable", allow: "allow", prefer: "prefer", require: "require", verify_ca: "verify-ca", verify_full: "verify-full" }, default: :disable
 
   def connection_url
     "postgres://#{username}:#{password}@#{host}:#{port}/#{database_name}?sslmode=#{sslmode}"
