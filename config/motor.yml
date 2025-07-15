@@ -1,6 +1,6 @@
 ---
 engine_version: 0.4.36
-file_version: 2025-07-13 23:08:24.996597000 -04:00
+file_version: 2025-07-15 00:15:32.016139000 -04:00
 resources:
 - name: backup_log
   preferences:
@@ -69,7 +69,9 @@ resources:
     columns:
     - access_type: read_only
       name: type
-  updated_at: 2025-07-13 23:07:07.837582000 +00:00
+    - display_name: Folder ID
+      name: folder_id
+  updated_at: 2025-07-15 00:15:32.016139000 +00:00
 - name: google_drive_destination
   preferences:
     columns:
@@ -162,9 +164,9 @@ configs:
   - secret_access_key
   - project_id
   - credentials_path
-  - connect_url
   - client_id
   - client_secret
+  - connect_url
   - access_token
   - refresh_token
   - expires_at
@@ -172,7 +174,7 @@ configs:
   - type
   - updated_at
   - created_at
-  updated_at: 2025-07-13 23:08:10.057341000 +00:00
+  updated_at: 2025-07-13 23:13:53.018198000 +00:00
 - key: resources.order
   value:
   - destination
