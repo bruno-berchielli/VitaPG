@@ -40,8 +40,8 @@ module Storage
     end
 
     def upload_to_google_drive
-      if destination.access_token.blank? || destination.refresh_token.blank? || destination.expires_at.nil?
-        redirect_to google_auth_start_path(destination_id: destination.id)
+      if destination.access_token.blank? || destination.expires_at.nil?
+        raise StandardError, "Google Drive not connected, select the 'Authenticate Google Drive' button."
       end
 
       client = Signet::OAuth2::Client.new(
