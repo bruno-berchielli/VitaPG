@@ -15,7 +15,7 @@ class DatabaseDumpService < ApplicationService
   def call
     log_info("Starting DB dump for database: #{connection.database_name}")
 
-    log_info("Executing command: #{dump_command.join(' ')}")
+    log_info("Executing command: #{dump_command}")
 
     ENV["PGPASSWORD"] = connection.password
     stdout, stderr, status = Open3.capture3(*dump_command)
@@ -50,21 +50,21 @@ class DatabaseDumpService < ApplicationService
       "--username", connection.username,
       "--dbname", connection.database_name,
       "--file", filepath.to_s,
-      "--format", "custom"
+      "--format custom",
+      "--verbose"
     ]
 
     cmd << "--no-owner" if routine.no_owner
     cmd << "--no-privileges" if routine.no_privileges
-    cmd << "--verbose"
 
-    routine.tables_to_exclude.split(',').each do |table|
+    routine.tables_to_exclude&.split(',')&.each do |table|
       cmd << "--exclude-table=#{table.strip}"
-    end if routine.tables_to_exclude.present?
+    end
 
-    routine.tables_to_exclude_data.split(',').each do |table|
+    routine.tables_to_exclude_data&.split(',')&.each do |table|
       cmd << "--exclude-table-data=#{table.strip}"
     end if routine.tables_to_exclude_data.present?
 
-    cmd
+    cmd.join(' ')
   end
 end
