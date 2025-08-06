@@ -24,7 +24,9 @@ module Storage
       client = Aws::S3::Client.new(
         access_key_id: destination.access_key_id,
         secret_access_key: destination.secret_access_key,
-        region: destination.region
+        region: destination.region,
+        endpoint: destination.endpoint.presence, # adds endpoint if not nil/blank (AWS S3 compatible)
+        force_path_style: true
       )
 
       key = File.basename(file_path)
@@ -34,8 +36,9 @@ module Storage
         body: File.open(file_path)
       )
 
-      "s3://#{destination.bucket}/#{key}"
+      "#{destination.provider}://#{destination.bucket}/#{key}"
     end
+
 
     def upload_to_google_drive
       raise NotImplementedError, "Google Drive upload not implemented yet"
