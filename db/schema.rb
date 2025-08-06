@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_05_145208) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_06_142538) do
   create_table "backup_logs", force: :cascade do |t|
     t.string "status"
     t.datetime "created_at", null: false
@@ -70,6 +70,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_05_145208) do
     t.string "credentials_path"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "endpoint"
   end
 
   create_table "motor_alert_locks", force: :cascade do |t|

@@ -5,6 +5,7 @@
 #  id                :integer          not null, primary key
 #  bucket            :string
 #  credentials_path  :string
+#  endpoint          :string
 #  name              :string
 #  provider          :string
 #  region            :string
