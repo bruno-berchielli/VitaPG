@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>VitaPG — PostgreSQL Backup Automation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+      body {
+          margin: 0;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+          background: #f9f9f9;
+          color: #333;
+      }
+
+      .hero {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 4rem 2rem;
+          text-align: center;
+          background: linear-gradient(to right, #4f46e5, #6366f1);
+          color: white;
+      }
+
+      .hero h1 {
+          font-size: 3rem;
+          margin-bottom: 1rem;
+      }
+
+      .hero p {
+          font-size: 1.2rem;
+          max-width: 600px;
+      }
+
+      .cta-button {
+          margin-top: 2rem;
+          padding: 0.75rem 1.5rem;
+          background-color: white;
+          color: #4f46e5;
+          border: none;
+          border-radius: 8px;
+          font-size: 1rem;
+          font-weight: 600;
+          cursor: pointer;
+          text-decoration: none;
+          transition: background-color 0.3s ease;
+      }
+
+      .cta-button:hover {
+          background-color: #e5e7eb;
+      }
+
+      .features {
+          padding: 3rem 2rem;
+          max-width: 960px;
+          margin: 0 auto;
+      }
+
+      .features h2 {
+          text-align: center;
+          font-size: 2rem;
+          margin-bottom: 2rem;
+      }
+
+      .feature-list {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 2rem;
+      }
+
+      .feature {
+          background: white;
+          border-radius: 8px;
+          padding: 1.5rem;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+
+      .feature h3 {
+          font-size: 1.25rem;
+          margin-bottom: 0.5rem;
+      }
+
+      .footer {
+          text-align: center;
+          padding: 2rem;
+          font-size: 0.9rem;
+          color: #888;
+      }
+  </style>
+</head>
+
+<body>
+<section class="hero">
+  <h1>VitaPG</h1>
+  <p>Automate your PostgreSQL backups and store them securely in the cloud—without the hassle.</p>
+  <a href="/admin" class="cta-button">Launch Admin Interface</a>
+</section>
+
+<section class="features">
+  <h2>Key Features</h2>
+  <div class="feature-list">
+    <div class="feature">
+      <h3>Automated Scheduling</h3>
+      <p>Use cron expressions to run backups exactly when you want—daily, hourly, or weekly.</p>
+    </div>
+    <div class="feature">
+      <h3>Multi-DB Support</h3>
+      <p>Connect and manage backups for multiple PostgreSQL instances in one place.</p>
+    </div>
+    <div class="feature">
+      <h3>Smart Exclusions</h3>
+      <p>Exclude tables or just their data while preserving schemas during backup.</p>
+    </div>
+    <div class="feature">
+      <h3>AWS S3 Integration</h3>
+      <p>Store backups in your AWS S3 buckets with secure credentials and region control.</p>
+    </div>
+    <div class="feature">
+      <h3>Motor-Admin UI</h3>
+      <p>Configure everything via a powerful built-in admin dashboard.</p>
+    </div>
+    <div class="feature">
+      <h3>SolidQueue Background Jobs</h3>
+      <p>Reliable job processing ensures your backups run without interruption.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  &copy; <%= Time.current.year %> <a href="https://github.com/bruno-berchielli/VitaPG" target="_blank">VitaPG</a>. MIT Licensed.
+</footer>
+</body>
+</html>

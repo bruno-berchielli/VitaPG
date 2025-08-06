@@ -3,4 +3,6 @@ Rails.application.routes.draw do
 
   mount MissionControl::Jobs::Engine, at: "/jobs"
   mount Motor::Admin => '/admin'
+
+  root 'home#index'
 end
