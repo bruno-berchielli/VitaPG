@@ -22,17 +22,13 @@ class DatabaseDumpService < ApplicationService
 
     if status.success?
       log_info("Backup completed successfully. Command output:\n#{stderr}")
-      log_output(stdout)
+      log_info(stdout)
       filepath
     else
-      log_error("Backup failed with status #{status.exitstatus}")
-      log_output(stderr)
-      backup_run.update!(status: :failed, finished_at: Time.current)
-      raise StandardError, "pg_dump command failed: #{stderr}"
+      raise StandardError,stderr
     end
 
   rescue => e
-    log_error("Unexpected error: #{e.message}")
     backup_run.update!(status: :failed, finished_at: Time.current)
     raise e
 
