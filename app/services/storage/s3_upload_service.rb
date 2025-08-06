@@ -4,12 +4,13 @@ module Storage
   class S3UploadService < ApplicationService
     MULTIPART_THRESHOLD = 50 * 1024 * 1024 # 50MB
 
-    attr_reader :destination, :file_path
+    attr_reader :destination, :file_path, :backup_run
 
-    def initialize(destination, file_path)
+    def initialize(destination, file_path, backup_run)
       super()
       @destination = destination
       @file_path = file_path
+      @backup_run = backup_run
       @progress_logged = Set.new
     end
 

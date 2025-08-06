@@ -1,11 +1,12 @@
 module Storage
   class UploadService < ApplicationService
-    attr_reader :destination, :file_path
+    attr_reader :destination, :file_path, :backup_run
 
-    def initialize(destination, file_path)
+    def initialize(destination, file_path, backup_run)
       super()
       @destination = destination
       @file_path = file_path
+      @backup_run = backup_run
     end
 
     def call

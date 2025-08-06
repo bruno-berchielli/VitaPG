@@ -12,7 +12,7 @@ class BackupRunnerService < ApplicationService
     file_path = DatabaseDumpService.call(backup_run, backup_routine)
     log_info("Dump file created at: #{file_path}")
 
-    file_url = Storage::UploadService.call(backup_routine.destination, file_path)
+    file_url = Storage::UploadService.call(backup_routine.destination, file_path, backup_run)
     log_info("File uploaded to: #{file_url}")
 
     backup_run.update!(status: :completed, finished_at: Time.current, file_url:)
