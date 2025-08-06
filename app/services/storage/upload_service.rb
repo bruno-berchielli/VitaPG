@@ -3,6 +3,7 @@ module Storage
     attr_reader :destination, :file_path
 
     def initialize(destination, file_path)
+      super()
       @destination = destination
       @file_path = file_path
     end
@@ -10,38 +11,12 @@ module Storage
     def call
       case destination.provider
       when "s3"
-        upload_to_s3
+        S3UploadService.call(destination, file_path)
       when "google_drive"
-        upload_to_google_drive
+        raise NotImplementedError, "Google Drive upload not implemented yet"
       else
-        raise "Unknown provider: #{destination.provider}"
+        raise ArgumentError, "Unsupported provider: #{destination.provider}"
       end
-    end
-
-    private
-
-    def upload_to_s3
-      client = Aws::S3::Client.new(
-        access_key_id: destination.access_key_id,
-        secret_access_key: destination.secret_access_key,
-        region: destination.region,
-        endpoint: destination.endpoint.presence, # adds endpoint if not nil/blank (AWS S3 compatible)
-        force_path_style: true
-      )
-
-      key = File.basename(file_path)
-      client.put_object(
-        bucket: destination.bucket,
-        key: key,
-        body: File.open(file_path)
-      )
-
-      "#{destination.provider}://#{destination.bucket}/#{key}"
-    end
-
-
-    def upload_to_google_drive
-      raise NotImplementedError, "Google Drive upload not implemented yet"
     end
   end
 end
