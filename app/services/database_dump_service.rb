@@ -59,11 +59,11 @@ class DatabaseDumpService < ApplicationService
 
     routine.tables_to_exclude.split(',').each do |table|
       cmd << "--exclude-table=#{table.strip}"
-    end
+    end if routine.tables_to_exclude.present?
 
     routine.tables_to_exclude_data.split(',').each do |table|
       cmd << "--exclude-table-data=#{table.strip}"
-    end
+    end if routine.tables_to_exclude_data.present?
 
     cmd
   end
