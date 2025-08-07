@@ -87,4 +87,9 @@ Rails.application.configure do
   #
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+
+  Rails.application.configure do
+    MissionControl::Jobs.http_basic_auth_user = ENV.fetch("MOTOR_AUTH_USERNAME") { "admin" }
+    MissionControl::Jobs.http_basic_auth_password = ENV.fetch("MOTOR_AUTH_PASSWORD") { "admin" }
+  end
 end

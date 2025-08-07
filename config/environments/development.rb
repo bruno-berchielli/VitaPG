@@ -72,4 +72,9 @@ Rails.application.configure do
 
   config.active_job.queue_adapter = :solid_queue
   config.solid_queue.connects_to = { database: { writing: :queue } }
+
+  Rails.application.configure do
+    MissionControl::Jobs.http_basic_auth_user = ENV.fetch("MOTOR_AUTH_USERNAME") { "admin" }
+    MissionControl::Jobs.http_basic_auth_password = ENV.fetch("MOTOR_AUTH_PASSWORD") { "admin" }
+  end
 end
