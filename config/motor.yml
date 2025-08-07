@@ -1,6 +1,6 @@
 ---
 engine_version: 0.4.37
-file_version: 2025-08-06 15:03:33.563531000 -03:00
+file_version: 2025-08-07 12:08:06.641957000 -03:00
 resources:
 - name: backup_log
   preferences:
@@ -110,7 +110,12 @@ configs:
     link_type: reports
   - name: Forms
     link_type: forms
-  updated_at: 2025-06-05 12:31:50.527958000 +00:00
+  - conditions: []
+    type: header
+    name: Scheduled Jobs
+    path: "/jobs/applications/vitapg/recurring_tasks"
+    link_type: header
+  updated_at: 2025-08-07 12:08:06.641957000 +00:00
 - key: resources.backup_routine.columns.order
   value:
   - id
