@@ -12,7 +12,7 @@ module Storage
     def call
       case destination.provider
       when "s3"
-        S3UploadService.call(destination, file_path)
+        S3UploadService.call(destination, file_path, backup_run)
       when "google_drive"
         raise NotImplementedError, "Google Drive upload not implemented yet"
       else
