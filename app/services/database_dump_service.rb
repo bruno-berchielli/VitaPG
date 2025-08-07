@@ -21,8 +21,8 @@ class DatabaseDumpService < ApplicationService
     stdout, stderr, status = Open3.capture3(*dump_command)
 
     if status.success?
-      log_info("Backup completed successfully. Command output:\n#{stderr}")
-      log_info(stdout)
+      log_info("PG_DUMP completed successfully. Command output:\n#{stderr}")
+      log_info(stdout) if stdout.present?
       filepath
     else
       raise StandardError,stderr
