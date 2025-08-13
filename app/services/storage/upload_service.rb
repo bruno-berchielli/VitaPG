@@ -40,29 +40,7 @@ module Storage
     end
 
     def upload_to_google_drive
-      if destination.access_token.blank? || destination.expires_at.nil?
-        raise StandardError, "Google Drive not connected, select the 'Authenticate Google Drive' button."
-      end
-
-      client = Signet::OAuth2::Client.new(
-        client_id: destination.client_id,
-        client_secret: destination.client_secret,
-        token_credential_uri: "https://oauth2.googleapis.com/token",
-        access_token: destination.access_token,
-        refresh_token: destination.refresh_token,
-        expires_at: destination.expires_at,
-        scope: "https://www.googleapis.com/auth/drive.file"
-      )
-
-      if destination.expires_at < Time.current
-        client.refresh!
-        destination.update!(
-          access_token: client.access_token,
-          refresh_token: client.refresh_token,
-          expires_at: client.expires_at
-        )
-      end
-
+      client = refreshed_google_drive_client!
       service = Google::Apis::DriveV3::DriveService.new
       service.authorization = client
 
@@ -78,6 +56,38 @@ module Storage
       )
 
       file.id
+    end
+
+    def ensure_google_connected
+      if destination.access_token.blank? || destination.expires_at.nil?
+        raise StandardError, "Google Drive not connected, select the 'Authenticate Google Drive' button."
+      end
+    end
+
+    def google_drive_client
+        Signet::OAuth2::Client.new(
+          client_id: destination.client_id,
+          client_secret: destination.client_secret,
+          token_credential_uri: "https://oauth2.googleapis.com/token",
+          access_token: destination.access_token,
+          refresh_token: destination.refresh_token,
+          expires_at: destination.expires_at,
+          scope: "https://www.googleapis.com/auth/drive.file"
+        )
+    end
+
+    def refreshed_google_drive_client!
+    ensure_google_connected
+    client = google_drive_client
+      if destination.expires_at < Time.current
+        client.refresh!
+        destination.update!(
+          access_token: client.access_token,
+          refresh_token: client.refresh_token.presence || destination.refresh_token,
+          expires_at: client.expires_at
+        )
+      end
+      client
     end
   end
 end
