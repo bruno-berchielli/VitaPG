@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/cupatea/solid_queue.git
-  revision: 214a7f654d10cd5f84fbe92598ad4b0593616fa8
+  revision: 017c34eeeb6f85277c9c5740e8aadc0bb57735b8
   branch: feature/dynamic_recurring_tasks
   specs:
     solid_queue (1.2.1)
@@ -151,7 +151,7 @@ GEM
     ed25519 (1.4.0)
     erb (5.0.2)
     erubi (1.13.1)
-    et-orbi (1.2.11)
+    et-orbi (1.3.0)
       tzinfo
     foreman (0.90.0)
       thor (~> 1.4)
