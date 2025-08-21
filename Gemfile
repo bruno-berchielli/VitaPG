@@ -12,7 +12,7 @@ gem "jbuilder"
 gem "bcrypt", "~> 3.1.7"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "solid_cache"
-gem "solid_queue"
+gem "solid_queue", github: "cupatea/solid_queue", branch: "feature/dynamic_recurring_tasks" # Use the forked version of solid_queue to support dynamic recurring tasks
 gem "solid_cable"
 gem "bootsnap", require: false
 gem "kamal", require: false
