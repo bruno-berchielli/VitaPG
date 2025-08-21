@@ -48,7 +48,7 @@ class BackupRoutine < ApplicationRecord
   end
 
   def remove_solid_queue_task
-    SolidQueue.destroy_recurring_task(solid_queue_key) rescue nil
+    SolidQueue::RecurringTask.find_by(key: solid_queue_key)&.destroy!
   end
 
   def run!
