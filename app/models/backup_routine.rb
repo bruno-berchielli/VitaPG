@@ -37,21 +37,18 @@ class BackupRoutine < ApplicationRecord
   validates :name, :cron, presence: true
 
   def sync_solid_queue_task
-    return remove_solid_queue_task unless enabled?
+    remove_solid_queue_task
 
-    SolidQueue::RecurringTask.find_or_initialize_by(key: solid_queue_key).tap do |task|
-      task.assign_attributes(
-        static: false,
-        class_name: "RunBackupJob",
-        schedule: cron,
-        arguments: [id]
-      )
-      task.save!
-    end
+    SolidQueue.create_recurring_task(
+      solid_queue_key,
+      class_name: "RunBackupJob",
+      arguments: [id],
+      schedule: cron
+    )
   end
 
   def remove_solid_queue_task
-    SolidQueue::RecurringTask.where(key: solid_queue_key).destroy_all
+    SolidQueue.destroy_recurring_task(remove_solid_queue_task) rescue nil
   end
 
   def run!
