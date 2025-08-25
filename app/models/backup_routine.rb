@@ -39,6 +39,8 @@ class BackupRoutine < ApplicationRecord
   def sync_solid_queue_task
     remove_solid_queue_task
 
+    return unless enabled?
+
     SolidQueue.create_recurring_task(
       solid_queue_key,
       class_name: "RunBackupJob",
@@ -48,7 +50,7 @@ class BackupRoutine < ApplicationRecord
   end
 
   def remove_solid_queue_task
-    SolidQueue::RecurringTask.find_by(key: solid_queue_key)&.destroy!
+    SolidQueue::RecurringTask.find_by(key: solid_queue_key)&.destroy
   end
 
   def run!
