@@ -56,7 +56,10 @@ jobs:
             quay.io/minio/minio server /data
 
       - name: Install packages
-        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y build-essential git libyaml-dev pkg-config postgresql-client
+        run: |
+          sudo apt-get update && sudo apt-get install --no-install-recommends -y build-essential git libyaml-dev pkg-config postgresql-common
+          sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+          sudo apt-get install --no-install-recommends -y postgresql-client-17
 
       - name: Checkout code
         uses: actions/checkout@v4
