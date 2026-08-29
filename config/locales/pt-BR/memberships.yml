@@ -12,6 +12,7 @@ pt-BR:
       table:
         member: "Membro"
         role: "Papel"
+        role_tip: "Proprietários gerenciam tudo, inclusive outros proprietários; administradores gerenciam membros, notificações e configurações; membros operam os backups. Todo workspace mantém pelo menos um proprietário."
         actions: "Ações"
       invite:
         title: "Convidar membro"

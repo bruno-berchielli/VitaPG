@@ -6,7 +6,7 @@
     <h1 class="mt-2 font-display text-3xl font-bold"><%= t(".hello", name: current_user.name.split.first) %> 👋</h1>
     <div class="mt-8 flex flex-wrap items-end gap-x-12 gap-y-6">
       <div>
-        <p class="text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-on-hero-muted"><%= t(".stats.stored") %></p>
+        <p class="flex items-center gap-1.5 text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-on-hero-muted"><%= t(".stats.stored") %> <%= render Ui::InfoTipComponent.new(text: t(".stats.stored_tip")) %></p>
         <p class="mt-1 font-display text-5xl font-bold tabular-nums"><%= human_size(@stored_bytes) %></p>
         <p class="mt-1.5 text-xs text-on-hero-muted"><%= t(".stats.stored_hint") %></p>
       </div>
@@ -26,7 +26,7 @@
 
   <% if @success_rate_30d %>
     <%= render Ui::GaugeComponent.new(percent: @success_rate_30d, label: t(".gauge.title"),
-          caption: t(".gauge.caption", count: @finished_30d_count)) %>
+          caption: t(".gauge.caption", count: @finished_30d_count), tip: t(".gauge.tip")) %>
   <% else %>
     <div class="hero-card flex flex-col items-center justify-center rounded-card p-8 text-center text-on-hero shadow-pop">
       <h2 class="font-display text-base font-semibold"><%= t(".gauge.title") %></h2>

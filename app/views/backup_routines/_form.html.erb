@@ -1,6 +1,6 @@
-<%= form_with model: @routine, class: "space-y-8" do |f| %>
+<%= form_with model: @routine, class: "space-y-8", html: { data: { controller: "routine-form" } } do |f| %>
   <section class="space-y-5">
-    <h2 class="text-sm font-semibold"><%= t(".sections.what") %></h2>
+    <h2 class="flex items-center gap-1.5 text-sm font-semibold"><%= t(".sections.what") %><%= render Ui::InfoTipComponent.new(text: t(".tips.what")) %></h2>
     <%= f.labeled_text_field :name, hint: t(".name_hint") %>
     <div class="grid grid-cols-2 gap-4">
       <%= f.labeled_select :database_connection_id,
@@ -15,21 +15,37 @@
   </section>
 
   <section class="space-y-5">
-    <h2 class="text-sm font-semibold"><%= t(".sections.schedule") %></h2>
+    <h2 class="flex items-center gap-1.5 text-sm font-semibold"><%= t(".sections.schedule") %><%= render Ui::InfoTipComponent.new(text: t(".tips.schedule")) %></h2>
     <div class="grid grid-cols-2 gap-4">
-      <%= f.labeled_text_field :cron, placeholder: "0 3 * * *", class: "font-mono", hint: t(".cron_hint") %>
+      <div class="space-y-1.5">
+        <label for="cron_preset" class="block text-sm font-semibold"><%= t(".frequency") %></label>
+        <select id="cron_preset" data-routine-form-target="cronSelect" data-action="routine-form#cronPresetChanged"
+                class="block w-full rounded-xl border-0 bg-surface-highlight px-4 py-2.5 text-sm focus:bg-surface focus:ring-2 focus:ring-ink">
+          <% Backups::CronHumanizer::PRESETS.each do |preset| %>
+            <option value="<%= preset %>"><%= Backups::CronHumanizer.humanize(preset) %></option>
+          <% end %>
+          <option value="custom"><%= t(".custom_frequency") %></option>
+        </select>
+      </div>
       <%= f.labeled_select :schedule_timezone,
             ActiveSupport::TimeZone.all.map { |tz| [ tz.to_s, tz.name == "UTC" ? "UTC" : tz.tzinfo.name ] }.uniq { |_, v| v },
             label: BackupRoutine.human_attribute_name(:schedule_timezone) %>
     </div>
+    <div data-routine-form-target="cronField">
+      <%= f.labeled_text_field :cron, placeholder: "0 3 * * *", class: "font-mono", hint: t(".cron_hint"),
+            data: { routine_form_target: "cronInput" } %>
+    </div>
   </section>
 
   <section class="space-y-5">
-    <h2 class="text-sm font-semibold"><%= t(".sections.dump") %></h2>
+    <h2 class="flex items-center gap-1.5 text-sm font-semibold"><%= t(".sections.dump") %><%= render Ui::InfoTipComponent.new(text: t(".tips.dump")) %></h2>
     <div class="grid grid-cols-3 gap-4">
-      <%= f.labeled_select :format, BackupRoutine::FORMATS.map { |fmt| [t(".formats.#{fmt}"), fmt] }, hint: t(".format_hint") %>
+      <%= f.labeled_select :format, BackupRoutine::FORMATS.map { |fmt| [t(".formats.#{fmt}"), fmt] }, hint: t(".format_hint"),
+            data: { routine_form_target: "format", action: "routine-form#formatChanged" } %>
       <%= f.labeled_number_field :compression_level, in: 0..9, hint: t(".compression_hint") %>
-      <%= f.labeled_number_field :parallel_jobs, in: 1..16, hint: t(".parallel_hint") %>
+      <div data-routine-form-target="parallelWrap">
+        <%= f.labeled_number_field :parallel_jobs, in: 1..16, hint: t(".parallel_hint") %>
+      </div>
     </div>
     <div class="grid grid-cols-2 gap-4">
       <%= f.labeled_text_field :tables_to_exclude, class: "font-mono", hint: t(".exclude_hint") %>
@@ -42,7 +58,7 @@
   </section>
 
   <section class="space-y-5">
-    <h2 class="text-sm font-semibold"><%= t(".sections.retention") %></h2>
+    <h2 class="flex items-center gap-1.5 text-sm font-semibold"><%= t(".sections.retention") %><%= render Ui::InfoTipComponent.new(text: t(".tips.retention")) %></h2>
     <p class="text-xs text-text-muted"><%= t(".retention_note") %></p>
     <div class="grid grid-cols-3 gap-4">
       <%= f.labeled_number_field :retention_keep_last, min: 1, hint: t(".keep_last_hint") %>

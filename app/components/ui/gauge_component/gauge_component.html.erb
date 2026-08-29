@@ -1,5 +1,8 @@
 <div class="hero-card flex flex-col items-center rounded-card p-6 text-center text-on-hero shadow-pop">
-  <h2 class="font-display text-base font-semibold"><%= @label %></h2>
+  <h2 class="flex items-center justify-center gap-1.5 font-display text-base font-semibold">
+    <%= @label %>
+    <% if tip %><%= render Ui::InfoTipComponent.new(text: tip) %><% end %>
+  </h2>
   <div class="relative mt-4 size-36">
     <svg viewBox="0 0 100 100" class="size-full -rotate-90">
       <circle cx="50" cy="50" r="42" fill="none" stroke="rgb(255 255 255 / 0.16)" stroke-width="11" />

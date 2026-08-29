@@ -27,8 +27,9 @@
   <% end %>
   <%= render Ui::CardComponent.new do %>
     <p class="text-xs font-medium text-text-muted"><%= t(".schedule") %></p>
-    <p class="mt-1.5 font-mono text-sm"><%= @routine.cron %></p>
-    <p class="mt-0.5 text-xs text-text-muted"><%= @routine.schedule_timezone %></p>
+    <% human = Backups::CronHumanizer.humanize(@routine.cron) %>
+    <p class="mt-1.5 text-sm font-semibold"><%= human || @routine.cron %></p>
+    <p class="mt-0.5 font-mono text-xs text-text-muted"><%= human ? "#{@routine.cron} · " : "" %><%= @routine.schedule_timezone %></p>
   <% end %>
   <%= render Ui::CardComponent.new do %>
     <p class="text-xs font-medium text-text-muted"><%= t(".next_run") %></p>

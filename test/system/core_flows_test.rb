@@ -36,6 +36,15 @@ class CoreFlowsTest < ApplicationSystemTestCase
     assert_text "db.internal:5432"
   end
 
+  test "custom cron field appears when choosing the custom frequency" do
+    sign_in
+    visit new_backup_routine_path
+
+    assert_no_selector "input[name='backup_routine[cron]']", visible: :visible
+    select I18n.t("backup_routines.form.custom_frequency"), from: "cron_preset"
+    assert_selector "input[name='backup_routine[cron]']", visible: :visible
+  end
+
   test "creating a backup routine through the form" do
     sign_in
     visit new_backup_routine_path
@@ -43,11 +52,11 @@ class CoreFlowsTest < ApplicationSystemTestCase
     fill_in "backup_routine[name]", with: "Weekly staging"
     select database_connections(:prod).name, from: "backup_routine[database_connection_id]"
     select destinations(:minio).name, from: "backup_routine[destination_id]"
-    fill_in "backup_routine[cron]", with: "0 4 * * 0"
+    select I18n.t("cron.weekly", day: "Sunday", time: "03:00"), from: "cron_preset"
     fill_in "backup_routine[retention_keep_last]", with: "5"
     click_on I18n.t("actions.save")
 
     assert_text I18n.t("backup_routines.create.created")
-    assert_text "0 4 * * 0"
+    assert_text I18n.t("cron.weekly", day: "Sunday", time: "03:00")
   end
 end

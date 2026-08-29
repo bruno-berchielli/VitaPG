@@ -7,11 +7,14 @@ class Ui::GaugeComponent < ApplicationComponent
   CIRCUMFERENCE = (2 * Math::PI * RADIUS)
 
   # @param percent [Numeric] 0..100
-  def initialize(percent:, label:, caption: nil)
+  def initialize(percent:, label:, caption: nil, tip: nil)
     @percent = percent.to_f.clamp(0, 100)
     @label = label
     @caption = caption
+    @tip = tip
   end
+
+  def tip = @tip
 
   def dash_filled
     (CIRCUMFERENCE * @percent / 100).round(2)

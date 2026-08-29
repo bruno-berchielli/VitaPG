@@ -71,6 +71,13 @@ es:
     edit:
       title: "Editar rutina"
     form:
+      frequency: "Frecuencia"
+      custom_frequency: "Personalizado (expresión cron)…"
+      tips:
+        what: "Elige qué base PostgreSQL se exporta y qué bucket recibe el archivo. VitaPG solo lee de la base."
+        schedule: "La rutina corre automáticamente con esta frecuencia, en la zona horaria elegida. También puedes ejecutarla manualmente."
+        dump: "Cómo pg_dump empaqueta los datos. Custom sirve para la mayoría; directory divide el dump y permite trabajos paralelos; plain es SQL legible."
+        retention: "Cuánto tiempo permanecen los respaldos en tu bucket. La poda solo elimina archivos creados por esta rutina — nunca nada más."
       sections:
         what: "Qué respaldar"
         schedule: "Programación"
@@ -90,9 +97,9 @@ es:
       max_age_hint: "Eliminar respaldos más antiguos que esto."
       prefix_hint: "Prefijo de las claves en el bucket. Predeterminado: espacio/rutina."
       formats:
-        custom: "Custom (comprimido, pg_restore)"
-        plain: "SQL plano"
-        directory: "Directory (paralelo)"
+        custom: "Custom — comprimido, se restaura con pg_restore"
+        plain: "SQL plano — legible, se restaura con psql"
+        directory: "Directory — paralelo, se restaura con pg_restore"
     create:
       created: "Rutina creada"
     update:

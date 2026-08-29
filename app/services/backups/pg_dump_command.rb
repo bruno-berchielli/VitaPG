@@ -14,7 +14,7 @@ module Backups
     def argv
       cmd = [ "pg_dump", "--format=#{pg_format}", "--file=#{@output_path}", "--verbose" ]
 
-      cmd << "--compress=#{routine.compression_level}" unless routine.format == "directory"
+      cmd << "--compress=#{routine.compression_level}"
       cmd << "--jobs=#{routine.parallel_jobs}" if parallel?
       cmd << "--no-owner" if routine.no_owner
       cmd << "--no-privileges" if routine.no_privileges

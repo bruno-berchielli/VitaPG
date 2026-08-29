@@ -1,4 +1,15 @@
 es:
+  date:
+    day_names: [domingo, lunes, martes, miércoles, jueves, viernes, sábado]
+  cron:
+    daily: "Todos los días a las %{time}"
+    weekdays: "Días hábiles a las %{time}"
+    weekly: "Cada %{day} a las %{time}"
+    monthly: "Cada mes el día %{day} a las %{time}"
+    hourly: "Cada hora"
+    hourly_at: "Cada hora, en el minuto %{minute}"
+    every_minutes: "Cada %{count} minutos"
+    every_hours: "Cada %{count} horas"
   devise:
     registrations:
       closed: "Los registros están cerrados en esta instancia. Pide una invitación a un gestor del espacio de trabajo."

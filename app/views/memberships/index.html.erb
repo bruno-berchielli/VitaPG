@@ -9,7 +9,7 @@
         <thead>
           <tr class="text-[0.6875rem] uppercase tracking-[0.14em] text-text-faint">
             <th scope="col" class="px-6 py-4 font-semibold"><%= t(".table.member") %></th>
-            <th scope="col" class="px-6 py-4 font-semibold"><%= t(".table.role") %></th>
+            <th scope="col" class="px-6 py-4 font-semibold"><span class="inline-flex items-center gap-1.5"><%= t(".table.role") %> <%= render Ui::InfoTipComponent.new(text: t(".table.role_tip")) %></span></th>
             <th scope="col" class="px-6 py-4"><span class="sr-only"><%= t(".table.actions") %></span></th>
           </tr>
         </thead>
