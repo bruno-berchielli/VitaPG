@@ -1,5 +1,15 @@
 es:
   workspaces:
+    index:
+      title: "Todos los espacios"
+      description: "Todos los espacios de esta instancia. Pide unirte a los que necesites; un admin revisa cada solicitud."
+      new: "Nuevo espacio"
+      members:
+        one: "%{count} miembro"
+        other: "%{count} miembros"
+      open: "Abrir"
+      request: "Pedir unirse"
+      pending: "Solicitud pendiente"
     not_authorized: "No tienes permiso para administrar este espacio de trabajo"
     new:
       title: "Crea tu espacio de trabajo"

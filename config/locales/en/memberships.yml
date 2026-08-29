@@ -14,9 +14,14 @@ en:
         role: "Role"
         role_tip: "Owners manage everything including other owners; admins manage members, notifications and settings; members operate backups. Every workspace keeps at least one owner."
         actions: "Actions"
+      requests:
+        title: "Join requests"
+        description: "People asking to join this workspace."
+        approve: "Approve"
+        deny: "Deny"
       invite:
         title: "Invite member"
-        description: "New emails get an account and a link to set their password."
+        description: "Unknown emails get an account and a sign-in link by email."
         email: "Email"
         name: "Name"
         name_hint: "Optional, for new accounts."

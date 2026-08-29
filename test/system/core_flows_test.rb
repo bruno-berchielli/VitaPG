@@ -6,17 +6,14 @@ class CoreFlowsTest < ApplicationSystemTestCase
   end
 
   def sign_in
-    visit new_user_session_path
-    fill_in "user[email]", with: @user.email
-    fill_in "user[password]", with: "password123"
-    click_on I18n.t("devise.sessions.new.sign_in")
+    login_as @user, scope: :user
+    visit root_path
     assert_text I18n.t("dashboard.show.title")
   end
 
-  test "signing in lands on the dashboard" do
+  test "the dashboard renders for a signed-in user" do
     sign_in
 
-    assert_text I18n.t("dashboard.show.title")
     assert_text "Acme"
   end
 

@@ -1,13 +1,28 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { registrations: "users/registrations" }
+  # Google OAuth routes only exist when the provider is configured (see User).
+  omniauth_controllers = User.google_auth_configured? ? { omniauth_callbacks: "users/omniauth_callbacks" } : {}
+  devise_for :users, skip: %i[sessions registrations passwords], controllers: omniauth_controllers
+  devise_scope :user do
+    get "login" => "users/sessions#new", as: :new_user_session
+    post "login" => "users/sessions#create", as: :user_session
+    get "login/verify" => "users/sessions#verify", as: :verify_user_session
+    delete "logout" => "users/sessions#destroy", as: :destroy_user_session
+  end
 
   get "up" => "rails/health#show", as: :rails_health_check
 
   mount MissionControl::Jobs::Engine, at: "/jobs"
 
-  resources :workspaces, only: %i[new create edit update] do
+  resources :workspaces, only: %i[index new create edit update] do
     member do
       post :switch
+    end
+    resource :join_request, only: %i[create]
+  end
+  resources :join_requests, only: [] do
+    member do
+      post :approve
+      post :deny
     end
   end
 

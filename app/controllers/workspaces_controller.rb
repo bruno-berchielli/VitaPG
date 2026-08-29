@@ -1,6 +1,14 @@
 class WorkspacesController < ApplicationController
   before_action :require_workspace_manager!, only: %i[edit update]
 
+  # Directory: everyone can see every workspace and ask to join the ones
+  # they're not part of.
+  def index
+    @workspaces = Workspace.order(:name).includes(:memberships)
+    @my_workspace_ids = current_user.memberships.pluck(:workspace_id)
+    @pending_request_ids = current_user.join_requests.pending.pluck(:workspace_id)
+  end
+
   def new
     @workspace = Workspace.new
   end
@@ -34,7 +42,7 @@ class WorkspacesController < ApplicationController
   end
 
   def switch
-    workspace = current_user.workspaces.find(params[:id])
+    workspace = current_user.accessible_workspaces.find(params[:id])
     session[:workspace_id] = workspace.id
     redirect_to root_path
   end

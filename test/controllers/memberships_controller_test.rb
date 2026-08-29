@@ -6,8 +6,7 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
   # Regression: the invite form uses form_with without a model (object = false),
   # which must not break the custom form builder.
   test "index renders the invite form for managers" do
-    post user_session_path, params: { user: { email: "alice@example.com", password: "password123" } },
-                            headers: { "HTTP_USER_AGENT" => UA }
+    sign_in users(:alice)
     get memberships_path, headers: { "HTTP_USER_AGENT" => UA }
 
     assert_response :success

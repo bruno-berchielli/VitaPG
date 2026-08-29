@@ -1,8 +1,0 @@
-<% content_for :title, "#{t('.forgot_your_password')} · VitaPG" %>
-
-<%= render layout: "devise/shared/auth_card", locals: { heading: t(".forgot_your_password") } do %>
-  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "space-y-4" }) do |f| %>
-    <%= f.labeled_email_field :email, autofocus: true, autocomplete: "email" %>
-    <%= f.submit_button t("devise.passwords.new.send_me_reset_password_instructions"), class: "w-full" %>
-  <% end %>
-<% end %>

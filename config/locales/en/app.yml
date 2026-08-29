@@ -8,11 +8,6 @@ en:
     hourly_at: "Every hour at minute %{minute}"
     every_minutes: "Every %{count} minutes"
     every_hours: "Every %{count} hours"
-  devise:
-    registrations:
-      closed: "Sign-ups are closed on this instance. Ask a workspace manager for an invitation."
-    shared:
-      tagline: "PostgreSQL backups you can trust"
   time_ago: "%{time} ago"
   time_in: "in %{time}"
   actions:

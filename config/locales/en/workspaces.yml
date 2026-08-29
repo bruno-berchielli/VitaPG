@@ -1,5 +1,15 @@
 en:
   workspaces:
+    index:
+      title: "All workspaces"
+      description: "Every workspace on this instance. Ask to join the ones you need; an admin reviews each request."
+      new: "New workspace"
+      members:
+        one: "%{count} member"
+        other: "%{count} members"
+      open: "Open"
+      request: "Request to join"
+      pending: "Request pending"
     not_authorized: "You are not allowed to manage this workspace"
     new:
       title: "Create your workspace"

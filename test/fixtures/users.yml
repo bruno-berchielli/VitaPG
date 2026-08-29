@@ -1,9 +1,12 @@
 alice:
   name: Alice
   email: alice@example.com
-  encrypted_password: <%= Devise::Encryptor.digest(User, "password123") %>
 
 bob:
   name: Bob
   email: bob@example.com
-  encrypted_password: <%= Devise::Encryptor.digest(User, "password123") %>
+
+root:
+  name: Root
+  email: root@example.com
+  superadmin: true

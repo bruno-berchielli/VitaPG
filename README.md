@@ -71,7 +71,9 @@ Monitoring:
 
 Teams:
 - Workspaces group databases, destinations, routines and members.
-- Roles (owner, admin, member), invitations by email, and a rule that keeps at least one owner per workspace.
+- A workspace directory: everyone can see the list and request to join; workspace admins approve or deny.
+- Roles (owner, admin, member) plus an instance-level superadmin with access to every workspace. Invitations by email; at least one owner per workspace.
+- Sign-in without passwords: emailed magic links, or Google OAuth with optional domain whitelisting.
 - Interface in English, Portuguese (Brazil) and Spanish, light and dark themes.
 
 ## Screenshots
@@ -117,7 +119,7 @@ The whole platform is a single Rails monolith:
 | Jobs / cache / websockets | Solid Queue, Solid Cache, Solid Cable | Persistent queues and pub/sub over SQLite, no Redis |
 | Frontend | Hotwire (Turbo + Stimulus), ViewComponent, Tailwind 4 | Server-rendered, live updates, no SPA |
 | Storage client | aws-sdk-s3 | Streaming multipart uploads, works with any S3-compatible endpoint |
-| Auth | Devise, devise-i18n | Public sign-up closes after the first account |
+| Auth | Devise (passwordless), optional Google OAuth | Sign-in by emailed magic link; no passwords, no self-registration |
 | Scheduling | Fugit | Cron parsing, validation and fire-time math |
 | Binaries | `pg_dump` / `psql` | Client version should be ≥ your newest server |
 
@@ -137,7 +139,7 @@ docker run -d --name vitapg -p 80:80 \
   vitapg
 ```
 
-Open the app and create the first account (it becomes the instance admin; public sign-up closes afterwards). Then:
+Set `VITAPG_SUPERADMIN_EMAIL` (add `-e VITAPG_SUPERADMIN_EMAIL=you@company.com` to the command above) and the account is created at boot; you can also run `docker exec vitapg bin/rails vitapg:superadmin EMAIL=you@company.com` later. Sign in with the magic link sent by email. Then:
 
 1. **Databases**: add a PostgreSQL connection (a dedicated read-only role is recommended) and use *Test*.
 2. **Destinations**: add your bucket (any S3-compatible endpoint) and use *Test*. The check is a `HEAD` request, nothing is written.
@@ -152,10 +154,12 @@ Everything is configured through environment variables (see `.env.example`):
 |---|---|---|---|
 | `SECRET_KEY_BASE` | prod | — | Rails secrets and the key material for credential encryption. Keep it stable: rotating it invalidates stored credentials |
 | `APP_HOST` | prod | `localhost` | Hostname used in emails and generated links |
-| `SMTP_ADDRESS`, `SMTP_PORT`, `SMTP_USERNAME`, `SMTP_PASSWORD`, `SMTP_AUTHENTICATION` | for email | — | Outgoing mail (password resets, email notifications). Unset means SMTP is disabled |
+| `SMTP_ADDRESS`, `SMTP_PORT`, `SMTP_USERNAME`, `SMTP_PASSWORD`, `SMTP_AUTHENTICATION` | prod | — | Outgoing mail (sign-in links, email notifications). In development the sign-in link is printed to the server log |
 | `JOB_CONCURRENCY` | no | `1` | Solid Queue worker processes |
 | `VITAPG_DUMP_TIMEOUT_SECONDS` | no | `21600` | Wall-clock limit for a single `pg_dump` |
-| `VITAPG_OPEN_SIGNUPS` | no | unset | Set to `1` to keep public registration open after the first account |
+| `VITAPG_SUPERADMIN_EMAIL`, `VITAPG_SUPERADMIN_NAME` | first boot | — | Creates/promotes the superadmin account at boot |
+| `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | no | — | Enables the "Continue with Google" button |
+| `GOOGLE_ALLOWED_DOMAINS` | no | — | Comma-separated email domains allowed to auto-provision accounts via Google |
 | `ACTIVE_RECORD_ENCRYPTION_*` | no | derived | Set explicitly if you plan to rotate `SECRET_KEY_BASE` independently of stored credentials |
 
 ## Development setup
@@ -208,7 +212,7 @@ CI runs lint, Brakeman, unit and system tests, plus the integration suite agains
 - Secrets are write-only in the UI: stored values are never rendered back, and leaving a secret field blank on edit keeps the current value.
 - Passwords reach `pg_dump` through the child process environment only: not argv (visible in `ps`), not logs, not error messages. There are tests asserting this.
 - The app cannot write to a source database, and cannot delete a destination object it didn't create.
-- Public sign-up closes after the first account; new people join by invitation.
+- There is no registration and there are no passwords. People sign in with a short-lived emailed link or Google (optionally restricted by domain); accounts exist only by superadmin bootstrap, workspace invitation or whitelisted Google domain.
 - Brakeman runs in CI on every change.
 
 ## Webhook signature verification

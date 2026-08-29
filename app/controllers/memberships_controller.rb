@@ -4,15 +4,19 @@ class MembershipsController < ApplicationController
 
   def index
     @memberships = Current.workspace.memberships.includes(:user).order("users.name")
+    @join_requests = Current.workspace.join_requests.awaiting.includes(:user) if workspace_manager?
   end
 
-  # Invites a member by email. Unknown emails get an account with a random
-  # password plus a reset-password email to choose their own.
+  # Invites a person by email. Accounts are passwordless, so inviting an
+  # unknown email just creates the user; they sign in with a magic link.
   def create
-    user = User.find_by(email: invite_params[:email].to_s.downcase.strip)
-    user ||= invite_new_user
+    user = User.find_by(email: invite_params[:email].to_s.strip.downcase)
+    user ||= User.new(
+      email: invite_params[:email].to_s.strip.downcase,
+      name: invite_params[:name].presence || invite_params[:email].to_s.split("@").first
+    )
 
-    if user.errors.any?
+    unless user.persisted? || user.save
       redirect_to memberships_path, alert: user.errors.full_messages.to_sentence
       return
     end
@@ -20,6 +24,7 @@ class MembershipsController < ApplicationController
     membership = Current.workspace.memberships.new(user: user, role: invite_params[:role])
 
     if membership.save
+      LoginMailer.magic_link(user).deliver_later
       redirect_to memberships_path, notice: t(".created")
     else
       redirect_to memberships_path, alert: membership.errors.full_messages.to_sentence
@@ -56,15 +61,5 @@ class MembershipsController < ApplicationController
 
   def role_params
     params.expect(membership: [ :role ])
-  end
-
-  def invite_new_user
-    user = User.new(
-      email: invite_params[:email].to_s.downcase.strip,
-      name: invite_params[:name].presence || invite_params[:email].to_s.split("@").first,
-      password: SecureRandom.base58(24)
-    )
-    user.send_reset_password_instructions if user.save
-    user
   end
 end

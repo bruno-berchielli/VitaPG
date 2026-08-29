@@ -35,12 +35,5 @@
       </div>
     <% end %>
 
-    <%= render Ui::CardComponent.new do %>
-      <h2 class="text-sm font-semibold"><%= t(".password") %></h2>
-      <p class="mt-1 text-xs text-text-muted"><%= t(".password_hint") %></p>
-      <div class="mt-4">
-        <%= render Ui::ButtonComponent.new(variant: :secondary, href: edit_user_registration_path) do %><%= t(".change_password") %><% end %>
-      </div>
-    <% end %>
   </div>
 </div>

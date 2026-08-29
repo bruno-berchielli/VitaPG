@@ -44,3 +44,6 @@ group :test do
 end
 
 gem "devise-i18n", "~> 1.16"
+
+gem "omniauth-google-oauth2", "~> 1.2"
+gem "omniauth-rails_csrf_protection", "~> 2.0"

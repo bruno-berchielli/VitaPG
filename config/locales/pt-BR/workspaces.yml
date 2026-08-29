@@ -1,5 +1,15 @@
 pt-BR:
   workspaces:
+    index:
+      title: "Todos os workspaces"
+      description: "Todos os workspaces desta instância. Peça para entrar nos que precisar; um admin avalia cada pedido."
+      new: "Novo workspace"
+      members:
+        one: "%{count} membro"
+        other: "%{count} membros"
+      open: "Abrir"
+      request: "Pedir para entrar"
+      pending: "Pedido pendente"
     not_authorized: "Você não tem permissão para gerenciar este workspace"
     new:
       title: "Crie seu workspace"

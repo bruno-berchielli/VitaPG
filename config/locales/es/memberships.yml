@@ -14,9 +14,14 @@ es:
         role: "Rol"
         role_tip: "Los propietarios gestionan todo, incluidos otros propietarios; los administradores gestionan miembros, notificaciones y configuración; los miembros operan los respaldos. Cada espacio conserva al menos un propietario."
         actions: "Acciones"
+      requests:
+        title: "Solicitudes de acceso"
+        description: "Personas pidiendo unirse a este espacio."
+        approve: "Aprobar"
+        deny: "Denegar"
       invite:
         title: "Invitar miembro"
-        description: "Los correos nuevos reciben una cuenta y un enlace para definir su contraseña."
+        description: "Los correos nuevos reciben una cuenta y un enlace de acceso por correo."
         email: "Correo"
         name: "Nombre"
         name_hint: "Opcional, para cuentas nuevas."

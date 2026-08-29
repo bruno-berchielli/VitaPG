@@ -14,9 +14,14 @@ pt-BR:
         role: "Papel"
         role_tip: "Proprietários gerenciam tudo, inclusive outros proprietários; administradores gerenciam membros, notificações e configurações; membros operam os backups. Todo workspace mantém pelo menos um proprietário."
         actions: "Ações"
+      requests:
+        title: "Pedidos de acesso"
+        description: "Pessoas pedindo para entrar neste workspace."
+        approve: "Aprovar"
+        deny: "Negar"
       invite:
         title: "Convidar membro"
-        description: "E-mails novos ganham uma conta e um link para definir a senha."
+        description: "E-mails novos ganham uma conta e um link de acesso por e-mail."
         email: "E-mail"
         name: "Nome"
         name_hint: "Opcional, para contas novas."

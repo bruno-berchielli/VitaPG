@@ -1,0 +1,43 @@
+<% content_for :title, "#{t('.title')} · VitaPG" %>
+
+<%= render Ui::PageHeaderComponent.new(title: t(".title"), description: t(".description")) do |header| %>
+  <% header.with_action do %>
+    <%= render Ui::ButtonComponent.new(variant: :primary, href: new_workspace_path) do |b| %>
+      <% b.with_leading_icon { render Ui::IconComponent.new(:plus, classes: "size-4") } %>
+      <%= t(".new") %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+  <% @workspaces.each do |workspace| %>
+    <% mine = @my_workspace_ids.include?(workspace.id) || current_user.superadmin? %>
+    <%= render Ui::CardComponent.new do %>
+      <div class="flex items-start justify-between gap-3">
+        <div class="min-w-0">
+          <h2 class="truncate font-display text-base font-semibold"><%= workspace.name %></h2>
+          <p class="mt-0.5 text-xs text-text-muted"><%= t(".members", count: workspace.memberships.size) %></p>
+        </div>
+        <span class="flex size-9 shrink-0 items-center justify-center rounded-xl bg-surface-highlight text-text-muted">
+          <%= render Ui::IconComponent.new(:building, classes: "size-4") %>
+        </span>
+      </div>
+      <div class="mt-5">
+        <% if mine %>
+          <%= button_to switch_workspace_path(workspace), class: "cursor-pointer rounded-full bg-ink px-4 py-2 text-xs font-semibold text-on-ink transition-opacity hover:opacity-85" do %>
+            <%= t(".open") %>
+          <% end %>
+        <% elsif @pending_request_ids.include?(workspace.id) %>
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-warning-subtle px-4 py-2 text-xs font-semibold text-warning">
+            <%= render Ui::IconComponent.new(:clock, classes: "size-3.5") %>
+            <%= t(".pending") %>
+          </span>
+        <% else %>
+          <%= button_to workspace_join_request_path(workspace), class: "cursor-pointer rounded-full border border-border-strong px-4 py-2 text-xs font-semibold text-text-muted transition-colors hover:bg-surface-highlight hover:text-text-main" do %>
+            <%= t(".request") %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+</div>

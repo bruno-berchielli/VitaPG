@@ -15,6 +15,7 @@ class Layout::SidebarComponent < ApplicationComponent
 
   def workspace_items
     [
+      NavItem.new(key: :directory, icon: :building, path: workspaces_path),
       NavItem.new(key: :memberships, icon: :users, path: memberships_path),
       NavItem.new(key: :notification_channels, icon: :bolt, path: notification_channels_path),
       NavItem.new(key: :workspace_settings, icon: :cog, path: edit_workspace_path(Current.workspace))
@@ -25,7 +26,9 @@ class Layout::SidebarComponent < ApplicationComponent
     if item.key == :dashboard
       current_page?(root_path)
     elsif item.key == :workspace_settings
-      request.path.start_with?("/workspaces")
+      request.path.match?(%r{\A/workspaces/\d+/edit})
+    elsif item.key == :directory
+      request.path == workspaces_path || request.path == new_workspace_path
     else
       request.path.start_with?(item.path)
     end
@@ -46,7 +49,7 @@ class Layout::SidebarComponent < ApplicationComponent
   def user = Current.user
 
   def other_workspaces
-    user.workspaces.where.not(id: workspace.id).order(:name)
+    user.accessible_workspaces.where.not(id: workspace.id).order(:name)
   end
 
   def dark_mode?

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_29_035047) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_29_204937) do
   create_table "backup_logs", force: :cascade do |t|
     t.integer "backup_run_id", null: false
     t.datetime "created_at", null: false
@@ -88,6 +88,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_29_035047) do
     t.index ["workspace_id"], name: "index_destinations_on_workspace_id"
   end
 
+  create_table "join_requests", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "decided_at"
+    t.integer "decided_by_id"
+    t.string "status", default: "pending", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.integer "workspace_id", null: false
+    t.index ["decided_by_id"], name: "index_join_requests_on_decided_by_id"
+    t.index ["user_id", "workspace_id"], name: "index_join_requests_on_user_id_and_workspace_id", unique: true
+    t.index ["user_id"], name: "index_join_requests_on_user_id"
+    t.index ["workspace_id"], name: "index_join_requests_on_workspace_id"
+  end
+
   create_table "memberships", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "role", default: "member", null: false
@@ -125,11 +139,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_29_035047) do
     t.string "name", default: "", null: false
     t.json "preferences", default: {}, null: false
     t.datetime "remember_created_at"
+    t.string "remember_token"
     t.datetime "reset_password_sent_at"
     t.string "reset_password_token"
     t.integer "sign_in_count", default: 0, null: false
+    t.boolean "superadmin", default: false, null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["remember_token"], name: "index_users_on_remember_token"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
@@ -148,6 +165,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_29_035047) do
   add_foreign_key "backup_runs", "backup_routines"
   add_foreign_key "database_connections", "workspaces"
   add_foreign_key "destinations", "workspaces"
+  add_foreign_key "join_requests", "users"
+  add_foreign_key "join_requests", "users", column: "decided_by_id"
+  add_foreign_key "join_requests", "workspaces"
   add_foreign_key "memberships", "users"
   add_foreign_key "memberships", "workspaces"
   add_foreign_key "notification_channels", "workspaces"

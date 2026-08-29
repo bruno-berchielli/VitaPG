@@ -17,8 +17,5 @@ es:
       appearance: "Apariencia"
       light: "Claro"
       dark: "Oscuro"
-      password: "Contraseña"
-      password_hint: "Cambia tu contraseña desde la pantalla de configuración de la cuenta."
-      change_password: "Cambiar contraseña"
     update:
       updated: "Perfil actualizado"
