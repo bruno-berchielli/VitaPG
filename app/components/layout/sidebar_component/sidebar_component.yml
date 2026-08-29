@@ -10,12 +10,14 @@ en:
       new_workspace_placeholder: "e.g. Acme Production"
       new_workspace_create: "Create workspace"
       sign_out: "Sign out"
+      superadmin: "Superadmin"
       light: "Light"
       dark: "Dark"
       sections:
         operations: "Operations"
         workspace: "Workspace"
       nav:
+        directory: "All workspaces"
         dashboard: "Dashboard"
         backup_routines: "Backup routines"
         backup_runs: "Activity"
@@ -36,12 +38,14 @@ pt-BR:
       new_workspace_placeholder: "ex.: Acme Produção"
       new_workspace_create: "Criar workspace"
       sign_out: "Sair"
+      superadmin: "Superadmin"
       light: "Claro"
       dark: "Escuro"
       sections:
         operations: "Operações"
         workspace: "Workspace"
       nav:
+        directory: "Todos os workspaces"
         dashboard: "Painel"
         backup_routines: "Rotinas de backup"
         backup_runs: "Atividade"
@@ -62,12 +66,14 @@ es:
       new_workspace_placeholder: "p. ej. Acme Producción"
       new_workspace_create: "Crear espacio"
       sign_out: "Cerrar sesión"
+      superadmin: "Superadmin"
       light: "Claro"
       dark: "Oscuro"
       sections:
         operations: "Operaciones"
         workspace: "Espacio de trabajo"
       nav:
+        directory: "Todos los espacios"
         dashboard: "Panel"
         backup_routines: "Rutinas de respaldo"
         backup_runs: "Actividad"

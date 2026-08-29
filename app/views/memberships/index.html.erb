@@ -26,7 +26,7 @@
                 </span>
               </td>
               <td class="px-6 py-4">
-                <% if current_membership&.manager? && membership.user != current_user %>
+                <% if workspace_manager? && membership.user != current_user %>
                   <%= form_with model: membership, url: membership_path(membership), method: :patch, class: "inline-block" do |f| %>
                     <%= f.select :role, Membership.roles.keys.map { |r| [t("memberships.roles.#{r}"), r] }, {},
                           class: "rounded-full border-0 bg-surface-highlight py-1.5 pl-3.5 pr-9 text-sm font-medium focus:ring-2 focus:ring-ink",
@@ -37,7 +37,7 @@
                 <% end %>
               </td>
               <td class="px-6 py-3.5 text-right">
-                <% if current_membership&.manager? && membership.user != current_user %>
+                <% if workspace_manager? && membership.user != current_user %>
                   <%= button_to membership_path(membership), method: :delete,
                         data: { turbo_confirm: t("confirmations.remove_member", name: membership.user.name) },
                         class: "cursor-pointer rounded-full px-3.5 py-1.5 text-xs font-semibold text-danger transition-colors hover:bg-danger-subtle" do %>
@@ -52,8 +52,29 @@
     </div>
   </div>
 
-  <% if current_membership&.manager? %>
-    <div>
+  <% if workspace_manager? %>
+    <div class="space-y-6">
+      <% if @join_requests&.any? %>
+        <%= render Ui::CardComponent.new do %>
+          <h2 class="font-display text-base font-semibold"><%= t(".requests.title") %></h2>
+          <p class="mt-1 text-xs text-text-muted"><%= t(".requests.description") %></p>
+          <ul class="mt-4 space-y-3">
+            <% @join_requests.each do |request| %>
+              <li class="flex items-center justify-between gap-3">
+                <span class="min-w-0">
+                  <span class="block truncate text-sm font-semibold"><%= request.user.name %></span>
+                  <span class="block truncate text-xs text-text-muted"><%= request.user.email %></span>
+                </span>
+                <span class="flex shrink-0 gap-1.5">
+                  <%= button_to t(".requests.approve"), approve_join_request_path(request), class: "cursor-pointer rounded-full bg-success-strong px-3.5 py-1.5 text-xs font-semibold text-white transition-opacity hover:opacity-85" %>
+                  <%= button_to t(".requests.deny"), deny_join_request_path(request), class: "cursor-pointer rounded-full border border-border-strong px-3.5 py-1.5 text-xs font-semibold text-text-muted transition-colors hover:bg-surface-highlight" %>
+                </span>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
+      <% end %>
+
       <%= render Ui::CardComponent.new do %>
         <h2 class="text-sm font-semibold"><%= t(".invite.title") %></h2>
         <p class="mt-1 text-xs text-text-muted"><%= t(".invite.description") %></p>

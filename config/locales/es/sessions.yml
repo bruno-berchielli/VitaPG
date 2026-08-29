@@ -1,0 +1,37 @@
+es:
+  sessions:
+    google_not_allowed: "El dominio de esta cuenta de Google no está permitido en esta instancia."
+    google_failed: "Falló el inicio de sesión con Google. Inténtalo de nuevo o usa el enlace mágico."
+  users:
+    sessions:
+      new:
+        title: "Iniciar sesión"
+        tagline: "Respaldos PostgreSQL para tu equipo"
+        hint: "Escribe tu correo corporativo y te enviaremos un enlace de acceso."
+        email: "Correo"
+        send_link: "Enviarme un enlace de acceso"
+        or: "o"
+        google: "Continuar con Google"
+        internal_note: "Sistema interno. Las cuentas se crean por invitación."
+      create:
+        sent: "Si ese correo tiene una cuenta, un enlace de acceso va en camino."
+      verify:
+        signed_in: "Sesión iniciada."
+        invalid: "Ese enlace es inválido o expiró. Solicita uno nuevo."
+      destroy:
+        signed_out: "Sesión cerrada."
+  login_mailer:
+    magic_link:
+      subject: "Tu enlace de acceso a VitaPG"
+      hello: "Hola, %{name},"
+      body: "Usa el botón de abajo para entrar a VitaPG:"
+      button: "Entrar a VitaPG"
+      expiry: "El enlace vale por 15 minutos. Si no lo solicitaste, ignora este correo."
+  join_requests:
+    create:
+      requested: "Solicitud enviada. Un admin del espacio la revisará."
+      already_pending: "Ya tienes una solicitud pendiente para este espacio."
+    approve:
+      approved: "%{name} ahora es miembro."
+    deny:
+      denied: "La solicitud de %{name} fue denegada."

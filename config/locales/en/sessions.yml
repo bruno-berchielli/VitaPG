@@ -1,0 +1,37 @@
+en:
+  sessions:
+    google_not_allowed: "This Google account's domain is not allowed on this instance."
+    google_failed: "Google sign-in failed. Try again or use a magic link."
+  users:
+    sessions:
+      new:
+        title: "Sign in"
+        tagline: "PostgreSQL backups for your team"
+        hint: "Enter your work email and we'll send you a sign-in link."
+        email: "Email"
+        send_link: "Email me a sign-in link"
+        or: "or"
+        google: "Continue with Google"
+        internal_note: "Internal system. Accounts are created by invitation."
+      create:
+        sent: "If that email has an account, a sign-in link is on its way."
+      verify:
+        signed_in: "Signed in."
+        invalid: "That sign-in link is invalid or has expired. Request a new one."
+      destroy:
+        signed_out: "Signed out."
+  login_mailer:
+    magic_link:
+      subject: "Your VitaPG sign-in link"
+      hello: "Hi %{name},"
+      body: "Use the button below to sign in to VitaPG:"
+      button: "Sign in to VitaPG"
+      expiry: "The link is valid for 15 minutes. If you didn't request it, you can ignore this email."
+  join_requests:
+    create:
+      requested: "Request sent. A workspace admin will review it."
+      already_pending: "You already have a pending request for this workspace."
+    approve:
+      approved: "%{name} is now a member."
+    deny:
+      denied: "%{name}'s request was denied."

@@ -10,11 +10,6 @@ pt-BR:
     hourly_at: "A cada hora, no minuto %{minute}"
     every_minutes: "A cada %{count} minutos"
     every_hours: "A cada %{count} horas"
-  devise:
-    registrations:
-      closed: "Cadastros estão fechados nesta instância. Peça um convite a um gestor do workspace."
-    shared:
-      tagline: "Backups PostgreSQL confiáveis"
   time_ago: "há %{time}"
   time_in: "em %{time}"
   actions:

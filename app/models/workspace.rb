@@ -20,6 +20,7 @@ class Workspace < ApplicationRecord
   has_many :destinations, dependent: :destroy
   has_many :backup_routines, dependent: :destroy
   has_many :notification_channels, dependent: :destroy
+  has_many :join_requests, dependent: :destroy
 
   validates :name, presence: true
   validates :slug, presence: true, uniqueness: true, format: { with: /\A[a-z0-9-]+\z/ }

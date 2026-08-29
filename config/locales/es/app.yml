@@ -10,11 +10,6 @@ es:
     hourly_at: "Cada hora, en el minuto %{minute}"
     every_minutes: "Cada %{count} minutos"
     every_hours: "Cada %{count} horas"
-  devise:
-    registrations:
-      closed: "Los registros están cerrados en esta instancia. Pide una invitación a un gestor del espacio de trabajo."
-    shared:
-      tagline: "Respaldos PostgreSQL confiables"
   time_ago: "hace %{time}"
   time_in: "en %{time}"
   actions:

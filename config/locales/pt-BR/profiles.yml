@@ -17,8 +17,5 @@ pt-BR:
       appearance: "Aparência"
       light: "Claro"
       dark: "Escuro"
-      password: "Senha"
-      password_hint: "Altere sua senha pela tela de configurações da conta."
-      change_password: "Alterar senha"
     update:
       updated: "Perfil atualizado"

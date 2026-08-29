@@ -82,7 +82,7 @@
         </span>
         <span class="min-w-0">
           <span class="block truncate text-sm font-semibold"><%= user.name %></span>
-          <span class="block truncate text-xs text-text-faint"><%= user.email %></span>
+          <span class="block truncate text-xs text-text-faint"><%= user.superadmin? ? t(".superadmin") : user.email %></span>
         </span>
       <% end %>
       <%= button_to destroy_user_session_path, method: :delete, "aria-label": t(".sign_out"), title: t(".sign_out"),

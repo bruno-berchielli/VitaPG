@@ -17,8 +17,5 @@ en:
       appearance: "Appearance"
       light: "Light"
       dark: "Dark"
-      password: "Password"
-      password_hint: "Change your password through the account settings screen."
-      change_password: "Change password"
     update:
       updated: "Profile updated"
