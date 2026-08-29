@@ -10,6 +10,14 @@ class ProfilesController < ApplicationController
     end
   end
 
+  def update_appearance
+    mode = params[:mode].to_s
+    if %w[light dark].include?(mode)
+      current_user.update(preferences: (current_user.preferences || {}).merge("mode" => mode))
+    end
+    redirect_back_or_to profile_path
+  end
+
   private
 
   def profile_params

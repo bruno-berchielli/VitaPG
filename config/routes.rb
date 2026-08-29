@@ -40,7 +40,9 @@ Rails.application.routes.draw do
   resources :notification_channels, except: :show
 
   resource :locale, only: :update
-  resource :profile, only: %i[show update]
+  resource :profile, only: %i[show update] do
+    patch :appearance, action: :update_appearance
+  end
 
   root "dashboard#show"
 end

@@ -71,7 +71,9 @@ jobs:
         env:
           RAILS_ENV: test
           INTEGRATION: "1"
-        run: bin/rails db:test:prepare test test/integration
+        run: |
+          bin/rails db:test:prepare
+          bin/rails test test/integration
 
   test:
     runs-on: ubuntu-latest

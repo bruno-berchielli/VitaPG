@@ -4,6 +4,10 @@ module ApplicationHelper
   def signups_open?
     ENV["VITAPG_OPEN_SIGNUPS"] == "1" || !User.exists?
   end
+
+  def current_mode
+    current_user&.preferences&.dig("mode") == "dark" ? "dark" : "light"
+  end
   def human_size(bytes)
     return "—" if bytes.blank?
 

@@ -26,6 +26,16 @@
     <% end %>
 
     <%= render Ui::CardComponent.new do %>
+      <h2 class="text-sm font-semibold"><%= t(".appearance") %></h2>
+      <div class="mt-4 flex gap-2">
+        <% { "light" => t(".light"), "dark" => t(".dark") }.each do |mode, label| %>
+          <%= button_to label, appearance_profile_path(mode: mode), method: :patch,
+                class: "cursor-pointer rounded-md border px-3 py-1.5 text-sm font-medium transition-colors #{current_mode == mode ? 'border-primary bg-primary-subtle text-primary' : 'border-border-strong text-text-muted hover:bg-surface-highlight'}" %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%= render Ui::CardComponent.new do %>
       <h2 class="text-sm font-semibold"><%= t(".password") %></h2>
       <p class="mt-1 text-xs text-text-muted"><%= t(".password_hint") %></p>
       <div class="mt-4">
