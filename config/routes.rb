@@ -37,6 +37,7 @@ Rails.application.routes.draw do
   end
 
   resources :memberships, only: %i[index create update destroy]
+  resources :notification_channels, except: :show
 
   resource :locale, only: :update
   resource :profile, only: %i[show update]

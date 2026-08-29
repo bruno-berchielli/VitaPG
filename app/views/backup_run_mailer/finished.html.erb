@@ -1,0 +1,16 @@
+<h2 style="font-family: sans-serif;">
+  <%= @run.completed? ? t(".completed_title", routine: @routine.name) : t(".failed_title", routine: @routine.name) %>
+</h2>
+
+<table style="font-family: sans-serif; font-size: 14px; border-collapse: collapse;">
+  <tr><td style="padding: 4px 16px 4px 0; color: #666;"><%= t(".database") %></td><td><%= @routine.database_connection.database_name %></td></tr>
+  <tr><td style="padding: 4px 16px 4px 0; color: #666;"><%= t(".destination") %></td><td><%= @routine.destination.name %></td></tr>
+  <tr><td style="padding: 4px 16px 4px 0; color: #666;"><%= t(".started") %></td><td><%= @run.started_at %></td></tr>
+  <% if @run.size_bytes %>
+    <tr><td style="padding: 4px 16px 4px 0; color: #666;"><%= t(".size") %></td><td><%= number_to_human_size(@run.size_bytes) %></td></tr>
+  <% end %>
+</table>
+
+<% if @run.failed? && @run.error_message.present? %>
+  <pre style="background: #fbeeee; color: #b91c1c; padding: 12px; font-size: 12px; white-space: pre-wrap;"><%= @run.error_message.first(2000) %></pre>
+<% end %>

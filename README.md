@@ -1,137 +1,93 @@
 # VitaPG
 
-VitaPG is a Ruby on Rails application designed to automate PostgreSQL database backups and securely upload them to various cloud storage services.
+**Open-source, self-hosted PostgreSQL backup platform.** Install it on a server, connect your databases, and get scheduled, compressed, verified backups shipped to your own storage — with a real dashboard, live run logs, retention policies, notifications, and team workspaces. MIT licensed.
 
-## Features
+VitaPG does one thing: PostgreSQL backups. That focus is the feature.
 
-VitaPG offers a robust set of features to manage your PostgreSQL backups:
+## Highlights
 
-- **Automated Backups:** Schedule backups to run automatically at your desired frequency using cron expressions.
-- **Multiple Database Connections:** Configure and manage backups for several PostgreSQL databases from a single application.
-- **Flexible Backup Options:**
-    - Exclude specific tables from your backup.
-    - Exclude data from specific tables (while still backing up the schema).
-    - Option to run `pg_dump` with `--no-owner` and `--no-privileges` flags.
-- **Cloud Storage Integration:**
-    - Currently supports AWS S3 for storing backup files.
-    - Google Drive integration is planned for future releases.
-- **Administrative Interface:** Uses [Motor-Admin](https://www.motor-admin.com/) to provide an easy-to-use UI for managing connections, backup routines, and viewing logs.
-- **Background Job Processing:** Leverages SolidQueue for reliable execution of backup tasks.
-- **Backup Monitoring:** Keep track of backup runs, their status (running, completed, failed), and access logs for troubleshooting.
+- **Scheduled backup routines** — standard cron expressions with per-routine timezones, powered by Solid Queue (persistent, survives restarts, no Redis).
+- **Efficient dumps** — `pg_dump` custom format with configurable compression (0–9), plain SQL, or directory format with parallel jobs for large databases. Table and data exclusions, `--no-owner`, `--no-privileges`.
+- **Bring your own storage** — Amazon S3 and every S3-compatible service (MinIO, Cloudflare R2, Backblaze B2, Wasabi, DigitalOcean Spaces…), with streaming multipart uploads.
+- **Verified, never trusted** — after upload, every backup is re-checked against the remote object before being marked completed.
+- **Retention that can't hurt you** — keep-last-N and/or max-age pruning that only ever deletes files VitaPG itself created. Nothing in the app can write to or delete from your source databases; nothing can touch objects it didn't create.
+- **Size anomaly detection** — a backup that suddenly shrinks or balloons relative to its recent history gets flagged, because a small dump usually means a big problem.
+- **Live dashboard** — run status and logs stream to the browser in real time (Hotwire + Solid Cable). Failures are front and center.
+- **Notifications** — email, Slack/Discord/Mattermost, and HMAC-signed webhooks. Failures notify by default.
+- **Workspaces & members** — group databases, destinations and routines per team; invite members with owner/admin/member roles.
+- **Security by default** — all credentials (database passwords, storage keys, webhook URLs) encrypted at rest with Active Record Encryption; secrets are write-only in the UI and never appear in logs, process lists, or URLs.
+- **Trilingual** — English, Português (Brasil), Español.
 
-## Technology Stack
+## Technology
 
-VitaPG technology stack:
+Boring on purpose: Ruby on Rails 8.1, Ruby 4.0, SQLite for the app's own data (zero external services to operate), Solid Queue / Solid Cache / Solid Cable, Hotwire, ViewComponent, Tailwind 4. The only databases VitaPG connects to besides its own SQLite files are the PostgreSQL servers you back up.
 
-- **Backend:** Ruby on Rails
-- **Application Database:** SQLite3 (manages application data, no separate server setup needed for this)
-- **Target Databases for Backup:** PostgreSQL (the databases you want to back up)
-- **Background Jobs:** SolidQueue
-- **Admin Interface:** Motor-Admin
-- **Cloud Storage:** AWS S3 (initially)
-- **Deployment:** Kamal (optional, configured in the project)
+## Requirements
 
-## Getting Started
+- Ruby (see `.ruby-version`) and Node.js (see `.node-version`) for source installs — or just Docker.
+- PostgreSQL client tools (`pg_dump`, `psql`) on the host. Already included in the Docker image.
 
-Follow these steps to get VitaPG up and running on your local machine for development or testing:
+## Quick start (Docker)
 
-### Prerequisites
+```bash
+docker build -t vitapg .
+docker volume create vitapg-storage
+docker run -d --name vitapg -p 80:80 \
+  -e SECRET_KEY_BASE=$(openssl rand -hex 64) \
+  -e APP_HOST=backups.example.com \
+  -v vitapg-storage:/rails/storage \
+  vitapg
+```
 
-- Ruby (see `.ruby-version` for the exact version)
-- Node.js (see `.node-version` for the exact version)
-- Yarn
-- PostgreSQL server (if you plan to back up PostgreSQL databases)
+Open the app, create the first account and workspace, and start adding routines. The `storage/` volume holds the SQLite databases — that's the whole persistence story.
 
-### Installation
+> `SECRET_KEY_BASE` also derives the credential-encryption keys. Keep it stable and secret; rotating it invalidates stored credentials (see `.env.example` for independent encryption keys).
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/your-username/vitapg.git
-    cd VitaPG
-    ```
-    
-2.  **Install dependencies:**
-    ```bash
-    bundle install
-    yarn install
-    ```
+## Development install
 
-3.  **Configure environment variables:**
-    Copy the example environment file and customize it with your settings:
-    ```bash
-    cp .env.example .env
-    ```
-    Update the `.env` file. This is primarily for services like AWS S3 (access key, secret key, region, bucket for backups). VitaPG itself uses SQLite and does not require database credentials in the `.env` file for its own operation. You will configure credentials for the PostgreSQL databases you intend to back up directly within the application's admin interface.
+```bash
+git clone https://github.com/bruno-berchielli/VitaPG.git
+cd VitaPG
+bin/setup            # bundle + yarn + db:prepare
+bin/dev              # web + js/css watchers + jobs
+```
 
-4.  **Set up the database:**
-    This command will create the database, load the schema, and initialize with seed data (if any).
-    ```bash
-    rails db:setup
-    ```
+Visit `http://localhost:3000`, sign up, create a workspace.
 
-5.  **Start the development server:**
-    ```bash
-    ./bin/dev
-    ```
-    This will typically start the Rails server, and you can access VitaPG at `http://localhost:3000`. The Motor-Admin interface will be available at `http://localhost:3000/admin`.
+To try a full backup locally without touching real infrastructure:
 
-## Usage
+```bash
+docker run -d --rm --name pg -e POSTGRES_PASSWORD=test -p 55432:5432 postgres:17-alpine
+docker run -d --rm --name minio -e MINIO_ROOT_USER=minioadmin -e MINIO_ROOT_PASSWORD=minioadmin \
+  -p 59000:9000 quay.io/minio/minio server /data
+```
 
-Once VitaPG is running, you can manage your backup operations through the Motor-Admin interface:
+Add a connection to `localhost:55432`, an S3-compatible destination pointing at `http://localhost:59000` (create the bucket first), a routine, and hit **Run now**.
 
-1.  **Access the Admin Interface:**
-    Open your web browser and navigate to `http://localhost:3000/admin` (or your production URL followed by `/admin`). The default credentials are Username = `admin` and Password = `admin`.
+## Production notes
 
-2.  **Configure Database Connections:**
-    - Go to the "Database Connections" section.
-    - Add new connections by providing a name, host, port, database name, username, and password for each PostgreSQL instance you want to back up.
+- **Deploy** — a Kamal config ships in `config/deploy.yml`; any Docker host works. One container runs web + jobs (see `Procfile` semantics in `bin/thrust`/`bin/jobs`); scale job concurrency with `JOB_CONCURRENCY`.
+- **Email** — set the `SMTP_*` variables (see `.env.example`) to enable password resets and email notifications.
+- **Job dashboard** — `/jobs` (Mission Control) requires a signed-in user.
+- **Database permissions** — back up with a dedicated read-only role. VitaPG only ever runs `pg_dump` and `SELECT 1` against your servers.
+- **Storage permissions** — scope credentials to the bucket, with put/get/delete-object rights only (no bucket deletion needed).
 
-3.  **Set up Destinations:**
-    - Go to the "Destinations" section.
-    - Add new storage destinations. For AWS S3, you'll need to provide a bucket name, region, access key ID, and secret access key.
+## Webhook signature
 
-4.  **Create Backup Routines:**
-    - Go to the "Backup Routines" section.
-    - Create a new routine by:
-        - Giving it a descriptive name.
-        - Selecting the database connection.
-        - Selecting the destination.
-        - Specifying the backup schedule using a cron expression (e.g., `0 2 * * *` for daily at 2 AM).
-        - Configuring any specific `pg_dump` options like tables to exclude, excluding table data, or flags like `--no-owner` and `--no-privileges`.
-        - Enabling the routine.
+Signed webhooks send `X-Vitapg-Signature: t=<unix>,v1=<hex>` where `v1 = HMAC-SHA256(signing_secret, "#{t}.#{raw_body}")`. The signing secret is shown on the channel's edit screen.
 
-5.  **Monitor Backups:**
-    - **Backup Runs:** View the status and history of individual backup attempts in the "Backup Runs" section. Each run will show if it was successful or failed, start/end times, and the URL of the stored backup file if successful.
-    - **Backup Logs:** Check "Backup Logs" for detailed information and any errors related to specific backup runs.
-    - **Background Jobs:** You can monitor the SolidQueue jobs via the MissionControl interface, typically at `/jobs`.
+## Testing
+
+```bash
+bin/rails test          # unit
+bin/rails test:system   # browser (headless Chrome)
+bin/rubocop
+```
 
 ## Contributing
 
-Contributions are welcome and appreciated! If you'd like to contribute to VitaPG, please follow these general steps:
-
-1.  **Fork the repository.**
-2.  **Create a new branch** for your feature or bug fix:
-    ```bash
-    git checkout -b your-feature-name
-    ```
-3.  **Make your changes.**
-4.  **Add tests** for your changes, if applicable.
-5.  **Ensure all tests pass.**
-6.  **Commit your changes** with a clear and descriptive commit message.
-7.  **Push your branch** to your fork:
-    ```bash
-    git push origin your-feature-name
-    ```
-8.  **Submit a pull request** to the main VitaPG repository.
-
-Please ensure your code adheres to the project's coding standards (e.g., by running linters if configured).
+Issues and pull requests are welcome. Keep it boring: Rails conventions, tests with every change, English everywhere, all UI text through I18n (en, pt-BR, es).
 
 ## License
 
-This project is released under the **MIT License**.
-
-See the `LICENSE` file in the repository for the full license text. 
-
-## Author
-
-This project was first created by [Bruno Berchielli](https://github.com/bruno-berchielli)
+MIT — see `MIT-LICENSE`. Created by [Bruno Berchielli](https://github.com/bruno-berchielli).

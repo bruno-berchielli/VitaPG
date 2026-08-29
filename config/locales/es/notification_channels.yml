@@ -1,0 +1,69 @@
+es:
+  activerecord:
+    models:
+      notification_channel:
+        one: "Canal de notificación"
+        other: "Canales de notificación"
+    attributes:
+      notification_channel:
+        name: "Nombre"
+        kind: "Tipo"
+        url: "URL del webhook"
+        recipients: "Destinatarios"
+        notify_on_success: "Notificar éxitos"
+        notify_on_failure: "Notificar fallos"
+        enabled: "Activo"
+  notification_channels:
+    kinds:
+      email: "Correo"
+      webhook: "Webhook (firmado)"
+      slack: "Slack / Discord / Mattermost"
+    index:
+      title: "Notificaciones"
+      description: "Por dónde este espacio de trabajo se entera de respaldos completados y fallidos."
+      new: "Nuevo canal"
+      events: "Eventos"
+      state: "Estado"
+      actions: "Acciones"
+      on_failure: "fallos"
+      on_success: "éxitos"
+      empty:
+        title: "Sin canales de notificación"
+        description: "Agrega correo, Slack o webhooks firmados para que los fallos nunca pasen desapercibidos."
+    new:
+      title: "Nuevo canal de notificación"
+      description: "Los fallos vienen activados por defecto; los éxitos son opcionales."
+    edit:
+      title: "Editar canal"
+    form:
+      name_hint: "p. ej. \"Correo del equipo de ops\", \"#infra en Slack\""
+      kind_hint: "Los webhooks firmados incluyen un encabezado con firma HMAC-SHA256 que puedes verificar."
+      recipients_hint: "Solo tipo correo: direcciones separadas por comas."
+      url_hint: "Solo tipos webhook y Slack. Se almacena cifrada. Déjala en blanco al editar para conservar la URL actual."
+      on_failure_hint: "Recomendado: siempre activo."
+      on_success_hint: "Un mensaje por respaldo completado."
+      signing_secret: "Secreto de firma"
+      signing_secret_hint: "Verifica: HMAC-SHA256(secreto, \"{t}.{body}\") debe ser igual a v1 en el encabezado X-Vitapg-Signature."
+      confirm_delete: "¿Eliminar el canal \"%{name}\"?"
+    create:
+      created: "Canal creado"
+    update:
+      updated: "Canal actualizado"
+    destroy:
+      destroyed: "Canal eliminado"
+  backup_run_mailer:
+    finished:
+      subject_completed: "✔ Respaldo completado — %{routine}"
+      subject_failed: "✖ Respaldo FALLIDO — %{routine}"
+      completed_title: "Respaldo completado: %{routine}"
+      failed_title: "Respaldo fallido: %{routine}"
+      database: "Base de datos"
+      destination: "Destino"
+      started: "Inicio"
+      size: "Tamaño"
+    missed:
+      subject: "⚠ El respaldo no se ejecutó — %{routine}"
+      title: "Respaldo programado no ejecutado: %{routine}"
+      body: "Se esperaba una ejecución a las %{expected_at} (cron %{cron}) pero nunca comenzó. Verifica que el worker de VitaPG esté corriendo."
+      database: "Base de datos"
+      destination: "Destino"

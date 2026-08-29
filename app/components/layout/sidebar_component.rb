@@ -10,6 +10,7 @@ class Layout::SidebarComponent < ApplicationComponent
       NavItem.new(key: :backup_runs, icon: :clock, path: backup_runs_path),
       NavItem.new(key: :database_connections, icon: :database, path: database_connections_path),
       NavItem.new(key: :destinations, icon: :server, path: destinations_path),
+      NavItem.new(key: :notification_channels, icon: :bolt, path: notification_channels_path),
       NavItem.new(key: :memberships, icon: :users, path: memberships_path)
     ]
   end

@@ -21,10 +21,11 @@ module Backups
       end
 
       complete!
-      prune_retention
+      after_finish_housekeeping
       true
     rescue => e
       fail!(e)
+      notify
       false
     end
 
@@ -91,12 +92,23 @@ module Backups
       Rails.error.report(error, context: { backup_run_id: run.id }, source: "backups")
     end
 
-    def prune_retention
-      RetentionPruner.call(routine)
+    # Post-success work is best-effort: problems here must never mark a
+    # successful backup as failed.
+    def after_finish_housekeeping
+      safely("Anomaly check") { AnomalyChecker.call(run) }
+      safely("Retention pruning") { RetentionPruner.call(routine) }
+      notify
+    end
+
+    def notify
+      safely("Notification dispatch") { Notifications::Dispatcher.call(run) }
+    end
+
+    def safely(label)
+      yield
     rescue => e
-      # Retention problems must never mark a successful backup as failed.
-      run.log!(message: "Retention pruning failed: #{e.message}", status: :warning)
-      Rails.error.report(e, context: { backup_routine_id: routine.id }, source: "backups")
+      run.log!(message: "#{label} failed: #{e.message}", status: :warning)
+      Rails.error.report(e, context: { backup_run_id: run.id }, source: "backups")
     end
 
     def object_key(artifact)

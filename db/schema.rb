@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_29_030036) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_29_035047) do
   create_table "backup_logs", force: :cascade do |t|
     t.integer "backup_run_id", null: false
     t.datetime "created_at", null: false
@@ -28,6 +28,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_29_030036) do
     t.integer "destination_id", null: false
     t.boolean "enabled", default: true, null: false
     t.string "format", default: "custom", null: false
+    t.datetime "last_missed_alert_at"
     t.string "name"
     t.boolean "no_owner", default: false, null: false
     t.boolean "no_privileges", default: false, null: false
@@ -98,6 +99,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_29_030036) do
     t.index ["workspace_id"], name: "index_memberships_on_workspace_id"
   end
 
+  create_table "notification_channels", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.boolean "enabled", default: true, null: false
+    t.string "kind", null: false
+    t.string "name", null: false
+    t.boolean "notify_on_failure", default: true, null: false
+    t.boolean "notify_on_success", default: false, null: false
+    t.string "recipients"
+    t.string "signing_secret"
+    t.datetime "updated_at", null: false
+    t.string "url"
+    t.integer "workspace_id", null: false
+    t.index ["workspace_id"], name: "index_notification_channels_on_workspace_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "current_sign_in_at"
@@ -134,4 +150,5 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_29_030036) do
   add_foreign_key "destinations", "workspaces"
   add_foreign_key "memberships", "users"
   add_foreign_key "memberships", "workspaces"
+  add_foreign_key "notification_channels", "workspaces"
 end

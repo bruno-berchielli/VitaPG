@@ -1,0 +1,18 @@
+ops_email:
+  workspace: acme
+  name: Ops email
+  kind: email
+  recipients: "ops@example.com, oncall@example.com"
+  notify_on_failure: true
+  notify_on_success: false
+  enabled: true
+
+hook:
+  workspace: acme
+  name: Signed hook
+  kind: webhook
+  url: "https://hooks.example.com/vitapg"
+  signing_secret: "sekret"
+  notify_on_failure: true
+  notify_on_success: true
+  enabled: true

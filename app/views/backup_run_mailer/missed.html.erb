@@ -1,0 +1,10 @@
+<h2 style="font-family: sans-serif;"><%= t(".title", routine: @routine.name) %></h2>
+
+<p style="font-family: sans-serif; font-size: 14px;">
+  <%= t(".body", expected_at: @expected_at, cron: @routine.cron) %>
+</p>
+
+<table style="font-family: sans-serif; font-size: 14px; border-collapse: collapse;">
+  <tr><td style="padding: 4px 16px 4px 0; color: #666;"><%= t(".database") %></td><td><%= @routine.database_connection.database_name %></td></tr>
+  <tr><td style="padding: 4px 16px 4px 0; color: #666;"><%= t(".destination") %></td><td><%= @routine.destination.name %></td></tr>
+</table>

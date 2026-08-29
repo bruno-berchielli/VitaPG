@@ -1,0 +1,60 @@
+<% content_for :title, "#{t('.title')} · VitaPG" %>
+
+<%= render Ui::PageHeaderComponent.new(title: t(".title"), description: t(".description")) do |header| %>
+  <% if current_membership&.manager? %>
+    <% header.with_action do %>
+      <%= render Ui::ButtonComponent.new(variant: :primary, href: new_notification_channel_path) do |b| %>
+        <% b.with_leading_icon { render Ui::IconComponent.new(:plus, classes: "size-4") } %>
+        <%= t(".new") %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<div class="mt-6">
+  <% if @channels.any? %>
+    <div class="overflow-x-auto rounded-lg border border-border bg-surface">
+      <table class="w-full text-left">
+        <thead>
+          <tr class="border-b border-border text-xs text-text-muted">
+            <th scope="col" class="px-4 py-2.5 font-medium"><%= NotificationChannel.human_attribute_name(:name) %></th>
+            <th scope="col" class="px-4 py-2.5 font-medium"><%= NotificationChannel.human_attribute_name(:kind) %></th>
+            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".events") %></th>
+            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".state") %></th>
+            <th scope="col" class="px-4 py-2.5"><span class="sr-only"><%= t(".actions") %></span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @channels.each do |channel| %>
+            <tr class="border-b border-border last:border-b-0 hover:bg-surface-highlight/50">
+              <td class="px-4 py-2.5 text-sm font-medium">
+                <%= channel.name %>
+                <% if channel.kind_email? %>
+                  <span class="block font-mono text-xs text-text-faint"><%= channel.recipients %></span>
+                <% end %>
+              </td>
+              <td class="px-4 py-2.5 text-sm text-text-muted"><%= t("notification_channels.kinds.#{channel.kind}") %></td>
+              <td class="px-4 py-2.5 text-sm text-text-muted">
+                <%= [channel.notify_on_failure? ? t(".on_failure") : nil, channel.notify_on_success? ? t(".on_success") : nil].compact.join(" · ") %>
+              </td>
+              <td class="px-4 py-2.5"><%= render Ui::StatusBadgeComponent.new(status: channel.enabled? ? :enabled : :disabled) %></td>
+              <td class="px-4 py-2.5 text-right">
+                <% if current_membership&.manager? %>
+                  <%= link_to t("actions.edit"), edit_notification_channel_path(channel), class: "rounded px-2 py-1 text-sm font-medium text-primary hover:bg-surface-highlight" %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <%= render Ui::EmptyStateComponent.new(icon: :bolt, title: t(".empty.title"), description: t(".empty.description")) do |empty| %>
+      <% if current_membership&.manager? %>
+        <% empty.with_action do %>
+          <%= render Ui::ButtonComponent.new(variant: :primary, href: new_notification_channel_path) do %><%= t(".new") %><% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

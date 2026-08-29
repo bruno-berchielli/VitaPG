@@ -1,0 +1,12 @@
+en:
+  ui:
+    copy_button_component:
+      copy: "Copy to clipboard"
+pt-BR:
+  ui:
+    copy_button_component:
+      copy: "Copiar"
+es:
+  ui:
+    copy_button_component:
+      copy: "Copiar"
