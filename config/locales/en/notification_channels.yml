@@ -1,0 +1,63 @@
+en:
+  activerecord:
+    models:
+      notification_channel:
+        one: "Notification channel"
+        other: "Notification channels"
+    attributes:
+      notification_channel:
+        name: "Name"
+        kind: "Type"
+        url: "Webhook URL"
+        recipients: "Recipients"
+        notify_on_success: "Notify on success"
+        notify_on_failure: "Notify on failure"
+        enabled: "Enabled"
+  notification_channels:
+    kinds:
+      email: "Email"
+      webhook: "Webhook (signed)"
+      slack: "Slack / Discord / Mattermost"
+    index:
+      title: "Notifications"
+      description: "Where this workspace hears about finished and failed backups."
+      new: "New channel"
+      events: "Events"
+      state: "State"
+      actions: "Actions"
+      on_failure: "failures"
+      on_success: "successes"
+      empty:
+        title: "No notification channels"
+        description: "Add email, Slack or signed webhooks so failures never go unnoticed."
+    new:
+      title: "New notification channel"
+      description: "Failures are on by default; successes are opt-in."
+    edit:
+      title: "Edit channel"
+    form:
+      name_hint: "e.g. \"Ops team email\", \"#infra Slack\""
+      kind_hint: "Signed webhooks include an HMAC-SHA256 signature header you can verify."
+      recipients_hint: "Email type only: comma-separated addresses."
+      url_hint: "Webhook and Slack types only. Stored encrypted. Leave blank on edit to keep the current URL."
+      on_failure_hint: "Recommended: always on."
+      on_success_hint: "One message per completed backup."
+      signing_secret: "Signing secret"
+      signing_secret_hint: "Verify: HMAC-SHA256(secret, \"{t}.{body}\") must equal v1 in the X-Vitapg-Signature header."
+      confirm_delete: "Delete the channel \"%{name}\"?"
+    create:
+      created: "Channel created"
+    update:
+      updated: "Channel updated"
+    destroy:
+      destroyed: "Channel deleted"
+  backup_run_mailer:
+    finished:
+      subject_completed: "✔ Backup completed — %{routine}"
+      subject_failed: "✖ Backup FAILED — %{routine}"
+      completed_title: "Backup completed: %{routine}"
+      failed_title: "Backup failed: %{routine}"
+      database: "Database"
+      destination: "Destination"
+      started: "Started"
+      size: "Size"

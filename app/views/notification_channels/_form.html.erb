@@ -1,0 +1,36 @@
+<%= form_with model: @channel, class: "space-y-5" do |f| %>
+  <%= f.labeled_text_field :name, hint: t(".name_hint") %>
+
+  <%= f.labeled_select :kind,
+        NotificationChannel.kinds.keys.map { |k| [t("notification_channels.kinds.#{k}"), k] },
+        hint: t(".kind_hint") %>
+
+  <%= f.labeled_text_field :recipients, hint: t(".recipients_hint") %>
+
+  <%= f.labeled_url_field :url, hint: t(".url_hint"), placeholder: "https://…" %>
+
+  <div class="flex flex-wrap gap-6">
+    <%= f.labeled_check_box :notify_on_failure, hint: t(".on_failure_hint") %>
+    <%= f.labeled_check_box :notify_on_success, hint: t(".on_success_hint") %>
+    <%= f.labeled_check_box :enabled %>
+  </div>
+
+  <% if @channel.persisted? && @channel.kind_webhook? && @channel.signing_secret.present? %>
+    <div class="rounded-md bg-primary-subtle p-3 text-xs text-primary">
+      <p class="font-medium"><%= t(".signing_secret") %></p>
+      <p class="mt-1 break-all font-mono"><%= @channel.signing_secret %></p>
+      <p class="mt-1"><%= t(".signing_secret_hint") %></p>
+    </div>
+  <% end %>
+
+  <div class="flex items-center gap-2 border-t border-border pt-5">
+    <%= f.submit_button t("actions.save") %>
+    <%= render Ui::ButtonComponent.new(variant: :ghost, href: notification_channels_path) do %><%= t("actions.cancel") %><% end %>
+    <% if @channel.persisted? %>
+      <div class="ml-auto">
+        <%= render Ui::ButtonComponent.new(variant: :danger, href: notification_channel_path(@channel), method: :delete,
+              data: { turbo_confirm: t(".confirm_delete", name: @channel.name) }) do %><%= t("actions.delete") %><% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

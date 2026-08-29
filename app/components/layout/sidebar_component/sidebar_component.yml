@@ -10,6 +10,7 @@ en:
         backup_runs: "Activity"
         database_connections: "Databases"
         destinations: "Destinations"
+        notification_channels: "Notifications"
         memberships: "Members"
 pt-BR:
   layout:
@@ -23,6 +24,7 @@ pt-BR:
         backup_runs: "Atividade"
         database_connections: "Bancos de dados"
         destinations: "Destinos"
+        notification_channels: "Notificações"
         memberships: "Membros"
 es:
   layout:
@@ -36,4 +38,5 @@ es:
         backup_runs: "Actividad"
         database_connections: "Bases de datos"
         destinations: "Destinos"
+        notification_channels: "Notificaciones"
         memberships: "Miembros"

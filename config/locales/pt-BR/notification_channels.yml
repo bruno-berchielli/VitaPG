@@ -1,0 +1,63 @@
+pt-BR:
+  activerecord:
+    models:
+      notification_channel:
+        one: "Canal de notificação"
+        other: "Canais de notificação"
+    attributes:
+      notification_channel:
+        name: "Nome"
+        kind: "Tipo"
+        url: "URL do webhook"
+        recipients: "Destinatários"
+        notify_on_success: "Notificar sucessos"
+        notify_on_failure: "Notificar falhas"
+        enabled: "Ativo"
+  notification_channels:
+    kinds:
+      email: "E-mail"
+      webhook: "Webhook (assinado)"
+      slack: "Slack / Discord / Mattermost"
+    index:
+      title: "Notificações"
+      description: "Por onde este workspace fica sabendo de backups concluídos e falhas."
+      new: "Novo canal"
+      events: "Eventos"
+      state: "Estado"
+      actions: "Ações"
+      on_failure: "falhas"
+      on_success: "sucessos"
+      empty:
+        title: "Nenhum canal de notificação"
+        description: "Adicione e-mail, Slack ou webhooks assinados para que falhas nunca passem despercebidas."
+    new:
+      title: "Novo canal de notificação"
+      description: "Falhas vêm ativadas por padrão; sucessos são opcionais."
+    edit:
+      title: "Editar canal"
+    form:
+      name_hint: "ex.: \"E-mail do time de ops\", \"#infra no Slack\""
+      kind_hint: "Webhooks assinados incluem um header com assinatura HMAC-SHA256 que você pode verificar."
+      recipients_hint: "Apenas tipo e-mail: endereços separados por vírgula."
+      url_hint: "Apenas tipos webhook e Slack. Armazenada criptografada. Deixe em branco ao editar para manter a URL atual."
+      on_failure_hint: "Recomendado: sempre ativo."
+      on_success_hint: "Uma mensagem por backup concluído."
+      signing_secret: "Segredo de assinatura"
+      signing_secret_hint: "Verifique: HMAC-SHA256(segredo, \"{t}.{body}\") deve ser igual a v1 no header X-Vitapg-Signature."
+      confirm_delete: "Excluir o canal \"%{name}\"?"
+    create:
+      created: "Canal criado"
+    update:
+      updated: "Canal atualizado"
+    destroy:
+      destroyed: "Canal excluído"
+  backup_run_mailer:
+    finished:
+      subject_completed: "✔ Backup concluído — %{routine}"
+      subject_failed: "✖ Backup FALHOU — %{routine}"
+      completed_title: "Backup concluído: %{routine}"
+      failed_title: "Backup falhou: %{routine}"
+      database: "Banco de dados"
+      destination: "Destino"
+      started: "Início"
+      size: "Tamanho"
