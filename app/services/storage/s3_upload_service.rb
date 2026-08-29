@@ -1,4 +1,4 @@
-require 'aws-sdk-s3'
+require "aws-sdk-s3"
 
 module Storage
   class S3UploadService < ApplicationService
@@ -40,7 +40,7 @@ module Storage
     end
 
     def upload_single_part(key)
-      File.open(file_path, 'rb') do |file|
+      File.open(file_path, "rb") do |file|
         s3_client.put_object(
           bucket: destination.bucket,
           key:,
@@ -57,7 +57,7 @@ module Storage
       upload_id = s3_client.create_multipart_upload(bucket: destination.bucket, key: key).upload_id
       parts = []
 
-      File.open(file_path, 'rb') do |file|
+      File.open(file_path, "rb") do |file|
         (1..total_parts).each do |part_number|
           file.seek((part_number - 1) * part_size)
           body = file.read(part_size)

@@ -1,0 +1,10 @@
+es:
+  workspaces:
+    not_authorized: "No tienes permiso para administrar este espacio de trabajo"
+    new:
+      title: "Crea tu espacio de trabajo"
+      subtitle: "Un espacio de trabajo agrupa tus conexiones de base de datos, destinos y rutinas de respaldo."
+      name: "Nombre del espacio de trabajo"
+      create: "Crear espacio de trabajo"
+    create:
+      created: "Espacio de trabajo creado"

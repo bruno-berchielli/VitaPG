@@ -1,0 +1,10 @@
+en:
+  workspaces:
+    not_authorized: "You are not allowed to manage this workspace"
+    new:
+      title: "Create your workspace"
+      subtitle: "A workspace groups your database connections, destinations and backup routines."
+      name: "Workspace name"
+      create: "Create workspace"
+    create:
+      created: "Workspace created"

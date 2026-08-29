@@ -1,0 +1,15 @@
+<div class="mx-auto mt-24 w-full max-w-md rounded-lg border border-border bg-surface p-8">
+  <h1 class="text-lg font-semibold"><%= t(".title") %></h1>
+  <p class="mt-1 text-sm text-text-muted"><%= t(".subtitle") %></p>
+
+  <%= form_with model: @workspace, class: "mt-6 space-y-4" do |f| %>
+    <% if @workspace.errors.any? %>
+      <div class="rounded-md bg-danger-subtle p-3 text-sm text-danger"><%= @workspace.errors.full_messages.to_sentence %></div>
+    <% end %>
+    <div>
+      <%= f.label :name, t(".name"), class: "block text-sm font-medium" %>
+      <%= f.text_field :name, autofocus: true, class: "mt-1 w-full rounded-md border-border text-sm focus:border-primary focus:ring-primary" %>
+    </div>
+    <%= f.submit t(".create"), class: "w-full cursor-pointer rounded-md bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-hover" %>
+  <% end %>
+</div>

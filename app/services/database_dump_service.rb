@@ -1,4 +1,4 @@
-require 'open3'
+require "open3"
 
 class DatabaseDumpService < ApplicationService
   attr_reader :backup_run, :routine, :connection, :filename, :filepath
@@ -25,7 +25,7 @@ class DatabaseDumpService < ApplicationService
       log_info(stdout) if stdout.present?
       filepath
     else
-      raise StandardError,stderr
+      raise StandardError, stderr
     end
 
   rescue => e
@@ -53,14 +53,14 @@ class DatabaseDumpService < ApplicationService
     cmd << "--no-owner" if routine.no_owner
     cmd << "--no-privileges" if routine.no_privileges
 
-    routine.tables_to_exclude&.split(',')&.each do |table|
+    routine.tables_to_exclude&.split(",")&.each do |table|
       cmd << "--exclude-table=#{table.strip}"
     end if routine.tables_to_exclude.present?
 
-    routine.tables_to_exclude_data&.split(',')&.each do |table|
+    routine.tables_to_exclude_data&.split(",")&.each do |table|
       cmd << "--exclude-table-data=#{table.strip}"
     end if routine.tables_to_exclude_data.present?
 
-    cmd.join(' ')
+    cmd.join(" ")
   end
 end
