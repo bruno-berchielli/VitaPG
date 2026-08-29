@@ -1,0 +1,22 @@
+<%= tag.div data: { controller: stimulus_controller } do %>
+  <span data-action="click-><%= stimulus_controller %>#open">
+    <%= trigger %>
+  </span>
+
+  <dialog data-<%= stimulus_controller %>-target="dialog"
+          data-action="click-><%= stimulus_controller %>#backdropClose"
+          class="m-auto w-full max-w-md rounded-card bg-surface p-0 text-text-main shadow-pop backdrop:bg-black/50 backdrop:backdrop-blur-sm">
+    <div class="p-7">
+      <div class="flex items-start justify-between gap-4">
+        <h2 class="font-display text-lg font-bold"><%= @title %></h2>
+        <button type="button" data-action="<%= stimulus_controller %>#close" aria-label="<%= t(".close") %>"
+                class="cursor-pointer rounded-full p-1.5 text-text-faint transition-colors hover:bg-surface-highlight hover:text-text-main focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink">
+          <%= render Ui::IconComponent.new(:x_circle, classes: "size-5") %>
+        </button>
+      </div>
+      <div class="mt-5">
+        <%= content %>
+      </div>
+    </div>
+  </dialog>
+<% end %>

@@ -21,9 +21,18 @@
           <%= ws.name %>
         <% end %>
       <% end %>
-      <%= link_to new_workspace_path, class: "flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold text-text-main transition-colors hover:bg-surface-highlight" do %>
-        <%= render Ui::IconComponent.new(:plus, classes: "size-4") %>
-        <%= t(".new_workspace") %>
+      <%= render Ui::ModalComponent.new(title: t(".new_workspace_title")) do |modal| %>
+        <% modal.with_trigger do %>
+          <button type="button" class="flex w-full cursor-pointer items-center gap-2 rounded-xl px-3 py-2 text-sm font-semibold text-text-main transition-colors hover:bg-surface-highlight">
+            <%= render Ui::IconComponent.new(:plus, classes: "size-4") %>
+            <%= t(".new_workspace") %>
+          </button>
+        <% end %>
+        <p class="text-sm text-text-muted"><%= t(".new_workspace_hint") %></p>
+        <%= form_with url: workspaces_path, scope: :workspace, class: "mt-4 space-y-4" do |f| %>
+          <%= f.labeled_text_field :name, label: t(".new_workspace_name"), placeholder: t(".new_workspace_placeholder") %>
+          <%= f.submit_button t(".new_workspace_create"), class: "w-full" %>
+        <% end %>
       <% end %>
     </div>
   </div>

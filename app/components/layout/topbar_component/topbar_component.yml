@@ -3,13 +3,28 @@ en:
     topbar_component:
       search: "Search"
       placeholder: "Search routines, databases, destinations…"
+      notifications: "Notifications"
+      view_all: "View all"
+      completed: "Backup completed · %{size}"
+      failed: "Backup FAILED"
+      empty: "Finished backups will show up here."
 pt-BR:
   layout:
     topbar_component:
       search: "Buscar"
       placeholder: "Buscar rotinas, bancos, destinos…"
+      notifications: "Notificações"
+      view_all: "Ver todas"
+      completed: "Backup concluído · %{size}"
+      failed: "Backup FALHOU"
+      empty: "Backups finalizados aparecerão aqui."
 es:
   layout:
     topbar_component:
       search: "Buscar"
       placeholder: "Buscar rutinas, bases, destinos…"
+      notifications: "Notificaciones"
+      view_all: "Ver todas"
+      completed: "Respaldo completado · %{size}"
+      failed: "Respaldo FALLIDO"
+      empty: "Los respaldos finalizados aparecerán aquí."
