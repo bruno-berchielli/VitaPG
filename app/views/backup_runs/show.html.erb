@@ -1,0 +1,19 @@
+<% content_for :title, "#{t('.title', routine: @run.backup_routine.name)} · VitaPG" %>
+
+<nav class="text-sm text-text-muted">
+  <%= link_to @run.backup_routine.name, backup_routine_path(@run.backup_routine), class: "hover:text-primary" %>
+  <span class="mx-1 text-text-faint">/</span>
+  <span><%= t(".breadcrumb", id: @run.id) %></span>
+</nav>
+
+<div class="mt-4">
+  <%= render Ui::PageHeaderComponent.new(title: t(".title", routine: @run.backup_routine.name), description: l(@run.created_at, format: :long)) %>
+</div>
+
+<%# Subscribed at page level, outside any element the broadcasts replace. %>
+<%= turbo_stream_from @run.updates_channel if @run.in_progress? %>
+
+<div class="mt-6 space-y-6">
+  <%= render BackupRuns::DetailComponent.new(run: @run) %>
+  <%= render BackupRuns::LogListComponent.new(run: @run, logs: @logs) %>
+</div>

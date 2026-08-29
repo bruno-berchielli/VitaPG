@@ -1,0 +1,41 @@
+<% content_for :title, "#{t('.title')} · VitaPG" %>
+
+<%= render Ui::PageHeaderComponent.new(title: t(".title"), description: t(".description")) %>
+
+<div class="mt-6 flex items-center gap-1.5">
+  <% filters = [nil, "completed", "failed"] %>
+  <% filters.each do |status| %>
+    <% active = params[:status].presence == status %>
+    <%= link_to backup_runs_path(status: status),
+          class: "rounded-md px-2.5 py-1 text-sm font-medium #{active ? 'bg-primary-subtle text-primary' : 'text-text-muted hover:bg-surface-highlight'}" do %>
+      <%= status ? t(".filters.#{status}") : t(".filters.all") %>
+    <% end %>
+  <% end %>
+</div>
+
+<div class="mt-4">
+  <% if @runs.any? %>
+        <% @runs.select(&:in_progress?).each do |live_run| %>
+      <%= turbo_stream_from live_run.updates_channel %>
+    <% end %>
+    <div class="overflow-x-auto rounded-lg border border-border bg-surface">
+      <table class="w-full text-left">
+        <thead>
+          <tr class="border-b border-border text-xs text-text-muted">
+            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".table.routine") %></th>
+            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".table.status") %></th>
+            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".table.when") %></th>
+            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".table.duration") %></th>
+            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".table.size") %></th>
+            <th scope="col" class="px-4 py-2.5"><span class="sr-only"><%= t(".table.actions") %></span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= render BackupRuns::RowComponent.with_collection(@runs, show_routine: true) %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <%= render Ui::EmptyStateComponent.new(icon: :clock, title: t(".empty.title"), description: t(".empty.description")) %>
+  <% end %>
+</div>

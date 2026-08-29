@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
+
   get "up" => "rails/health#show", as: :rails_health_check
 
   mount MissionControl::Jobs::Engine, at: "/jobs"
@@ -10,5 +11,35 @@ Rails.application.routes.draw do
     end
   end
 
-  root "home#index"
+  resources :database_connections do
+    member do
+      post :test
+    end
+  end
+
+  resources :destinations do
+    member do
+      post :test
+    end
+  end
+
+  resources :backup_routines do
+    member do
+      post :run
+      patch :toggle
+    end
+  end
+
+  resources :backup_runs, only: %i[index show] do
+    member do
+      get :download
+    end
+  end
+
+  resources :memberships, only: %i[index create update destroy]
+
+  resource :locale, only: :update
+  resource :profile, only: %i[show update]
+
+  root "dashboard#show"
 end

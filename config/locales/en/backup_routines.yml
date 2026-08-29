@@ -1,0 +1,107 @@
+en:
+  activerecord:
+    models:
+      backup_routine:
+        one: "Backup routine"
+        other: "Backup routines"
+    attributes:
+      backup_routine:
+        name: "Name"
+        database_connection: "Database"
+        destination: "Destination"
+        cron: "Schedule (cron)"
+        schedule_timezone: "Timezone"
+        format: "Dump format"
+        compression_level: "Compression (0–9)"
+        parallel_jobs: "Parallel jobs"
+        tables_to_exclude: "Exclude tables"
+        tables_to_exclude_data: "Exclude table data"
+        no_owner: "Skip ownership (--no-owner)"
+        no_privileges: "Skip privileges (--no-privileges)"
+        retention_keep_last: "Keep last"
+        retention_max_age_days: "Max age (days)"
+        path_prefix: "Path prefix"
+        enabled: "Enabled"
+  backup_routines:
+    index:
+      title: "Backup routines"
+      description: "Scheduled pg_dump pipelines from your databases to your storage."
+      new: "New routine"
+      database: "Database"
+      state: "State"
+      last_run: "Last run"
+      next_run: "Next run"
+      empty:
+        title: "No routines yet"
+        description: "A routine pairs a database with a destination on a schedule, with retention and dump options."
+    show:
+      description: "%{database} → %{destination}"
+      run_now: "Run now"
+      state: "State"
+      enable: "Enable"
+      disable: "Disable"
+      schedule: "Schedule"
+      next_run: "Next run"
+      retention: "Retention"
+      keep_last:
+        one: "keep last %{count}"
+        other: "keep last %{count}"
+      max_age:
+        one: "max %{count} day"
+        other: "max %{count} days"
+      keep_forever: "keep everything"
+      runs: "Run history"
+      table:
+        status: "Status"
+        when: "When"
+        duration: "Duration"
+        size: "Size"
+        actions: "Actions"
+      no_runs:
+        title: "No runs yet"
+        description: "Run this routine now or wait for its schedule."
+    new:
+      title: "New backup routine"
+      description: "Everything a reliable backup needs: source, destination, schedule, retention."
+      prerequisites:
+        title: "First, connect a database and a destination"
+        description: "A routine needs a PostgreSQL connection to dump from and a storage destination to upload to."
+        add_connection: "Add database"
+        add_destination: "Add destination"
+    edit:
+      title: "Edit routine"
+    form:
+      sections:
+        what: "What to back up"
+        schedule: "Schedule"
+        dump: "Dump options"
+        retention: "Retention & storage layout"
+      name_hint: "e.g. \"Production nightly\""
+      cron_hint: "Standard cron: minute hour day month weekday. \"0 3 * * *\" runs daily at 03:00."
+      format_hint: "Custom is compressed and restorable with pg_restore; directory enables parallel dumps; plain is a readable .sql."
+      compression_hint: "0 disables compression."
+      parallel_hint: "Only applies to the directory format."
+      exclude_hint: "Comma-separated table names to skip entirely."
+      exclude_data_hint: "Schema is kept, rows are skipped. Comma-separated."
+      no_owner_hint: "Restorable by a different role."
+      no_privileges_hint: "Skip GRANT/REVOKE statements."
+      retention_note: "Pruning only ever deletes files this routine created. Leave both blank to keep everything."
+      keep_last_hint: "Number of backups to keep."
+      max_age_hint: "Delete backups older than this."
+      prefix_hint: "Object key prefix in the bucket. Defaults to workspace/routine."
+      formats:
+        custom: "Custom (compressed, pg_restore)"
+        plain: "Plain SQL"
+        directory: "Directory (parallel)"
+    create:
+      created: "Routine created"
+    update:
+      updated: "Routine updated"
+    destroy:
+      destroyed: "Routine deleted"
+    run:
+      started: "Backup started"
+      already_running: "This routine already has a run in progress"
+    toggle:
+      enabled: "Routine enabled"
+      disabled: "Routine disabled"

@@ -1,0 +1,8 @@
+<div class="pointer-events-none fixed inset-x-0 top-4 z-50 flex flex-col items-center gap-2 px-4" <%= data_stimulus_controller.html_safe %>>
+  <% items.each do |item| %>
+    <div class="pointer-events-auto flex w-full max-w-sm items-center gap-2.5 rounded-md border bg-surface px-4 py-3 text-sm font-medium shadow-sm <%= item[:classes] %>" role="status">
+      <%= render Ui::IconComponent.new(item[:icon], classes: "size-5 shrink-0") %>
+      <span class="text-text-main"><%= item[:message] %></span>
+    </div>
+  <% end %>
+</div>

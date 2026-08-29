@@ -1,0 +1,30 @@
+es:
+  dashboard:
+    show:
+      title: "Panel"
+      description: "Salud de los respaldos de %{workspace}"
+      new_routine: "Nueva rutina"
+      recent_runs: "Ejecuciones recientes"
+      view_all: "Ver todas"
+      stats:
+        routines: "Rutinas"
+        enabled: "%{count} activas"
+        completed_24h: "Completadas"
+        failed_24h: "Fallidas"
+        last_24h: "últimas 24 horas"
+        stored: "Almacenado"
+        stored_hint: "en respaldos retenidos"
+      failing:
+        title:
+          one: "%{count} rutina necesita atención"
+          other: "%{count} rutinas necesitan atención"
+      table:
+        routine: "Rutina"
+        status: "Estado"
+        when: "Cuándo"
+        duration: "Duración"
+        size: "Tamaño"
+        actions: "Acciones"
+      empty:
+        title: "Aún no hay respaldos"
+        description: "Crea tu primera rutina de respaldo para empezar a proteger tus bases de datos PostgreSQL."

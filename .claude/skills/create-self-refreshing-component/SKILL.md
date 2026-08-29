@@ -75,6 +75,26 @@ def status_card
 end
 ```
 
+## Gotcha: never nest the subscription inside the replaced element
+
+If `turbo_stream_from` lives inside the element that `broadcast_replace_to`
+targets, every replacement tears down and re-creates the subscription, and any
+broadcast during that gap is silently lost (observed in practice with fast
+state machines: the final `completed` replacement was missed). For anything
+that transitions more than once, subscribe at the PAGE level, outside the
+replaced element, to one stable channel per record (see
+`BackupRun#updates_channel`), and have every component broadcast to it:
+
+```erb
+<%# page template %>
+<%= turbo_stream_from @run.updates_channel if @run.in_progress? %>
+<%= render BackupRuns::DetailComponent.new(run: @run) %>
+```
+
+The in-view conditional subscription shown below is only safe for components
+that refresh without replacing their own subscription (e.g. a single
+pending→done flip where missing an intermediate state is impossible).
+
 ## View Implementation (.html.erb)
 
 Only connect to the stream if you actually expect async updates (e.g., conditional on state):

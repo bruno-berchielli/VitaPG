@@ -1,0 +1,107 @@
+pt-BR:
+  activerecord:
+    models:
+      backup_routine:
+        one: "Rotina de backup"
+        other: "Rotinas de backup"
+    attributes:
+      backup_routine:
+        name: "Nome"
+        database_connection: "Banco de dados"
+        destination: "Destino"
+        cron: "Agendamento (cron)"
+        schedule_timezone: "Fuso horário"
+        format: "Formato do dump"
+        compression_level: "Compressão (0–9)"
+        parallel_jobs: "Jobs paralelos"
+        tables_to_exclude: "Excluir tabelas"
+        tables_to_exclude_data: "Excluir dados de tabelas"
+        no_owner: "Ignorar ownership (--no-owner)"
+        no_privileges: "Ignorar privilégios (--no-privileges)"
+        retention_keep_last: "Manter últimos"
+        retention_max_age_days: "Idade máxima (dias)"
+        path_prefix: "Prefixo de caminho"
+        enabled: "Ativa"
+  backup_routines:
+    index:
+      title: "Rotinas de backup"
+      description: "Pipelines agendados de pg_dump dos seus bancos para seu storage."
+      new: "Nova rotina"
+      database: "Banco de dados"
+      state: "Estado"
+      last_run: "Última execução"
+      next_run: "Próxima execução"
+      empty:
+        title: "Nenhuma rotina ainda"
+        description: "Uma rotina une um banco a um destino num agendamento, com retenção e opções de dump."
+    show:
+      description: "%{database} → %{destination}"
+      run_now: "Executar agora"
+      state: "Estado"
+      enable: "Ativar"
+      disable: "Desativar"
+      schedule: "Agendamento"
+      next_run: "Próxima execução"
+      retention: "Retenção"
+      keep_last:
+        one: "manter último %{count}"
+        other: "manter últimos %{count}"
+      max_age:
+        one: "máx. %{count} dia"
+        other: "máx. %{count} dias"
+      keep_forever: "manter tudo"
+      runs: "Histórico de execuções"
+      table:
+        status: "Status"
+        when: "Quando"
+        duration: "Duração"
+        size: "Tamanho"
+        actions: "Ações"
+      no_runs:
+        title: "Nenhuma execução ainda"
+        description: "Execute esta rotina agora ou aguarde o agendamento."
+    new:
+      title: "Nova rotina de backup"
+      description: "Tudo que um backup confiável precisa: origem, destino, agendamento e retenção."
+      prerequisites:
+        title: "Primeiro, conecte um banco e um destino"
+        description: "Uma rotina precisa de uma conexão PostgreSQL de origem e um destino de armazenamento."
+        add_connection: "Adicionar banco"
+        add_destination: "Adicionar destino"
+    edit:
+      title: "Editar rotina"
+    form:
+      sections:
+        what: "O que fazer backup"
+        schedule: "Agendamento"
+        dump: "Opções do dump"
+        retention: "Retenção e layout no storage"
+      name_hint: "ex.: \"Produção diária\""
+      cron_hint: "Cron padrão: minuto hora dia mês dia-da-semana. \"0 3 * * *\" roda diariamente às 03:00."
+      format_hint: "Custom é comprimido e restaurável com pg_restore; directory permite dumps paralelos; plain é um .sql legível."
+      compression_hint: "0 desativa a compressão."
+      parallel_hint: "Aplica-se apenas ao formato directory."
+      exclude_hint: "Nomes de tabelas separados por vírgula para pular completamente."
+      exclude_data_hint: "Mantém o schema, pula as linhas. Separado por vírgula."
+      no_owner_hint: "Restaurável por outro usuário."
+      no_privileges_hint: "Pula comandos GRANT/REVOKE."
+      retention_note: "A poda só exclui arquivos que esta rotina criou. Deixe ambos em branco para manter tudo."
+      keep_last_hint: "Quantidade de backups a manter."
+      max_age_hint: "Excluir backups mais antigos que isso."
+      prefix_hint: "Prefixo das chaves no bucket. Padrão: workspace/rotina."
+      formats:
+        custom: "Custom (comprimido, pg_restore)"
+        plain: "SQL puro"
+        directory: "Directory (paralelo)"
+    create:
+      created: "Rotina criada"
+    update:
+      updated: "Rotina atualizada"
+    destroy:
+      destroyed: "Rotina excluída"
+    run:
+      started: "Backup iniciado"
+      already_running: "Esta rotina já tem uma execução em andamento"
+    toggle:
+      enabled: "Rotina ativada"
+      disabled: "Rotina desativada"

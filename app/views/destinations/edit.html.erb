@@ -1,0 +1,10 @@
+<% content_for :title, "#{t('.title')} · VitaPG" %>
+
+<div class="mx-auto max-w-xl">
+  <%= render Ui::PageHeaderComponent.new(title: t(".title"), description: @destination.name) %>
+  <div class="mt-6">
+    <%= render Ui::CardComponent.new do %>
+      <%= render "form" %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+en:
+  activerecord:
+    models:
+      destination:
+        one: "Destination"
+        other: "Destinations"
+    attributes:
+      destination:
+        name: "Name"
+        provider: "Provider"
+        bucket: "Bucket"
+        region: "Region"
+        endpoint: "Endpoint"
+        access_key_id: "Access key ID"
+        secret_access_key: "Secret access key"
+  destinations:
+    providers:
+      s3: "Amazon S3"
+      s3_compatible: "S3-compatible (MinIO, R2, Backblaze, Wasabi, Spaces…)"
+    index:
+      title: "Destinations"
+      description: "Where your backups are stored. VitaPG only creates files here — it never deletes anything it didn't create."
+      new: "New destination"
+      routines: "Routines"
+      actions: "Actions"
+      empty:
+        title: "No destinations yet"
+        description: "Add an S3 or S3-compatible bucket to store your backups."
+    new:
+      title: "New destination"
+      description: "Bring your own storage: S3 or any S3-compatible service."
+    edit:
+      title: "Edit destination"
+    form:
+      name_hint: "A label to recognize this storage, e.g. \"Backups bucket — us-east\""
+      provider_hint: "Every S3-compatible service works: MinIO, Cloudflare R2, Backblaze B2, Wasabi, DigitalOcean Spaces…"
+      endpoint_hint: "Required for S3-compatible providers; leave blank for Amazon S3."
+      secret_keep_hint: "Leave blank to keep the current key."
+      security_note: "Keys are encrypted at rest. Use credentials scoped to this bucket only, with no delete-bucket permission."
+    create:
+      created: "Destination created"
+    update:
+      updated: "Destination updated"
+    destroy:
+      destroyed: "Destination deleted"
+      in_use: "This destination is used by backup routines and cannot be deleted"
+    test:
+      success: "Bucket accessible"
+      failure: "Access failed: %{message}"

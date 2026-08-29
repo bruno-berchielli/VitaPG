@@ -1,0 +1,44 @@
+en:
+  activerecord:
+    models:
+      database_connection:
+        one: "Database connection"
+        other: "Database connections"
+    attributes:
+      database_connection:
+        name: "Name"
+        host: "Host"
+        port: "Port"
+        username: "Username"
+        password: "Password"
+        database_name: "Database"
+        sslmode: "SSL mode"
+  database_connections:
+    index:
+      title: "Databases"
+      description: "PostgreSQL databases this workspace backs up. VitaPG only ever reads from them."
+      new: "New connection"
+      routines: "Routines"
+      actions: "Actions"
+      empty:
+        title: "No databases connected"
+        description: "Add a PostgreSQL connection to start backing it up. Credentials are encrypted at rest."
+    new:
+      title: "New database connection"
+      description: "VitaPG connects read-only through pg_dump. A dedicated read-only role is recommended."
+    edit:
+      title: "Edit connection"
+    form:
+      name_hint: "A label to recognize this database, e.g. \"Production — billing\""
+      password_keep_hint: "Leave blank to keep the current password."
+      sslmode_hint: "\"verify-full\" is the safest option when the server supports TLS."
+      security_note: "Credentials are encrypted at rest and never appear in logs or URLs."
+    create:
+      created: "Connection created"
+    update:
+      updated: "Connection updated"
+    destroy:
+      destroyed: "Connection deleted"
+    test:
+      success: "Connection successful"
+      failure: "Connection failed: %{message}"

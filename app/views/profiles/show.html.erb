@@ -1,0 +1,36 @@
+<% content_for :title, "#{t('.title')} · VitaPG" %>
+
+<div class="mx-auto max-w-xl">
+  <%= render Ui::PageHeaderComponent.new(title: t(".title"), description: current_user.email) %>
+
+  <div class="mt-6 space-y-6">
+    <%= render Ui::CardComponent.new do %>
+      <h2 class="text-sm font-semibold"><%= t(".account") %></h2>
+      <%= form_with model: current_user, url: profile_path, method: :patch, class: "mt-4 space-y-4" do |f| %>
+        <%= f.labeled_text_field :name %>
+        <%= f.submit_button t("actions.save") %>
+      <% end %>
+    <% end %>
+
+    <%= render Ui::CardComponent.new do %>
+      <h2 class="text-sm font-semibold"><%= t(".language") %></h2>
+      <p class="mt-1 text-xs text-text-muted"><%= t(".language_hint") %></p>
+      <div class="mt-4 flex gap-2">
+        <% { "en" => "English", "pt-BR" => "Português (Brasil)", "es" => "Español" }.each do |code, label| %>
+          <%= button_to locale_path(locale: code), method: :patch,
+                class: "cursor-pointer rounded-md border px-3 py-1.5 text-sm font-medium transition-colors #{I18n.locale.to_s == code ? 'border-primary bg-primary-subtle text-primary' : 'border-border-strong text-text-muted hover:bg-surface-highlight'}" do %>
+            <%= label %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%= render Ui::CardComponent.new do %>
+      <h2 class="text-sm font-semibold"><%= t(".password") %></h2>
+      <p class="mt-1 text-xs text-text-muted"><%= t(".password_hint") %></p>
+      <div class="mt-4">
+        <%= render Ui::ButtonComponent.new(variant: :secondary, href: edit_user_registration_path) do %><%= t(".change_password") %><% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

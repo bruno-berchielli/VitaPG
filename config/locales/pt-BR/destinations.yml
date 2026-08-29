@@ -1,0 +1,49 @@
+pt-BR:
+  activerecord:
+    models:
+      destination:
+        one: "Destino"
+        other: "Destinos"
+    attributes:
+      destination:
+        name: "Nome"
+        provider: "Provedor"
+        bucket: "Bucket"
+        region: "Região"
+        endpoint: "Endpoint"
+        access_key_id: "Access key ID"
+        secret_access_key: "Secret access key"
+  destinations:
+    providers:
+      s3: "Amazon S3"
+      s3_compatible: "Compatível com S3 (MinIO, R2, Backblaze, Wasabi, Spaces…)"
+    index:
+      title: "Destinos"
+      description: "Onde seus backups são armazenados. O VitaPG apenas cria arquivos aqui — nunca exclui nada que não criou."
+      new: "Novo destino"
+      routines: "Rotinas"
+      actions: "Ações"
+      empty:
+        title: "Nenhum destino ainda"
+        description: "Adicione um bucket S3 ou compatível com S3 para armazenar seus backups."
+    new:
+      title: "Novo destino"
+      description: "Use seu próprio storage: S3 ou qualquer serviço compatível com S3."
+    edit:
+      title: "Editar destino"
+    form:
+      name_hint: "Um rótulo para reconhecer este storage, ex.: \"Bucket de backups — us-east\""
+      provider_hint: "Qualquer serviço compatível com S3 funciona: MinIO, Cloudflare R2, Backblaze B2, Wasabi, DigitalOcean Spaces…"
+      endpoint_hint: "Obrigatório para provedores compatíveis com S3; deixe em branco para Amazon S3."
+      secret_keep_hint: "Deixe em branco para manter a chave atual."
+      security_note: "Chaves são criptografadas em repouso. Use credenciais restritas a este bucket, sem permissão de excluir bucket."
+    create:
+      created: "Destino criado"
+    update:
+      updated: "Destino atualizado"
+    destroy:
+      destroyed: "Destino excluído"
+      in_use: "Este destino é usado por rotinas de backup e não pode ser excluído"
+    test:
+      success: "Bucket acessível"
+      failure: "Falha no acesso: %{message}"

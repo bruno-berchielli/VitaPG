@@ -1,0 +1,42 @@
+en:
+  memberships:
+    roles:
+      owner: "Owner"
+      admin: "Admin"
+      member: "Member"
+    index:
+      title: "Members"
+      description: "People with access to %{workspace}."
+      you: "you"
+      remove: "Remove"
+      table:
+        member: "Member"
+        role: "Role"
+        actions: "Actions"
+      invite:
+        title: "Invite member"
+        description: "New emails get an account and a link to set their password."
+        email: "Email"
+        name: "Name"
+        name_hint: "Optional, for new accounts."
+        role: "Role"
+        submit: "Invite"
+    create:
+      created: "Member added"
+    update:
+      updated: "Role updated"
+    destroy:
+      destroyed: "Member removed"
+      cannot_remove_self: "You cannot remove yourself"
+  errors:
+    messages:
+      last_owner: "the workspace needs at least one owner"
+  activerecord:
+    errors:
+      models:
+        membership:
+          attributes:
+            role:
+              last_owner: "the workspace needs at least one owner"
+            base:
+              last_owner: "The workspace needs at least one owner"

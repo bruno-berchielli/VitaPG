@@ -1,0 +1,34 @@
+<%= form_with model: @destination, class: "space-y-5" do |f| %>
+  <%= f.labeled_text_field :name, hint: t(".name_hint") %>
+
+  <%= f.labeled_select :provider,
+        Destination.providers.keys.map { |k| [t("destinations.providers.#{k}"), k] },
+        hint: t(".provider_hint") %>
+
+  <div class="grid grid-cols-2 gap-4">
+    <%= f.labeled_text_field :bucket %>
+    <%= f.labeled_text_field :region, placeholder: "us-east-1" %>
+  </div>
+
+  <%= f.labeled_url_field :endpoint, placeholder: "https://…", hint: t(".endpoint_hint") %>
+
+  <div class="grid grid-cols-2 gap-4">
+    <%= f.labeled_text_field :access_key_id, autocomplete: "off" %>
+    <%= f.labeled_password_field :secret_access_key, hint: (t(".secret_keep_hint") if @destination.persisted?) %>
+  </div>
+
+  <div class="rounded-md bg-primary-subtle p-3 text-xs text-primary">
+    <%= t(".security_note") %>
+  </div>
+
+  <div class="flex items-center gap-2 border-t border-border pt-5">
+    <%= f.submit_button t("actions.save") %>
+    <%= render Ui::ButtonComponent.new(variant: :ghost, href: destinations_path) do %><%= t("actions.cancel") %><% end %>
+    <% if @destination.persisted? %>
+      <div class="ml-auto">
+        <%= render Ui::ButtonComponent.new(variant: :danger, href: destination_path(@destination), method: :delete,
+              data: { turbo_confirm: t("confirmations.delete_destination", name: @destination.name) }) do %><%= t("actions.delete") %><% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

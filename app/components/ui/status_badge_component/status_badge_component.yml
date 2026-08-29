@@ -1,0 +1,42 @@
+en:
+  ui:
+    status_badge_component:
+      pending: "Pending"
+      dumping: "Dumping"
+      uploading: "Uploading"
+      completed: "Completed"
+      failed: "Failed"
+      pruned: "Pruned"
+      enabled: "Enabled"
+      disabled: "Disabled"
+      info: "Info"
+      warning: "Warning"
+      error: "Error"
+pt-BR:
+  ui:
+    status_badge_component:
+      pending: "Pendente"
+      dumping: "Gerando dump"
+      uploading: "Enviando"
+      completed: "Concluído"
+      failed: "Falhou"
+      pruned: "Expirado"
+      enabled: "Ativa"
+      disabled: "Desativada"
+      info: "Info"
+      warning: "Alerta"
+      error: "Erro"
+es:
+  ui:
+    status_badge_component:
+      pending: "Pendiente"
+      dumping: "Generando dump"
+      uploading: "Subiendo"
+      completed: "Completado"
+      failed: "Falló"
+      pruned: "Expirado"
+      enabled: "Activa"
+      disabled: "Desactivada"
+      info: "Info"
+      warning: "Alerta"
+      error: "Error"

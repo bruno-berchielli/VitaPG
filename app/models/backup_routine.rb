@@ -73,7 +73,7 @@ class BackupRoutine < ApplicationRecord
   def next_run_at
     return unless enabled?
 
-    Fugit.parse_cron(cron)&.next_time(Time.current)&.to_t
+    Fugit.parse_cron(cron_with_timezone)&.next_time(Time.current)&.to_t
   end
 
   def last_run

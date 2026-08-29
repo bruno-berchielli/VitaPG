@@ -1,0 +1,44 @@
+es:
+  activerecord:
+    models:
+      database_connection:
+        one: "Conexión de base de datos"
+        other: "Conexiones de base de datos"
+    attributes:
+      database_connection:
+        name: "Nombre"
+        host: "Host"
+        port: "Puerto"
+        username: "Usuario"
+        password: "Contraseña"
+        database_name: "Base de datos"
+        sslmode: "Modo SSL"
+  database_connections:
+    index:
+      title: "Bases de datos"
+      description: "Bases PostgreSQL que este espacio de trabajo respalda. VitaPG solo lee de ellas."
+      new: "Nueva conexión"
+      routines: "Rutinas"
+      actions: "Acciones"
+      empty:
+        title: "Ninguna base de datos conectada"
+        description: "Agrega una conexión PostgreSQL para empezar a respaldarla. Las credenciales se cifran en reposo."
+    new:
+      title: "Nueva conexión de base de datos"
+      description: "VitaPG se conecta en modo solo lectura vía pg_dump. Se recomienda un rol dedicado de solo lectura."
+    edit:
+      title: "Editar conexión"
+    form:
+      name_hint: "Una etiqueta para reconocer esta base, p. ej. \"Producción — facturación\""
+      password_keep_hint: "Déjalo en blanco para conservar la contraseña actual."
+      sslmode_hint: "\"verify-full\" es la opción más segura cuando el servidor admite TLS."
+      security_note: "Las credenciales se cifran en reposo y nunca aparecen en registros ni URLs."
+    create:
+      created: "Conexión creada"
+    update:
+      updated: "Conexión actualizada"
+    destroy:
+      destroyed: "Conexión eliminada"
+    test:
+      success: "Conexión exitosa"
+      failure: "Falló la conexión: %{message}"

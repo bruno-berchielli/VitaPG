@@ -1,0 +1,21 @@
+pt-BR:
+  activerecord:
+    attributes:
+      user:
+        name: "Nome"
+        email: "E-mail"
+        password: "Senha"
+        password_confirmation: "Confirmar senha"
+        current_password: "Senha atual"
+        remember_me: "Lembrar de mim"
+  profiles:
+    show:
+      title: "Perfil"
+      account: "Conta"
+      language: "Idioma"
+      language_hint: "Aplica-se à sua conta em todos os dispositivos."
+      password: "Senha"
+      password_hint: "Altere sua senha pela tela de configurações da conta."
+      change_password: "Alterar senha"
+    update:
+      updated: "Perfil atualizado"

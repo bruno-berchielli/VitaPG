@@ -1,0 +1,44 @@
+pt-BR:
+  activerecord:
+    models:
+      database_connection:
+        one: "Conexão de banco"
+        other: "Conexões de banco"
+    attributes:
+      database_connection:
+        name: "Nome"
+        host: "Host"
+        port: "Porta"
+        username: "Usuário"
+        password: "Senha"
+        database_name: "Banco de dados"
+        sslmode: "Modo SSL"
+  database_connections:
+    index:
+      title: "Bancos de dados"
+      description: "Bancos PostgreSQL que este workspace protege. O VitaPG apenas lê deles."
+      new: "Nova conexão"
+      routines: "Rotinas"
+      actions: "Ações"
+      empty:
+        title: "Nenhum banco conectado"
+        description: "Adicione uma conexão PostgreSQL para começar a fazer backup. Credenciais são criptografadas em repouso."
+    new:
+      title: "Nova conexão de banco"
+      description: "O VitaPG conecta em modo somente leitura via pg_dump. Recomendamos um usuário dedicado somente leitura."
+    edit:
+      title: "Editar conexão"
+    form:
+      name_hint: "Um rótulo para reconhecer este banco, ex.: \"Produção — cobrança\""
+      password_keep_hint: "Deixe em branco para manter a senha atual."
+      sslmode_hint: "\"verify-full\" é a opção mais segura quando o servidor suporta TLS."
+      security_note: "Credenciais são criptografadas em repouso e nunca aparecem em logs ou URLs."
+    create:
+      created: "Conexão criada"
+    update:
+      updated: "Conexão atualizada"
+    destroy:
+      destroyed: "Conexão excluída"
+    test:
+      success: "Conexão bem-sucedida"
+      failure: "Falha na conexão: %{message}"

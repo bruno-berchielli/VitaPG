@@ -1,0 +1,18 @@
+es:
+  devise:
+    shared:
+      tagline: "Respaldos PostgreSQL confiables"
+  time_ago: "hace %{time}"
+  time_in: "en %{time}"
+  actions:
+    edit: "Editar"
+    delete: "Eliminar"
+    cancel: "Cancelar"
+    save: "Guardar"
+    test: "Probar"
+    download: "Descargar"
+  confirmations:
+    delete_connection: "¿Eliminar la conexión \"%{name}\"? Sus rutinas de respaldo también se eliminarán. Los respaldos ya almacenados no se tocan."
+    delete_destination: "¿Eliminar el destino \"%{name}\"? Los archivos ya almacenados no se tocan."
+    delete_routine: "¿Eliminar la rutina \"%{name}\"? El historial de ejecuciones se eliminará. Los respaldos ya almacenados no se tocan."
+    remove_member: "¿Quitar a %{name} de este espacio de trabajo?"

@@ -1,0 +1,64 @@
+<% content_for :title, "#{t('.title')} · VitaPG" %>
+
+<%= render Ui::PageHeaderComponent.new(title: t(".title"), description: t(".description", workspace: current_workspace.name)) %>
+
+<div class="mt-6 grid gap-6 lg:grid-cols-3">
+  <div class="lg:col-span-2">
+    <div class="overflow-x-auto rounded-lg border border-border bg-surface">
+      <table class="w-full text-left">
+        <thead>
+          <tr class="border-b border-border text-xs text-text-muted">
+            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".table.member") %></th>
+            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".table.role") %></th>
+            <th scope="col" class="px-4 py-2.5"><span class="sr-only"><%= t(".table.actions") %></span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @memberships.each do |membership| %>
+            <tr class="border-b border-border last:border-b-0">
+              <td class="px-4 py-2.5">
+                <span class="block text-sm font-medium"><%= membership.user.name %><%= " (#{t('.you')})" if membership.user == current_user %></span>
+                <span class="block text-xs text-text-muted"><%= membership.user.email %></span>
+              </td>
+              <td class="px-4 py-2.5">
+                <% if current_membership&.manager? && membership.user != current_user %>
+                  <%= form_with model: membership, url: membership_path(membership), method: :patch, class: "inline-block" do |f| %>
+                    <%= f.select :role, Membership.roles.keys.map { |r| [t("memberships.roles.#{r}"), r] }, {},
+                          class: "rounded-md border-border-strong bg-surface py-1 pl-2 pr-8 text-sm focus:border-primary focus:ring-primary",
+                          onchange: "this.form.requestSubmit()" %>
+                  <% end %>
+                <% else %>
+                  <span class="text-sm text-text-muted"><%= t("memberships.roles.#{membership.role}") %></span>
+                <% end %>
+              </td>
+              <td class="px-4 py-2.5 text-right">
+                <% if current_membership&.manager? && membership.user != current_user %>
+                  <%= button_to membership_path(membership), method: :delete,
+                        data: { turbo_confirm: t("confirmations.remove_member", name: membership.user.name) },
+                        class: "cursor-pointer rounded px-2 py-1 text-sm font-medium text-danger hover:bg-danger-subtle" do %>
+                    <%= t(".remove") %>
+                  <% end %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <% if current_membership&.manager? %>
+    <div>
+      <%= render Ui::CardComponent.new do %>
+        <h2 class="text-sm font-semibold"><%= t(".invite.title") %></h2>
+        <p class="mt-1 text-xs text-text-muted"><%= t(".invite.description") %></p>
+        <%= form_with url: memberships_path, scope: :membership, class: "mt-4 space-y-4" do |f| %>
+          <%= f.labeled_email_field :email, label: t(".invite.email") %>
+          <%= f.labeled_text_field :name, label: t(".invite.name"), hint: t(".invite.name_hint") %>
+          <%= f.labeled_select :role, Membership.roles.keys.map { |r| [t("memberships.roles.#{r}"), r] }, label: t(".invite.role") %>
+          <%= f.submit_button t(".invite.submit") %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

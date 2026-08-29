@@ -1,0 +1,42 @@
+es:
+  memberships:
+    roles:
+      owner: "Propietario"
+      admin: "Administrador"
+      member: "Miembro"
+    index:
+      title: "Miembros"
+      description: "Personas con acceso a %{workspace}."
+      you: "tú"
+      remove: "Quitar"
+      table:
+        member: "Miembro"
+        role: "Rol"
+        actions: "Acciones"
+      invite:
+        title: "Invitar miembro"
+        description: "Los correos nuevos reciben una cuenta y un enlace para definir su contraseña."
+        email: "Correo"
+        name: "Nombre"
+        name_hint: "Opcional, para cuentas nuevas."
+        role: "Rol"
+        submit: "Invitar"
+    create:
+      created: "Miembro agregado"
+    update:
+      updated: "Rol actualizado"
+    destroy:
+      destroyed: "Miembro eliminado"
+      cannot_remove_self: "No puedes quitarte a ti mismo"
+  errors:
+    messages:
+      last_owner: "el espacio de trabajo necesita al menos un propietario"
+  activerecord:
+    errors:
+      models:
+        membership:
+          attributes:
+            role:
+              last_owner: "el espacio de trabajo necesita al menos un propietario"
+            base:
+              last_owner: "El espacio de trabajo necesita al menos un propietario"

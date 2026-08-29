@@ -1,0 +1,11 @@
+<% if link? %>
+  <%= link_to @href, class: classes, **attributes do %>
+    <%= leading_icon %>
+    <%= content %>
+  <% end %>
+<% else %>
+  <%= tag.button class: classes, type: @html_attributes.fetch(:type, "button"), **attributes.except(:type) do %>
+    <%= leading_icon %>
+    <%= content %>
+  <% end %>
+<% end %>

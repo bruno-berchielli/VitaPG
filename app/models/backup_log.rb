@@ -20,6 +20,7 @@
 #
 class BackupLog < ApplicationRecord
   after_save :print_to_rails_log
+  after_create_commit :broadcast_line
 
   belongs_to :backup_run, inverse_of: :logs
 
@@ -36,5 +37,9 @@ class BackupLog < ApplicationRecord
   def print_to_rails_log
     level = status == "warning" ? "warn" : status
     Rails.logger.send(level, "[BackupLog] #{message}")
+  end
+
+  def broadcast_line
+    BackupRuns::LogListComponent.broadcast_line!(self)
   end
 end

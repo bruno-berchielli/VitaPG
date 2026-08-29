@@ -1,0 +1,25 @@
+<% content_for :title, "#{t('.title')} · VitaPG" %>
+
+<div class="mx-auto max-w-2xl">
+  <%= render Ui::PageHeaderComponent.new(title: t(".title"), description: t(".description")) %>
+  <div class="mt-6">
+    <% if Current.workspace.database_connections.none? || Current.workspace.destinations.none? %>
+      <%= render Ui::EmptyStateComponent.new(icon: :bolt, title: t(".prerequisites.title"), description: t(".prerequisites.description")) do |empty| %>
+        <% empty.with_action do %>
+          <div class="flex gap-2">
+            <% if Current.workspace.database_connections.none? %>
+              <%= render Ui::ButtonComponent.new(variant: :primary, href: new_database_connection_path) do %><%= t(".prerequisites.add_connection") %><% end %>
+            <% end %>
+            <% if Current.workspace.destinations.none? %>
+              <%= render Ui::ButtonComponent.new(variant: Current.workspace.database_connections.none? ? :secondary : :primary, href: new_destination_path) do %><%= t(".prerequisites.add_destination") %><% end %>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    <% else %>
+      <%= render Ui::CardComponent.new do %>
+        <%= render "form" %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
