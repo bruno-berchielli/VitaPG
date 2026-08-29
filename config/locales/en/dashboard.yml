@@ -2,22 +2,29 @@ en:
   dashboard:
     show:
       title: "Dashboard"
-      description: "Backup health for %{workspace}"
+      overview: "Dashboard overview"
+      hello: "Hello, %{name}"
       new_routine: "New routine"
       recent_runs: "Recent runs"
       view_all: "View all"
+      gauge:
+        title: "Success rate"
+        caption: "across %{count} runs in the last 30 days"
+        empty: "Run your first backup to start measuring reliability."
       stats:
-        routines: "Routines"
-        enabled: "%{count} enabled"
-        completed_24h: "Completed"
-        failed_24h: "Failed"
+        routines: "Active routines"
+        routines_hint: "enabled / total"
+        completed_24h: "Completed · 24h"
+        failed_24h: "Failed · 24h"
         last_24h: "last 24 hours"
-        stored: "Stored"
+        stored: "Protected data"
         stored_hint: "across retained backups"
-      failing:
-        title:
-          one: "%{count} routine needs attention"
-          other: "%{count} routines need attention"
+        databases: "Databases"
+        databases_hint: "connected to this workspace"
+      health:
+        title: "Routine health"
+        never: "never ran"
+        empty: "Create a routine to see its health here."
       table:
         routine: "Routine"
         status: "Status"

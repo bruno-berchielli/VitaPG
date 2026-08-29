@@ -1,4 +1,4 @@
-<div class="mx-auto mt-24 w-full max-w-md rounded-lg border border-border bg-surface p-8">
+<div class="mx-auto mt-24 w-full max-w-md rounded-card bg-surface shadow-soft p-8">
   <h1 class="text-lg font-semibold"><%= t(".title") %></h1>
   <p class="mt-1 text-sm text-text-muted"><%= t(".subtitle") %></p>
 
@@ -8,8 +8,8 @@
     <% end %>
     <div>
       <%= f.label :name, t(".name"), class: "block text-sm font-medium" %>
-      <%= f.text_field :name, autofocus: true, class: "mt-1 w-full rounded-md border-border text-sm focus:border-primary focus:ring-primary" %>
+      <%= f.text_field :name, autofocus: true, class: "mt-1.5 w-full rounded-xl border-0 bg-surface-highlight px-4 py-2.5 text-sm placeholder:text-text-faint focus:bg-surface focus:ring-2 focus:ring-ink" %>
     </div>
-    <%= f.submit t(".create"), class: "w-full cursor-pointer rounded-md bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-hover" %>
+    <%= f.submit t(".create"), class: "w-full cursor-pointer rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-on-ink transition-opacity hover:opacity-85" %>
   <% end %>
 </div>

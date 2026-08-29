@@ -1,0 +1,12 @@
+pt-BR:
+  searches:
+    show:
+      title: "Busca"
+      description: "Resultados para \"%{query}\""
+      hint: "Digite pelo menos 2 caracteres para buscar."
+      routines: "Rotinas de backup"
+      connections: "Bancos de dados"
+      destinations: "Destinos"
+      empty:
+        title: "Nada encontrado"
+        description: "Nenhuma rotina, banco ou destino corresponde a \"%{query}\"."

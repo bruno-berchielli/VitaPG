@@ -9,8 +9,8 @@ class Ui::CardComponent < ApplicationComponent
 
   def card_classes
     [
-      "rounded-lg border border-border bg-surface",
-      (@padding ? "p-5" : nil),
+      "rounded-card bg-surface shadow-soft",
+      (@padding ? "p-6" : nil),
       @classes
     ].compact.join(" ")
   end

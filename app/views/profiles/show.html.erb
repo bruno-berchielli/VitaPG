@@ -18,7 +18,7 @@
       <div class="mt-4 flex gap-2">
         <% { "en" => "English", "pt-BR" => "Português (Brasil)", "es" => "Español" }.each do |code, label| %>
           <%= button_to locale_path(locale: code), method: :patch,
-                class: "cursor-pointer rounded-md border px-3 py-1.5 text-sm font-medium transition-colors #{I18n.locale.to_s == code ? 'border-primary bg-primary-subtle text-primary' : 'border-border-strong text-text-muted hover:bg-surface-highlight'}" do %>
+                class: "cursor-pointer rounded-full px-4 py-2 text-sm font-semibold transition-colors #{I18n.locale.to_s == code ? 'bg-ink text-on-ink shadow-soft' : 'bg-surface-highlight text-text-muted hover:text-text-main'}" do %>
             <%= label %>
           <% end %>
         <% end %>
@@ -30,7 +30,7 @@
       <div class="mt-4 flex gap-2">
         <% { "light" => t(".light"), "dark" => t(".dark") }.each do |mode, label| %>
           <%= button_to label, appearance_profile_path(mode: mode), method: :patch,
-                class: "cursor-pointer rounded-md border px-3 py-1.5 text-sm font-medium transition-colors #{current_mode == mode ? 'border-primary bg-primary-subtle text-primary' : 'border-border-strong text-text-muted hover:bg-surface-highlight'}" %>
+                class: "cursor-pointer rounded-full px-4 py-2 text-sm font-semibold transition-colors #{current_mode == mode ? 'bg-ink text-on-ink shadow-soft' : 'bg-surface-highlight text-text-muted hover:text-text-main'}" %>
         <% end %>
       </div>
     <% end %>

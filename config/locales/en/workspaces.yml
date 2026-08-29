@@ -8,3 +8,17 @@ en:
       create: "Create workspace"
     create:
       created: "Workspace created"
+    edit:
+      title: "Workspace settings"
+      description: "Name, identity and a snapshot of what lives here."
+      general: "General"
+      name: "Workspace name"
+      slug: "Slug"
+      slug_hint: "Used as the default storage prefix for this workspace's backups."
+      at_a_glance: "At a glance"
+      members: "Members"
+      routines: "Backup routines"
+      connections: "Databases"
+      destinations_count: "Destinations"
+    update:
+      updated: "Workspace updated"

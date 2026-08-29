@@ -15,7 +15,7 @@
 
   <%= f.labeled_select :sslmode, DatabaseConnection.sslmodes.keys.map { |k| [k.tr("_", "-"), k] }, hint: t(".sslmode_hint") %>
 
-  <div class="rounded-md bg-primary-subtle p-3 text-xs text-primary">
+  <div class="rounded-xl bg-success-subtle p-3.5 text-xs font-medium text-success">
     <%= t(".security_note") %>
   </div>
 

@@ -2,22 +2,29 @@ pt-BR:
   dashboard:
     show:
       title: "Painel"
-      description: "Saúde dos backups de %{workspace}"
+      overview: "Visão geral"
+      hello: "Olá, %{name}"
       new_routine: "Nova rotina"
       recent_runs: "Execuções recentes"
       view_all: "Ver todas"
+      gauge:
+        title: "Taxa de sucesso"
+        caption: "em %{count} execuções nos últimos 30 dias"
+        empty: "Execute seu primeiro backup para começar a medir a confiabilidade."
       stats:
-        routines: "Rotinas"
-        enabled: "%{count} ativas"
-        completed_24h: "Concluídas"
-        failed_24h: "Falhas"
+        routines: "Rotinas ativas"
+        routines_hint: "ativas / total"
+        completed_24h: "Concluídas · 24h"
+        failed_24h: "Falhas · 24h"
         last_24h: "últimas 24 horas"
-        stored: "Armazenado"
+        stored: "Dados protegidos"
         stored_hint: "em backups retidos"
-      failing:
-        title:
-          one: "%{count} rotina precisa de atenção"
-          other: "%{count} rotinas precisam de atenção"
+        databases: "Bancos de dados"
+        databases_hint: "conectados a este workspace"
+      health:
+        title: "Saúde das rotinas"
+        never: "nunca executou"
+        empty: "Crie uma rotina para ver a saúde dela aqui."
       table:
         routine: "Rotina"
         status: "Status"

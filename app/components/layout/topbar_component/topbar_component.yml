@@ -1,0 +1,15 @@
+en:
+  layout:
+    topbar_component:
+      search: "Search"
+      placeholder: "Search routines, databases, destinations…"
+pt-BR:
+  layout:
+    topbar_component:
+      search: "Buscar"
+      placeholder: "Buscar rotinas, bancos, destinos…"
+es:
+  layout:
+    topbar_component:
+      search: "Buscar"
+      placeholder: "Buscar rutinas, bases, destinos…"

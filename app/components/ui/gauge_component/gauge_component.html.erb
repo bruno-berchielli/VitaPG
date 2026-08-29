@@ -1,0 +1,17 @@
+<div class="hero-card flex flex-col items-center rounded-card p-6 text-center text-on-hero shadow-pop">
+  <h2 class="font-display text-base font-semibold"><%= @label %></h2>
+  <div class="relative mt-4 size-36">
+    <svg viewBox="0 0 100 100" class="size-full -rotate-90">
+      <circle cx="50" cy="50" r="42" fill="none" stroke="rgb(255 255 255 / 0.16)" stroke-width="11" />
+      <circle cx="50" cy="50" r="42" fill="none" stroke="white" stroke-width="11" stroke-linecap="round"
+              stroke-dasharray="<%= dash_filled %> <%= circumference %>" />
+    </svg>
+    <span class="absolute inset-0 flex items-center justify-center font-display text-3xl font-bold tabular-nums"><%= percent_text %></span>
+  </div>
+  <% if @caption %>
+    <p class="mt-4 text-xs text-on-hero-muted"><%= @caption %></p>
+  <% end %>
+  <% if content.present? %>
+    <div class="mt-4"><%= content %></div>
+  <% end %>
+</div>

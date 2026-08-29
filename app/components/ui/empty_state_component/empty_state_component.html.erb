@@ -1,10 +1,10 @@
-<div class="flex flex-col items-center justify-center rounded-lg border border-dashed border-border-strong bg-surface px-6 py-16 text-center">
-  <span class="flex size-10 items-center justify-center rounded-md bg-surface-highlight text-text-muted">
-    <%= render Ui::IconComponent.new(@icon) %>
+<div class="flex flex-col items-center justify-center rounded-card bg-surface px-6 py-16 text-center shadow-soft">
+  <span class="flex size-12 items-center justify-center rounded-2xl bg-surface-highlight text-text-muted">
+    <%= render Ui::IconComponent.new(@icon, classes: "size-5") %>
   </span>
-  <h2 class="mt-4 text-sm font-semibold"><%= @title %></h2>
-  <p class="mt-1 max-w-sm text-sm text-text-muted"><%= @description %></p>
+  <h2 class="mt-4 font-display text-base font-semibold"><%= @title %></h2>
+  <p class="mt-1.5 max-w-sm text-sm text-text-muted"><%= @description %></p>
   <% if action? %>
-    <div class="mt-5"><%= action %></div>
+    <div class="mt-6"><%= action %></div>
   <% end %>
 </div>

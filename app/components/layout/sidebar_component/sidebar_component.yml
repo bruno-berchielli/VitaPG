@@ -2,41 +2,62 @@ en:
   layout:
     sidebar_component:
       navigation: "Main navigation"
-      new_workspace: "New workspace…"
+      workspace: "Workspace"
+      new_workspace: "New workspace"
       sign_out: "Sign out"
+      light: "Light"
+      dark: "Dark"
+      sections:
+        operations: "Operations"
+        workspace: "Workspace"
       nav:
         dashboard: "Dashboard"
         backup_routines: "Backup routines"
         backup_runs: "Activity"
         database_connections: "Databases"
         destinations: "Destinations"
-        notification_channels: "Notifications"
         memberships: "Members"
+        notification_channels: "Notifications"
+        workspace_settings: "Settings"
 pt-BR:
   layout:
     sidebar_component:
       navigation: "Navegação principal"
-      new_workspace: "Novo workspace…"
+      workspace: "Workspace"
+      new_workspace: "Novo workspace"
       sign_out: "Sair"
+      light: "Claro"
+      dark: "Escuro"
+      sections:
+        operations: "Operações"
+        workspace: "Workspace"
       nav:
         dashboard: "Painel"
         backup_routines: "Rotinas de backup"
         backup_runs: "Atividade"
         database_connections: "Bancos de dados"
         destinations: "Destinos"
-        notification_channels: "Notificações"
         memberships: "Membros"
+        notification_channels: "Notificações"
+        workspace_settings: "Configurações"
 es:
   layout:
     sidebar_component:
       navigation: "Navegación principal"
-      new_workspace: "Nuevo espacio de trabajo…"
+      workspace: "Espacio de trabajo"
+      new_workspace: "Nuevo espacio"
       sign_out: "Cerrar sesión"
+      light: "Claro"
+      dark: "Oscuro"
+      sections:
+        operations: "Operaciones"
+        workspace: "Espacio de trabajo"
       nav:
         dashboard: "Panel"
         backup_routines: "Rutinas de respaldo"
         backup_runs: "Actividad"
         database_connections: "Bases de datos"
         destinations: "Destinos"
-        notification_channels: "Notificaciones"
         memberships: "Miembros"
+        notification_channels: "Notificaciones"
+        workspace_settings: "Configuración"

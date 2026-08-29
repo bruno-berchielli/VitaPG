@@ -11,35 +11,35 @@
 
 <div class="mt-6">
   <% if @routines.any? %>
-    <div class="overflow-x-auto rounded-lg border border-border bg-surface">
+    <div class="overflow-x-auto rounded-card bg-surface pb-2 shadow-soft">
       <table class="w-full text-left">
         <thead>
-          <tr class="border-b border-border text-xs text-text-muted">
-            <th scope="col" class="px-4 py-2.5 font-medium"><%= BackupRoutine.human_attribute_name(:name) %></th>
-            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".database") %></th>
-            <th scope="col" class="px-4 py-2.5 font-medium"><%= BackupRoutine.human_attribute_name(:cron) %></th>
-            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".state") %></th>
-            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".last_run") %></th>
-            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".next_run") %></th>
+          <tr class="text-[0.6875rem] uppercase tracking-[0.14em] text-text-faint">
+            <th scope="col" class="px-6 py-4 font-semibold"><%= BackupRoutine.human_attribute_name(:name) %></th>
+            <th scope="col" class="px-6 py-4 font-semibold"><%= t(".database") %></th>
+            <th scope="col" class="px-6 py-4 font-semibold"><%= BackupRoutine.human_attribute_name(:cron) %></th>
+            <th scope="col" class="px-6 py-4 font-semibold"><%= t(".state") %></th>
+            <th scope="col" class="px-6 py-4 font-semibold"><%= t(".last_run") %></th>
+            <th scope="col" class="px-6 py-4 font-semibold"><%= t(".next_run") %></th>
           </tr>
         </thead>
         <tbody>
           <% @routines.each do |routine| %>
-            <tr class="border-b border-border last:border-b-0 hover:bg-surface-highlight/50">
-              <td class="px-4 py-2.5 text-sm">
+            <tr class="border-t border-border transition-colors hover:bg-surface-highlight/60">
+              <td class="px-6 py-3.5 text-sm">
                 <%= link_to routine.name, backup_routine_path(routine), class: "font-medium hover:text-primary" %>
               </td>
-              <td class="px-4 py-2.5 font-mono text-xs text-text-muted"><%= routine.database_connection.database_name %></td>
-              <td class="px-4 py-2.5 font-mono text-xs text-text-muted"><%= routine.cron %></td>
-              <td class="px-4 py-2.5"><%= render Ui::StatusBadgeComponent.new(status: routine.enabled? ? :enabled : :disabled) %></td>
-              <td class="px-4 py-2.5">
+              <td class="px-6 py-3.5 font-mono text-xs text-text-muted"><%= routine.database_connection.database_name %></td>
+              <td class="px-6 py-3.5 font-mono text-xs text-text-muted"><%= routine.cron %></td>
+              <td class="px-6 py-4"><%= render Ui::StatusBadgeComponent.new(status: routine.enabled? ? :enabled : :disabled) %></td>
+              <td class="px-6 py-4">
                 <% if routine.last_run %>
                   <%= render Ui::StatusBadgeComponent.new(status: routine.last_run.status) %>
                 <% else %>
                   <span class="text-sm text-text-faint">—</span>
                 <% end %>
               </td>
-              <td class="px-4 py-2.5 text-sm text-text-muted">
+              <td class="px-6 py-3.5 text-sm text-text-muted">
                 <%= routine.enabled? && routine.next_run_at ? relative_time_future(routine.next_run_at) : "—" %>
               </td>
             </tr>

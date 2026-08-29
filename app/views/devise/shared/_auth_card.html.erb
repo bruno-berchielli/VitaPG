@@ -1,11 +1,14 @@
 <div class="flex min-h-screen items-center justify-center px-4 py-12">
   <div class="w-full max-w-sm">
     <div class="mb-6 text-center">
-      <span class="text-lg font-semibold tracking-tight">VitaPG</span>
+      <span class="inline-flex items-center gap-2.5">
+        <span class="flex size-8 items-center justify-center rounded-full bg-ink"><span class="size-3 rounded-full bg-on-ink"></span></span>
+        <span class="font-display text-xl font-bold tracking-tight">VitaPG</span>
+      </span>
       <p class="mt-1 text-sm text-text-muted"><%= t("devise.shared.tagline") %></p>
     </div>
-    <div class="rounded-lg border border-border bg-surface p-6">
-      <h1 class="text-base font-semibold"><%= heading %></h1>
+    <div class="rounded-card bg-surface p-8 shadow-pop">
+      <h1 class="font-display text-lg font-bold"><%= heading %></h1>
       <div class="mt-5">
         <%= yield %>
       </div>

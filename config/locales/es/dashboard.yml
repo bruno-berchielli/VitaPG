@@ -2,22 +2,29 @@ es:
   dashboard:
     show:
       title: "Panel"
-      description: "Salud de los respaldos de %{workspace}"
+      overview: "Visión general"
+      hello: "Hola, %{name}"
       new_routine: "Nueva rutina"
       recent_runs: "Ejecuciones recientes"
       view_all: "Ver todas"
+      gauge:
+        title: "Tasa de éxito"
+        caption: "en %{count} ejecuciones de los últimos 30 días"
+        empty: "Ejecuta tu primer respaldo para empezar a medir la confiabilidad."
       stats:
-        routines: "Rutinas"
-        enabled: "%{count} activas"
-        completed_24h: "Completadas"
-        failed_24h: "Fallidas"
+        routines: "Rutinas activas"
+        routines_hint: "activas / total"
+        completed_24h: "Completadas · 24h"
+        failed_24h: "Fallidas · 24h"
         last_24h: "últimas 24 horas"
-        stored: "Almacenado"
+        stored: "Datos protegidos"
         stored_hint: "en respaldos retenidos"
-      failing:
-        title:
-          one: "%{count} rutina necesita atención"
-          other: "%{count} rutinas necesitan atención"
+        databases: "Bases de datos"
+        databases_hint: "conectadas a este espacio"
+      health:
+        title: "Salud de las rutinas"
+        never: "nunca se ejecutó"
+        empty: "Crea una rutina para ver su salud aquí."
       table:
         routine: "Rutina"
         status: "Estado"

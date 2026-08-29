@@ -18,7 +18,7 @@
   </div>
 
   <% if @channel.persisted? && @channel.kind_webhook? && @channel.signing_secret.present? %>
-    <div class="rounded-md bg-primary-subtle p-3 text-xs text-primary">
+    <div class="rounded-xl bg-success-subtle p-3.5 text-xs font-medium text-success">
       <p class="font-medium"><%= t(".signing_secret") %></p>
       <p class="mt-1 break-all font-mono"><%= @channel.signing_secret %></p>
       <p class="mt-1"><%= t(".signing_secret_hint") %></p>

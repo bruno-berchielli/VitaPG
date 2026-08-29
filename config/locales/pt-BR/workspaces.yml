@@ -8,3 +8,17 @@ pt-BR:
       create: "Criar workspace"
     create:
       created: "Workspace criado"
+    edit:
+      title: "Configurações do workspace"
+      description: "Nome, identidade e um retrato do que vive aqui."
+      general: "Geral"
+      name: "Nome do workspace"
+      slug: "Slug"
+      slug_hint: "Usado como prefixo padrão de armazenamento dos backups deste workspace."
+      at_a_glance: "Visão geral"
+      members: "Membros"
+      routines: "Rotinas de backup"
+      connections: "Bancos de dados"
+      destinations_count: "Destinos"
+    update:
+      updated: "Workspace atualizado"
