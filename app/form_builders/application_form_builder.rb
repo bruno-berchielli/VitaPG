@@ -16,7 +16,7 @@ class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
   def labeled_password_field(attribute, **options)
     options[:value] = ""
     options[:autocomplete] ||= "new-password"
-    options[:placeholder] ||= ("••••••••" if object&.public_send(attribute).present?)
+    options[:placeholder] ||= ("••••••••" if model&.public_send(attribute).present?)
     labeled_field(:password_field, attribute, **options)
   end
 
@@ -60,8 +60,14 @@ class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
+  # form_with without a model sets object to false, so nil-safe navigation
+  # is not enough here.
+  def model
+    object if object.respond_to?(:errors)
+  end
+
   def default_label(attribute)
-    object&.class&.human_attribute_name(attribute) || attribute.to_s.humanize
+    model&.class&.human_attribute_name(attribute) || attribute.to_s.humanize
   end
 
   def hint_tag(hint)
@@ -71,13 +77,13 @@ class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def error_tag(attribute)
-    messages = object&.errors&.full_messages_for(attribute)
+    messages = model&.errors&.full_messages_for(attribute)
     return "".html_safe if messages.blank?
 
     @template.tag.p(messages.to_sentence, class: "text-xs text-danger")
   end
 
   def error_border(attribute)
-    "border-danger" if object&.errors&.include?(attribute)
+    "border-danger" if model&.errors&.include?(attribute)
   end
 end
