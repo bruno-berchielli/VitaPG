@@ -7,7 +7,9 @@
 
   <%= f.labeled_text_field :recipients, hint: t(".recipients_hint") %>
 
-  <%= f.labeled_url_field :url, hint: t(".url_hint"), placeholder: "https://…" %>
+  <%# Webhook URLs can embed tokens (Slack), so like every secret they are write-only. %>
+  <%= f.labeled_url_field :url, value: "", hint: t(".url_hint"),
+        placeholder: @channel.url.present? ? t(".url_set_placeholder") : "https://…" %>
 
   <div class="flex flex-wrap gap-6">
     <%= f.labeled_check_box :notify_on_failure, hint: t(".on_failure_hint") %>

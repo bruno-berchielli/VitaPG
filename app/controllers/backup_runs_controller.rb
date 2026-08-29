@@ -1,11 +1,17 @@
 class BackupRunsController < ApplicationController
   before_action :set_run, only: %i[show download]
 
+  PER_PAGE = 50
+
   def index
-    @runs = workspace_runs.includes(backup_routine: :database_connection)
+    scope = workspace_runs.includes(backup_routine: :database_connection)
                           .order(created_at: :desc)
-    @runs = @runs.where(status: params[:status]) if BackupRun.statuses.key?(params[:status])
-    @runs = @runs.limit(100)
+    scope = scope.where(status: params[:status]) if BackupRun.statuses.key?(params[:status])
+
+    @page = [ params[:page].to_i, 1 ].max
+    @runs = scope.offset((@page - 1) * PER_PAGE).limit(PER_PAGE + 1).to_a
+    @has_next_page = @runs.size > PER_PAGE
+    @runs = @runs.first(PER_PAGE)
   end
 
   def show

@@ -39,6 +39,7 @@ en:
       name_hint: "e.g. \"Ops team email\", \"#infra Slack\""
       kind_hint: "Signed webhooks include an HMAC-SHA256 signature header you can verify."
       recipients_hint: "Email type only: comma-separated addresses."
+      url_set_placeholder: "(configured — leave blank to keep)"
       url_hint: "Webhook and Slack types only. Stored encrypted. Leave blank on edit to keep the current URL."
       on_failure_hint: "Recommended: always on."
       on_success_hint: "One message per completed backup."

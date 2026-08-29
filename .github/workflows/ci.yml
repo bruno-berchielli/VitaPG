@@ -37,6 +37,47 @@ jobs:
       - name: Lint code for consistent style
         run: bin/rubocop -f github
 
+  integration:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: --health-cmd "pg_isready -U postgres" --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - name: Start MinIO
+        run: |
+          docker run -d --name minio -p 9000:9000 \
+            -e MINIO_ROOT_USER=minioadmin -e MINIO_ROOT_PASSWORD=minioadmin \
+            quay.io/minio/minio server /data
+
+      - name: Install packages
+        run: |
+          sudo apt-get update && sudo apt-get install --no-install-recommends -y build-essential git libyaml-dev pkg-config postgresql-common
+          sudo /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y
+          sudo apt-get install --no-install-recommends -y postgresql-client-17
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Run real backup pipeline against PostgreSQL + MinIO
+        env:
+          RAILS_ENV: test
+          INTEGRATION: "1"
+        run: |
+          bin/rails db:test:prepare
+          bin/rails test test/integration
+
   test:
     runs-on: ubuntu-latest
 

@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { registrations: "users/registrations" }
 
   get "up" => "rails/health#show", as: :rails_health_check
 
@@ -40,7 +40,9 @@ Rails.application.routes.draw do
   resources :notification_channels, except: :show
 
   resource :locale, only: :update
-  resource :profile, only: %i[show update]
+  resource :profile, only: %i[show update] do
+    patch :appearance, action: :update_appearance
+  end
 
   root "dashboard#show"
 end

@@ -14,6 +14,9 @@ en:
         duration: "Duration"
         size: "Size"
         actions: "Actions"
+      previous: "Previous"
+      next: "Next"
+      page: "Page %{page}"
       empty:
         title: "No runs yet"
         description: "Runs appear here as your routines execute."

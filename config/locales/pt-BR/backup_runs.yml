@@ -14,6 +14,9 @@ pt-BR:
         duration: "Duração"
         size: "Tamanho"
         actions: "Ações"
+      previous: "Anterior"
+      next: "Próxima"
+      page: "Página %{page}"
       empty:
         title: "Nenhuma execução ainda"
         description: "As execuções aparecem aqui conforme suas rotinas rodam."

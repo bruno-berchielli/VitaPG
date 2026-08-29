@@ -1,5 +1,7 @@
 en:
   devise:
+    registrations:
+      closed: "Sign-ups are closed on this instance. Ask a workspace manager for an invitation."
     shared:
       tagline: "PostgreSQL backups you can trust"
   time_ago: "%{time} ago"
