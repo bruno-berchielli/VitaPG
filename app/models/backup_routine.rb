@@ -41,16 +41,16 @@ class BackupRoutine < ApplicationRecord
 
     return unless enabled?
 
-    SolidQueue.create_recurring_task(
+    SolidQueue::RecurringTask.create_dynamic_task(
       solid_queue_key,
-      class_name: "RunBackupJob",
-      arguments: [id],
+      class: "RunBackupJob",
+      args: [id],
       schedule: cron
     )
   end
 
   def remove_solid_queue_task
-    SolidQueue::RecurringTask.find_by(key: solid_queue_key)&.destroy
+    SolidQueue::RecurringTask.dynamic.find_by(key: solid_queue_key)&.destroy
   end
 
   def run!
