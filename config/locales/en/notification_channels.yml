@@ -61,3 +61,9 @@ en:
       destination: "Destination"
       started: "Started"
       size: "Size"
+    missed:
+      subject: "⚠ Backup did not run — %{routine}"
+      title: "Scheduled backup missed: %{routine}"
+      body: "A run was expected at %{expected_at} (cron %{cron}) but never started. Check that the VitaPG worker is running."
+      database: "Database"
+      destination: "Destination"

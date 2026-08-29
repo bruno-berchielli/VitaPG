@@ -8,6 +8,7 @@
 #  cron                   :string           default("0 0 * * *"), not null
 #  enabled                :boolean          default(TRUE), not null
 #  format                 :string           default("custom"), not null
+#  last_missed_alert_at   :datetime
 #  name                   :string
 #  no_owner               :boolean          default(FALSE), not null
 #  no_privileges          :boolean          default(FALSE), not null
@@ -97,16 +98,16 @@ class BackupRoutine < ApplicationRecord
     SolidQueue::RecurringTask.dynamic.find_by(key: solid_queue_key)&.destroy
   end
 
-  private
-
-  def solid_queue_key
-    "backup_routine_#{id}"
-  end
-
   # Fugit supports an embedded timezone in the cron string, which is how the
   # per-routine timezone reaches Solid Queue's scheduler.
   def cron_with_timezone
     schedule_timezone == "UTC" ? cron : "#{cron} #{schedule_timezone}"
+  end
+
+  private
+
+  def solid_queue_key
+    "backup_routine_#{id}"
   end
 
   def cron_must_parse

@@ -1,11 +1,11 @@
-production:
+production: &recurring
   prune_backups:
     class: PruneBackupsJob
     queue: backups
     schedule: at 4am every day
+  check_missed_runs:
+    class: CheckMissedRunsJob
+    queue: backups
+    schedule: every hour
 
-development:
-  prune_backups:
-    class: PruneBackupsJob
-    queue: backups
-    schedule: at 4am every day
+development: *recurring

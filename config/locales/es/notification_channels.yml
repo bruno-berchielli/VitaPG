@@ -61,3 +61,9 @@ es:
       destination: "Destino"
       started: "Inicio"
       size: "Tamaño"
+    missed:
+      subject: "⚠ El respaldo no se ejecutó — %{routine}"
+      title: "Respaldo programado no ejecutado: %{routine}"
+      body: "Se esperaba una ejecución a las %{expected_at} (cron %{cron}) pero nunca comenzó. Verifica que el worker de VitaPG esté corriendo."
+      database: "Base de datos"
+      destination: "Destino"

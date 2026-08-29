@@ -1,0 +1,13 @@
+<%= tag.span data: { controller: stimulus_controller, "#{stimulus_controller}-text-value": @text } do %>
+  <button type="button"
+          class="cursor-pointer rounded p-1 text-text-faint transition-colors hover:bg-surface-highlight hover:text-text-main"
+          data-action="<%= stimulus_controller %>#copy"
+          aria-label="<%= t(".copy") %>" title="<%= t(".copy") %>">
+    <span data-<%= stimulus_controller %>-target="idle">
+      <%= render Ui::IconComponent.new(:document_text, classes: "size-4") %>
+    </span>
+    <span hidden data-<%= stimulus_controller %>-target="done" class="text-success">
+      <%= render Ui::IconComponent.new(:check_circle, classes: "size-4") %>
+    </span>
+  </button>
+<% end %>

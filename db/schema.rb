@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_29_034414) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_29_035047) do
   create_table "backup_logs", force: :cascade do |t|
     t.integer "backup_run_id", null: false
     t.datetime "created_at", null: false
@@ -28,6 +28,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_29_034414) do
     t.integer "destination_id", null: false
     t.boolean "enabled", default: true, null: false
     t.string "format", default: "custom", null: false
+    t.datetime "last_missed_alert_at"
     t.string "name"
     t.boolean "no_owner", default: false, null: false
     t.boolean "no_privileges", default: false, null: false

@@ -61,3 +61,9 @@ pt-BR:
       destination: "Destino"
       started: "Início"
       size: "Tamanho"
+    missed:
+      subject: "⚠ Backup não executou — %{routine}"
+      title: "Backup agendado não executou: %{routine}"
+      body: "Uma execução era esperada em %{expected_at} (cron %{cron}) mas nunca começou. Verifique se o worker do VitaPG está rodando."
+      database: "Banco de dados"
+      destination: "Destino"

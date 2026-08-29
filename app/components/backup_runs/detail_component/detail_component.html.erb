@@ -24,6 +24,16 @@
       <% end %>
     </dl>
 
+    <% if restore_command %>
+      <div class="mt-5 border-t border-border pt-4">
+        <p class="text-xs font-medium text-text-muted"><%= t(".restore") %></p>
+        <div class="mt-1.5 flex items-center gap-2">
+          <code class="min-w-0 flex-1 overflow-x-auto whitespace-nowrap rounded-md bg-surface-highlight px-3 py-2 font-mono text-xs"><%= restore_command %></code>
+          <%= render Ui::CopyButtonComponent.new(text: restore_command) %>
+        </div>
+      </div>
+    <% end %>
+
     <% if run.failed? && run.error_message.present? %>
       <div class="mt-5 overflow-x-auto rounded-md bg-danger-subtle p-4">
         <pre class="whitespace-pre-wrap break-all font-mono text-xs text-danger"><%= run.error_message %></pre>
