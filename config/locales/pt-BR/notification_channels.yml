@@ -39,6 +39,7 @@ pt-BR:
       name_hint: "ex.: \"E-mail do time de ops\", \"#infra no Slack\""
       kind_hint: "Webhooks assinados incluem um header com assinatura HMAC-SHA256 que você pode verificar."
       recipients_hint: "Apenas tipo e-mail: endereços separados por vírgula."
+      url_set_placeholder: "(configurada — deixe em branco para manter)"
       url_hint: "Apenas tipos webhook e Slack. Armazenada criptografada. Deixe em branco ao editar para manter a URL atual."
       on_failure_hint: "Recomendado: sempre ativo."
       on_success_hint: "Uma mensagem por backup concluído."
