@@ -1,0 +1,24 @@
+pt-BR:
+  backup_runs:
+    index:
+      title: "Atividade"
+      description: "Todas as execuções de backup deste workspace."
+      filters:
+        all: "Todas"
+        completed: "Concluídas"
+        failed: "Falhas"
+      table:
+        routine: "Rotina"
+        status: "Status"
+        when: "Quando"
+        duration: "Duração"
+        size: "Tamanho"
+        actions: "Ações"
+      empty:
+        title: "Nenhuma execução ainda"
+        description: "As execuções aparecem aqui conforme suas rotinas rodam."
+    show:
+      title: "Execução — %{routine}"
+      breadcrumb: "Execução #%{id}"
+    download:
+      unavailable: "Esta execução não tem arquivo para baixar"

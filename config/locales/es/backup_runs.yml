@@ -1,0 +1,24 @@
+es:
+  backup_runs:
+    index:
+      title: "Actividad"
+      description: "Todas las ejecuciones de respaldo de este espacio de trabajo."
+      filters:
+        all: "Todas"
+        completed: "Completadas"
+        failed: "Fallidas"
+      table:
+        routine: "Rutina"
+        status: "Estado"
+        when: "Cuándo"
+        duration: "Duración"
+        size: "Tamaño"
+        actions: "Acciones"
+      empty:
+        title: "Aún no hay ejecuciones"
+        description: "Las ejecuciones aparecen aquí a medida que tus rutinas corren."
+    show:
+      title: "Ejecución — %{routine}"
+      breadcrumb: "Ejecución #%{id}"
+    download:
+      unavailable: "Esta ejecución no tiene archivo para descargar"

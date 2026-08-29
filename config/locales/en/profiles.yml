@@ -1,0 +1,21 @@
+en:
+  activerecord:
+    attributes:
+      user:
+        name: "Name"
+        email: "Email"
+        password: "Password"
+        password_confirmation: "Confirm password"
+        current_password: "Current password"
+        remember_me: "Remember me"
+  profiles:
+    show:
+      title: "Profile"
+      account: "Account"
+      language: "Language"
+      language_hint: "Applies to your account on every device."
+      password: "Password"
+      password_hint: "Change your password through the account settings screen."
+      change_password: "Change password"
+    update:
+      updated: "Profile updated"

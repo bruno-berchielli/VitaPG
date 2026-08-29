@@ -1,0 +1,23 @@
+<div class="flex min-h-screen items-center justify-center px-4 py-12">
+  <div class="w-full max-w-sm">
+    <div class="mb-6 text-center">
+      <span class="text-lg font-semibold tracking-tight">VitaPG</span>
+      <p class="mt-1 text-sm text-text-muted"><%= t("devise.shared.tagline") %></p>
+    </div>
+    <div class="rounded-lg border border-border bg-surface p-6">
+      <h1 class="text-base font-semibold"><%= heading %></h1>
+      <div class="mt-5">
+        <%= yield %>
+      </div>
+    </div>
+    <div class="mt-4 text-center text-sm text-text-muted">
+      <%= render "devise/shared/links" %>
+    </div>
+    <div class="mt-6 flex justify-center gap-3 text-xs text-text-faint">
+      <% { "en" => "EN", "pt-BR" => "PT", "es" => "ES" }.each do |code, label| %>
+        <%= button_to label, locale_path(locale: code), method: :patch,
+              class: "cursor-pointer #{I18n.locale.to_s == code ? 'font-semibold text-text-muted' : 'hover:text-text-muted'}" %>
+      <% end %>
+    </div>
+  </div>
+</div>

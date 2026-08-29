@@ -1,0 +1,52 @@
+<% content_for :title, "#{t('.title')} · VitaPG" %>
+
+<%= render Ui::PageHeaderComponent.new(title: t(".title"), description: t(".description")) do |header| %>
+  <% header.with_action do %>
+    <%= render Ui::ButtonComponent.new(variant: :primary, href: new_destination_path) do |b| %>
+      <% b.with_leading_icon { render Ui::IconComponent.new(:plus, classes: "size-4") } %>
+      <%= t(".new") %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<div class="mt-6">
+  <% if @destinations.any? %>
+    <div class="overflow-x-auto rounded-lg border border-border bg-surface">
+      <table class="w-full text-left">
+        <thead>
+          <tr class="border-b border-border text-xs text-text-muted">
+            <th scope="col" class="px-4 py-2.5 font-medium"><%= Destination.human_attribute_name(:name) %></th>
+            <th scope="col" class="px-4 py-2.5 font-medium"><%= Destination.human_attribute_name(:provider) %></th>
+            <th scope="col" class="px-4 py-2.5 font-medium"><%= Destination.human_attribute_name(:bucket) %></th>
+            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".routines") %></th>
+            <th scope="col" class="px-4 py-2.5"><span class="sr-only"><%= t(".actions") %></span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @destinations.each do |destination| %>
+            <tr class="border-b border-border last:border-b-0 hover:bg-surface-highlight/50">
+              <td class="px-4 py-2.5 text-sm font-medium"><%= destination.name %></td>
+              <td class="px-4 py-2.5 text-sm text-text-muted"><%= t("destinations.providers.#{destination.provider}") %></td>
+              <td class="px-4 py-2.5 font-mono text-xs text-text-muted"><%= destination.bucket %></td>
+              <td class="px-4 py-2.5 text-sm tabular-nums text-text-muted"><%= destination.backup_routines.size %></td>
+              <td class="px-4 py-2.5 text-right">
+                <div class="inline-flex items-center gap-1">
+                  <%= button_to test_destination_path(destination), class: "cursor-pointer rounded px-2 py-1 text-sm font-medium text-text-muted hover:bg-surface-highlight hover:text-text-main" do %>
+                    <%= t("actions.test") %>
+                  <% end %>
+                  <%= link_to t("actions.edit"), edit_destination_path(destination), class: "rounded px-2 py-1 text-sm font-medium text-primary hover:bg-surface-highlight" %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <%= render Ui::EmptyStateComponent.new(icon: :server, title: t(".empty.title"), description: t(".empty.description")) do |empty| %>
+      <% empty.with_action do %>
+        <%= render Ui::ButtonComponent.new(variant: :primary, href: new_destination_path) do %><%= t(".new") %><% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

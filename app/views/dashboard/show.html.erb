@@ -1,0 +1,89 @@
+<% content_for :title, "#{t('.title')} · VitaPG" %>
+
+<%= render Ui::PageHeaderComponent.new(title: t(".title"), description: t(".description", workspace: current_workspace.name)) do |header| %>
+  <% header.with_action do %>
+    <%= render Ui::ButtonComponent.new(variant: :primary, href: new_backup_routine_path) do |b| %>
+      <% b.with_leading_icon { render Ui::IconComponent.new(:plus, classes: "size-4") } %>
+      <%= t(".new_routine") %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<div class="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
+  <%= render Ui::CardComponent.new do %>
+    <p class="text-xs font-medium text-text-muted"><%= t(".stats.routines") %></p>
+    <p class="mt-1 text-2xl font-semibold tabular-nums"><%= @routines_count %></p>
+    <p class="mt-0.5 text-xs text-text-muted"><%= t(".stats.enabled", count: @enabled_count) %></p>
+  <% end %>
+  <%= render Ui::CardComponent.new do %>
+    <p class="text-xs font-medium text-text-muted"><%= t(".stats.completed_24h") %></p>
+    <p class="mt-1 text-2xl font-semibold tabular-nums text-success"><%= @completed_last_24h %></p>
+    <p class="mt-0.5 text-xs text-text-muted"><%= t(".stats.last_24h") %></p>
+  <% end %>
+  <%= render Ui::CardComponent.new do %>
+    <p class="text-xs font-medium text-text-muted"><%= t(".stats.failed_24h") %></p>
+    <p class="mt-1 text-2xl font-semibold tabular-nums <%= @failed_last_24h.positive? ? 'text-danger' : '' %>"><%= @failed_last_24h %></p>
+    <p class="mt-0.5 text-xs text-text-muted"><%= t(".stats.last_24h") %></p>
+  <% end %>
+  <%= render Ui::CardComponent.new do %>
+    <p class="text-xs font-medium text-text-muted"><%= t(".stats.stored") %></p>
+    <p class="mt-1 text-2xl font-semibold tabular-nums"><%= human_size(@stored_bytes) %></p>
+    <p class="mt-0.5 text-xs text-text-muted"><%= t(".stats.stored_hint") %></p>
+  <% end %>
+</div>
+
+<% if @failing_routines.any? %>
+  <div class="mt-6 rounded-lg border border-danger/30 bg-danger-subtle p-4">
+    <h2 class="flex items-center gap-2 text-sm font-semibold text-danger">
+      <%= render Ui::IconComponent.new(:warning, classes: "size-4") %>
+      <%= t(".failing.title", count: @failing_routines.size) %>
+    </h2>
+    <ul class="mt-2 space-y-1">
+      <% @failing_routines.each do |routine| %>
+        <li>
+          <%= link_to backup_routine_path(routine), class: "text-sm text-danger underline-offset-2 hover:underline" do %>
+            <%= routine.name %> · <%= routine.database_connection.database_name %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<section class="mt-8">
+  <div class="flex items-center justify-between">
+    <h2 class="text-sm font-semibold"><%= t(".recent_runs") %></h2>
+    <%= link_to t(".view_all"), backup_runs_path, class: "text-sm font-medium text-primary hover:text-primary-hover" %>
+  </div>
+
+  <% if @recent_runs.any? %>
+        <% @recent_runs.select(&:in_progress?).each do |live_run| %>
+      <%= turbo_stream_from live_run.updates_channel %>
+    <% end %>
+    <div class="mt-3 overflow-x-auto rounded-lg border border-border bg-surface">
+      <table class="w-full text-left">
+        <thead>
+          <tr class="border-b border-border text-xs text-text-muted">
+            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".table.routine") %></th>
+            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".table.status") %></th>
+            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".table.when") %></th>
+            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".table.duration") %></th>
+            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".table.size") %></th>
+            <th scope="col" class="px-4 py-2.5"><span class="sr-only"><%= t(".table.actions") %></span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= render BackupRuns::RowComponent.with_collection(@recent_runs, show_routine: true) %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <div class="mt-3">
+      <%= render Ui::EmptyStateComponent.new(icon: :archive, title: t(".empty.title"), description: t(".empty.description")) do |empty| %>
+        <% empty.with_action do %>
+          <%= render Ui::ButtonComponent.new(variant: :primary, href: new_backup_routine_path) do %><%= t(".new_routine") %><% end %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+</section>

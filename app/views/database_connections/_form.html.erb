@@ -1,0 +1,32 @@
+<%= form_with model: @connection, class: "space-y-5" do |f| %>
+  <%= f.labeled_text_field :name, hint: t(".name_hint") %>
+
+  <div class="grid grid-cols-3 gap-4">
+    <div class="col-span-2"><%= f.labeled_text_field :host, placeholder: "db.example.com" %></div>
+    <%= f.labeled_number_field :port %>
+  </div>
+
+  <%= f.labeled_text_field :database_name %>
+
+  <div class="grid grid-cols-2 gap-4">
+    <%= f.labeled_text_field :username, autocomplete: "off" %>
+    <%= f.labeled_password_field :password, hint: (t(".password_keep_hint") if @connection.persisted?) %>
+  </div>
+
+  <%= f.labeled_select :sslmode, DatabaseConnection.sslmodes.keys.map { |k| [k.tr("_", "-"), k] }, hint: t(".sslmode_hint") %>
+
+  <div class="rounded-md bg-primary-subtle p-3 text-xs text-primary">
+    <%= t(".security_note") %>
+  </div>
+
+  <div class="flex items-center gap-2 border-t border-border pt-5">
+    <%= f.submit_button t("actions.save") %>
+    <%= render Ui::ButtonComponent.new(variant: :ghost, href: database_connections_path) do %><%= t("actions.cancel") %><% end %>
+    <% if @connection.persisted? %>
+      <div class="ml-auto">
+        <%= render Ui::ButtonComponent.new(variant: :danger, href: database_connection_path(@connection), method: :delete,
+              data: { turbo_confirm: t("confirmations.delete_connection", name: @connection.name) }) do %><%= t("actions.delete") %><% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

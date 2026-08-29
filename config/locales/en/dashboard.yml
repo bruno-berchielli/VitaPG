@@ -1,0 +1,30 @@
+en:
+  dashboard:
+    show:
+      title: "Dashboard"
+      description: "Backup health for %{workspace}"
+      new_routine: "New routine"
+      recent_runs: "Recent runs"
+      view_all: "View all"
+      stats:
+        routines: "Routines"
+        enabled: "%{count} enabled"
+        completed_24h: "Completed"
+        failed_24h: "Failed"
+        last_24h: "last 24 hours"
+        stored: "Stored"
+        stored_hint: "across retained backups"
+      failing:
+        title:
+          one: "%{count} routine needs attention"
+          other: "%{count} routines need attention"
+      table:
+        routine: "Routine"
+        status: "Status"
+        when: "When"
+        duration: "Duration"
+        size: "Size"
+        actions: "Actions"
+      empty:
+        title: "No backups yet"
+        description: "Create your first backup routine to start protecting your PostgreSQL databases."

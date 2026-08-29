@@ -1,0 +1,24 @@
+en:
+  backup_runs:
+    log_list_component:
+      title: "Run log"
+      count:
+        one: "%{count} entry"
+        other: "%{count} entries"
+      empty: "Waiting for log output…"
+pt-BR:
+  backup_runs:
+    log_list_component:
+      title: "Log da execução"
+      count:
+        one: "%{count} entrada"
+        other: "%{count} entradas"
+      empty: "Aguardando saída de log…"
+es:
+  backup_runs:
+    log_list_component:
+      title: "Registro de la ejecución"
+      count:
+        one: "%{count} entrada"
+        other: "%{count} entradas"
+      empty: "Esperando salida del registro…"

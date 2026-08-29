@@ -1,0 +1,24 @@
+en:
+  backup_runs:
+    index:
+      title: "Activity"
+      description: "Every backup run across this workspace."
+      filters:
+        all: "All"
+        completed: "Completed"
+        failed: "Failed"
+      table:
+        routine: "Routine"
+        status: "Status"
+        when: "When"
+        duration: "Duration"
+        size: "Size"
+        actions: "Actions"
+      empty:
+        title: "No runs yet"
+        description: "Runs appear here as your routines execute."
+    show:
+      title: "Run — %{routine}"
+      breadcrumb: "Run #%{id}"
+    download:
+      unavailable: "This run has no downloadable file"

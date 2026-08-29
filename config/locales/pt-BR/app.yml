@@ -1,0 +1,18 @@
+pt-BR:
+  devise:
+    shared:
+      tagline: "Backups PostgreSQL confiáveis"
+  time_ago: "há %{time}"
+  time_in: "em %{time}"
+  actions:
+    edit: "Editar"
+    delete: "Excluir"
+    cancel: "Cancelar"
+    save: "Salvar"
+    test: "Testar"
+    download: "Baixar"
+  confirmations:
+    delete_connection: "Excluir a conexão \"%{name}\"? As rotinas de backup dela também serão excluídas. Backups já armazenados não são afetados."
+    delete_destination: "Excluir o destino \"%{name}\"? Arquivos já armazenados não são afetados."
+    delete_routine: "Excluir a rotina \"%{name}\"? O histórico de execuções será excluído. Backups já armazenados não são afetados."
+    remove_member: "Remover %{name} deste workspace?"

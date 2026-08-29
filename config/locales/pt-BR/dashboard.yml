@@ -1,0 +1,30 @@
+pt-BR:
+  dashboard:
+    show:
+      title: "Painel"
+      description: "Saúde dos backups de %{workspace}"
+      new_routine: "Nova rotina"
+      recent_runs: "Execuções recentes"
+      view_all: "Ver todas"
+      stats:
+        routines: "Rotinas"
+        enabled: "%{count} ativas"
+        completed_24h: "Concluídas"
+        failed_24h: "Falhas"
+        last_24h: "últimas 24 horas"
+        stored: "Armazenado"
+        stored_hint: "em backups retidos"
+      failing:
+        title:
+          one: "%{count} rotina precisa de atenção"
+          other: "%{count} rotinas precisam de atenção"
+      table:
+        routine: "Rotina"
+        status: "Status"
+        when: "Quando"
+        duration: "Duração"
+        size: "Tamanho"
+        actions: "Ações"
+      empty:
+        title: "Nenhum backup ainda"
+        description: "Crie sua primeira rotina de backup para começar a proteger seus bancos PostgreSQL."

@@ -1,0 +1,64 @@
+<%= form_with model: @routine, class: "space-y-8" do |f| %>
+  <section class="space-y-5">
+    <h2 class="text-sm font-semibold"><%= t(".sections.what") %></h2>
+    <%= f.labeled_text_field :name, hint: t(".name_hint") %>
+    <div class="grid grid-cols-2 gap-4">
+      <%= f.labeled_select :database_connection_id,
+            Current.workspace.database_connections.order(:name).pluck(:name, :id),
+            label: BackupRoutine.human_attribute_name(:database_connection),
+            include_blank: @routine.new_record? %>
+      <%= f.labeled_select :destination_id,
+            Current.workspace.destinations.order(:name).pluck(:name, :id),
+            label: BackupRoutine.human_attribute_name(:destination),
+            include_blank: @routine.new_record? %>
+    </div>
+  </section>
+
+  <section class="space-y-5">
+    <h2 class="text-sm font-semibold"><%= t(".sections.schedule") %></h2>
+    <div class="grid grid-cols-2 gap-4">
+      <%= f.labeled_text_field :cron, placeholder: "0 3 * * *", class: "font-mono", hint: t(".cron_hint") %>
+      <%= f.labeled_select :schedule_timezone,
+            ActiveSupport::TimeZone.all.map { |tz| [ tz.to_s, tz.name == "UTC" ? "UTC" : tz.tzinfo.name ] }.uniq { |_, v| v },
+            label: BackupRoutine.human_attribute_name(:schedule_timezone) %>
+    </div>
+  </section>
+
+  <section class="space-y-5">
+    <h2 class="text-sm font-semibold"><%= t(".sections.dump") %></h2>
+    <div class="grid grid-cols-3 gap-4">
+      <%= f.labeled_select :format, BackupRoutine::FORMATS.map { |fmt| [t(".formats.#{fmt}"), fmt] }, hint: t(".format_hint") %>
+      <%= f.labeled_number_field :compression_level, in: 0..9, hint: t(".compression_hint") %>
+      <%= f.labeled_number_field :parallel_jobs, in: 1..16, hint: t(".parallel_hint") %>
+    </div>
+    <div class="grid grid-cols-2 gap-4">
+      <%= f.labeled_text_field :tables_to_exclude, class: "font-mono", hint: t(".exclude_hint") %>
+      <%= f.labeled_text_field :tables_to_exclude_data, class: "font-mono", hint: t(".exclude_data_hint") %>
+    </div>
+    <div class="flex flex-wrap gap-6">
+      <%= f.labeled_check_box :no_owner, hint: t(".no_owner_hint") %>
+      <%= f.labeled_check_box :no_privileges, hint: t(".no_privileges_hint") %>
+    </div>
+  </section>
+
+  <section class="space-y-5">
+    <h2 class="text-sm font-semibold"><%= t(".sections.retention") %></h2>
+    <p class="text-xs text-text-muted"><%= t(".retention_note") %></p>
+    <div class="grid grid-cols-3 gap-4">
+      <%= f.labeled_number_field :retention_keep_last, min: 1, hint: t(".keep_last_hint") %>
+      <%= f.labeled_number_field :retention_max_age_days, min: 1, hint: t(".max_age_hint") %>
+      <%= f.labeled_text_field :path_prefix, class: "font-mono", hint: t(".prefix_hint") %>
+    </div>
+  </section>
+
+  <div class="flex items-center gap-2 border-t border-border pt-5">
+    <%= f.submit_button t("actions.save") %>
+    <%= render Ui::ButtonComponent.new(variant: :ghost, href: @routine.persisted? ? backup_routine_path(@routine) : backup_routines_path) do %><%= t("actions.cancel") %><% end %>
+    <% if @routine.persisted? %>
+      <div class="ml-auto">
+        <%= render Ui::ButtonComponent.new(variant: :danger, href: backup_routine_path(@routine), method: :delete,
+              data: { turbo_confirm: t("confirmations.delete_routine", name: @routine.name) }) do %><%= t("actions.delete") %><% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

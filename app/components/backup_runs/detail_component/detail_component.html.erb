@@ -1,0 +1,33 @@
+<%= tag.div id: id do %>
+  <%= render Ui::CardComponent.new do %>
+    <div class="flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <%= render Ui::StatusBadgeComponent.new(status: run.status) %>
+        <% if run.file_key.present? %>
+          <span class="font-mono text-xs text-text-faint"><%= run.file_key %></span>
+        <% end %>
+      </div>
+      <% if run.completed? %>
+        <%= render Ui::ButtonComponent.new(variant: :secondary, size: :sm, href: download_backup_run_path(run)) do |b| %>
+          <% b.with_leading_icon { render Ui::IconComponent.new(:arrow_down_tray, classes: "size-4") } %>
+          <%= t("actions.download") %>
+        <% end %>
+      <% end %>
+    </div>
+
+    <dl class="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-4">
+      <% facts.each do |label, value| %>
+        <div>
+          <dt class="text-xs font-medium text-text-muted"><%= label %></dt>
+          <dd class="mt-0.5 text-sm tabular-nums"><%= value %></dd>
+        </div>
+      <% end %>
+    </dl>
+
+    <% if run.failed? && run.error_message.present? %>
+      <div class="mt-5 overflow-x-auto rounded-md bg-danger-subtle p-4">
+        <pre class="whitespace-pre-wrap break-all font-mono text-xs text-danger"><%= run.error_message %></pre>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

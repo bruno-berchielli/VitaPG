@@ -1,0 +1,49 @@
+es:
+  activerecord:
+    models:
+      destination:
+        one: "Destino"
+        other: "Destinos"
+    attributes:
+      destination:
+        name: "Nombre"
+        provider: "Proveedor"
+        bucket: "Bucket"
+        region: "Región"
+        endpoint: "Endpoint"
+        access_key_id: "Access key ID"
+        secret_access_key: "Secret access key"
+  destinations:
+    providers:
+      s3: "Amazon S3"
+      s3_compatible: "Compatible con S3 (MinIO, R2, Backblaze, Wasabi, Spaces…)"
+    index:
+      title: "Destinos"
+      description: "Dónde se almacenan tus respaldos. VitaPG solo crea archivos aquí — nunca elimina nada que no haya creado."
+      new: "Nuevo destino"
+      routines: "Rutinas"
+      actions: "Acciones"
+      empty:
+        title: "Aún no hay destinos"
+        description: "Agrega un bucket S3 o compatible con S3 para almacenar tus respaldos."
+    new:
+      title: "Nuevo destino"
+      description: "Usa tu propio almacenamiento: S3 o cualquier servicio compatible con S3."
+    edit:
+      title: "Editar destino"
+    form:
+      name_hint: "Una etiqueta para reconocer este almacenamiento, p. ej. \"Bucket de respaldos — us-east\""
+      provider_hint: "Cualquier servicio compatible con S3 funciona: MinIO, Cloudflare R2, Backblaze B2, Wasabi, DigitalOcean Spaces…"
+      endpoint_hint: "Obligatorio para proveedores compatibles con S3; déjalo en blanco para Amazon S3."
+      secret_keep_hint: "Déjalo en blanco para conservar la clave actual."
+      security_note: "Las claves se cifran en reposo. Usa credenciales limitadas a este bucket, sin permiso para eliminar buckets."
+    create:
+      created: "Destino creado"
+    update:
+      updated: "Destino actualizado"
+    destroy:
+      destroyed: "Destino eliminado"
+      in_use: "Este destino lo usan rutinas de respaldo y no se puede eliminar"
+    test:
+      success: "Bucket accesible"
+      failure: "Falló el acceso: %{message}"

@@ -1,0 +1,39 @@
+en:
+  layout:
+    sidebar_component:
+      navigation: "Main navigation"
+      new_workspace: "New workspace…"
+      sign_out: "Sign out"
+      nav:
+        dashboard: "Dashboard"
+        backup_routines: "Backup routines"
+        backup_runs: "Activity"
+        database_connections: "Databases"
+        destinations: "Destinations"
+        memberships: "Members"
+pt-BR:
+  layout:
+    sidebar_component:
+      navigation: "Navegação principal"
+      new_workspace: "Novo workspace…"
+      sign_out: "Sair"
+      nav:
+        dashboard: "Painel"
+        backup_routines: "Rotinas de backup"
+        backup_runs: "Atividade"
+        database_connections: "Bancos de dados"
+        destinations: "Destinos"
+        memberships: "Membros"
+es:
+  layout:
+    sidebar_component:
+      navigation: "Navegación principal"
+      new_workspace: "Nuevo espacio de trabajo…"
+      sign_out: "Cerrar sesión"
+      nav:
+        dashboard: "Panel"
+        backup_routines: "Rutinas de respaldo"
+        backup_runs: "Actividad"
+        database_connections: "Bases de datos"
+        destinations: "Destinos"
+        memberships: "Miembros"

@@ -1,0 +1,30 @@
+en:
+  backup_runs:
+    detail_component:
+      started: "Started"
+      duration: "Duration"
+      size: "Size"
+      trigger: "Trigger"
+      triggers:
+        scheduled: "Scheduled"
+        manual: "Manual"
+pt-BR:
+  backup_runs:
+    detail_component:
+      started: "Início"
+      duration: "Duração"
+      size: "Tamanho"
+      trigger: "Disparo"
+      triggers:
+        scheduled: "Agendado"
+        manual: "Manual"
+es:
+  backup_runs:
+    detail_component:
+      started: "Inicio"
+      duration: "Duración"
+      size: "Tamaño"
+      trigger: "Disparo"
+      triggers:
+        scheduled: "Programado"
+        manual: "Manual"

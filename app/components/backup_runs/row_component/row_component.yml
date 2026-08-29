@@ -1,0 +1,12 @@
+en:
+  backup_runs:
+    row_component:
+      details: "Details"
+pt-BR:
+  backup_runs:
+    row_component:
+      details: "Detalhes"
+es:
+  backup_runs:
+    row_component:
+      details: "Detalles"

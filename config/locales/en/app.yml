@@ -1,0 +1,18 @@
+en:
+  devise:
+    shared:
+      tagline: "PostgreSQL backups you can trust"
+  time_ago: "%{time} ago"
+  time_in: "in %{time}"
+  actions:
+    edit: "Edit"
+    delete: "Delete"
+    cancel: "Cancel"
+    save: "Save"
+    test: "Test"
+    download: "Download"
+  confirmations:
+    delete_connection: "Delete the connection \"%{name}\"? Its backup routines will also be deleted. Backups already stored are not touched."
+    delete_destination: "Delete the destination \"%{name}\"? Files already stored are not touched."
+    delete_routine: "Delete the routine \"%{name}\"? Run history will be deleted. Backups already stored are not touched."
+    remove_member: "Remove %{name} from this workspace?"

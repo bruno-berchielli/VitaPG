@@ -1,0 +1,16 @@
+<div class="overflow-hidden rounded-lg border border-border">
+  <div class="flex items-center justify-between border-b border-border bg-surface px-4 py-2.5">
+    <h2 class="text-sm font-semibold"><%= t(".title") %></h2>
+    <span class="text-xs text-text-muted"><%= t(".count", count: logs.size) %></span>
+  </div>
+  <div class="max-h-[32rem] overflow-y-auto bg-[#16181d] px-4 py-3" <%= data_stimulus_controller.html_safe %>>
+    <% if logs.empty? %>
+      <p class="py-2 font-mono text-xs text-gray-500"><%= t(".empty") %></p>
+    <% end %>
+    <%= tag.ol id: list_id, class: "space-y-0.5" do %>
+      <% logs.each do |log| %>
+        <%= render BackupRuns::LogLineComponent.new(log: log) %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

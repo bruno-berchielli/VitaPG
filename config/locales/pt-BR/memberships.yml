@@ -1,0 +1,42 @@
+pt-BR:
+  memberships:
+    roles:
+      owner: "Proprietário"
+      admin: "Administrador"
+      member: "Membro"
+    index:
+      title: "Membros"
+      description: "Pessoas com acesso a %{workspace}."
+      you: "você"
+      remove: "Remover"
+      table:
+        member: "Membro"
+        role: "Papel"
+        actions: "Ações"
+      invite:
+        title: "Convidar membro"
+        description: "E-mails novos ganham uma conta e um link para definir a senha."
+        email: "E-mail"
+        name: "Nome"
+        name_hint: "Opcional, para contas novas."
+        role: "Papel"
+        submit: "Convidar"
+    create:
+      created: "Membro adicionado"
+    update:
+      updated: "Papel atualizado"
+    destroy:
+      destroyed: "Membro removido"
+      cannot_remove_self: "Você não pode remover a si mesmo"
+  errors:
+    messages:
+      last_owner: "o workspace precisa de pelo menos um proprietário"
+  activerecord:
+    errors:
+      models:
+        membership:
+          attributes:
+            role:
+              last_owner: "o workspace precisa de pelo menos um proprietário"
+            base:
+              last_owner: "O workspace precisa de pelo menos um proprietário"

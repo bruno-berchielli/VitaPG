@@ -1,0 +1,107 @@
+es:
+  activerecord:
+    models:
+      backup_routine:
+        one: "Rutina de respaldo"
+        other: "Rutinas de respaldo"
+    attributes:
+      backup_routine:
+        name: "Nombre"
+        database_connection: "Base de datos"
+        destination: "Destino"
+        cron: "Programación (cron)"
+        schedule_timezone: "Zona horaria"
+        format: "Formato del dump"
+        compression_level: "Compresión (0–9)"
+        parallel_jobs: "Trabajos paralelos"
+        tables_to_exclude: "Excluir tablas"
+        tables_to_exclude_data: "Excluir datos de tablas"
+        no_owner: "Omitir ownership (--no-owner)"
+        no_privileges: "Omitir privilegios (--no-privileges)"
+        retention_keep_last: "Conservar últimos"
+        retention_max_age_days: "Edad máxima (días)"
+        path_prefix: "Prefijo de ruta"
+        enabled: "Activa"
+  backup_routines:
+    index:
+      title: "Rutinas de respaldo"
+      description: "Pipelines programados de pg_dump desde tus bases hacia tu almacenamiento."
+      new: "Nueva rutina"
+      database: "Base de datos"
+      state: "Estado"
+      last_run: "Última ejecución"
+      next_run: "Próxima ejecución"
+      empty:
+        title: "Aún no hay rutinas"
+        description: "Una rutina une una base con un destino en una programación, con retención y opciones de dump."
+    show:
+      description: "%{database} → %{destination}"
+      run_now: "Ejecutar ahora"
+      state: "Estado"
+      enable: "Activar"
+      disable: "Desactivar"
+      schedule: "Programación"
+      next_run: "Próxima ejecución"
+      retention: "Retención"
+      keep_last:
+        one: "conservar último %{count}"
+        other: "conservar últimos %{count}"
+      max_age:
+        one: "máx. %{count} día"
+        other: "máx. %{count} días"
+      keep_forever: "conservar todo"
+      runs: "Historial de ejecuciones"
+      table:
+        status: "Estado"
+        when: "Cuándo"
+        duration: "Duración"
+        size: "Tamaño"
+        actions: "Acciones"
+      no_runs:
+        title: "Aún no hay ejecuciones"
+        description: "Ejecuta esta rutina ahora o espera su programación."
+    new:
+      title: "Nueva rutina de respaldo"
+      description: "Todo lo que un respaldo confiable necesita: origen, destino, programación y retención."
+      prerequisites:
+        title: "Primero, conecta una base y un destino"
+        description: "Una rutina necesita una conexión PostgreSQL de origen y un destino de almacenamiento."
+        add_connection: "Agregar base de datos"
+        add_destination: "Agregar destino"
+    edit:
+      title: "Editar rutina"
+    form:
+      sections:
+        what: "Qué respaldar"
+        schedule: "Programación"
+        dump: "Opciones del dump"
+        retention: "Retención y estructura en el almacenamiento"
+      name_hint: "p. ej. \"Producción nocturna\""
+      cron_hint: "Cron estándar: minuto hora día mes día-de-semana. \"0 3 * * *\" corre a diario a las 03:00."
+      format_hint: "Custom es comprimido y restaurable con pg_restore; directory permite dumps paralelos; plain es un .sql legible."
+      compression_hint: "0 desactiva la compresión."
+      parallel_hint: "Solo aplica al formato directory."
+      exclude_hint: "Nombres de tablas separados por comas para omitir por completo."
+      exclude_data_hint: "Conserva el esquema, omite las filas. Separado por comas."
+      no_owner_hint: "Restaurable por otro rol."
+      no_privileges_hint: "Omite sentencias GRANT/REVOKE."
+      retention_note: "La poda solo elimina archivos creados por esta rutina. Deja ambos en blanco para conservar todo."
+      keep_last_hint: "Cantidad de respaldos a conservar."
+      max_age_hint: "Eliminar respaldos más antiguos que esto."
+      prefix_hint: "Prefijo de las claves en el bucket. Predeterminado: espacio/rutina."
+      formats:
+        custom: "Custom (comprimido, pg_restore)"
+        plain: "SQL plano"
+        directory: "Directory (paralelo)"
+    create:
+      created: "Rutina creada"
+    update:
+      updated: "Rutina actualizada"
+    destroy:
+      destroyed: "Rutina eliminada"
+    run:
+      started: "Respaldo iniciado"
+      already_running: "Esta rutina ya tiene una ejecución en curso"
+    toggle:
+      enabled: "Rutina activada"
+      disabled: "Rutina desactivada"

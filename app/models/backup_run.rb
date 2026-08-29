@@ -41,6 +41,11 @@ class BackupRun < ApplicationRecord
 
   enum :trigger, { scheduled: "scheduled", manual: "manual" }, prefix: true
 
+  # Live UI: any change (status transitions, size, error) re-renders the
+  # subscribed self-refreshing components. Runs in the jobs process; Solid
+  # Cable carries it to browser sessions.
+  after_update_commit :broadcast_refresh
+
   scope :in_progress, -> { where(status: %i[pending dumping uploading]) }
   scope :finished, -> { where(status: %i[completed failed]) }
   scope :prunable, -> { completed.where.not(file_key: nil) }
@@ -63,5 +68,18 @@ class BackupRun < ApplicationRecord
     return unless completed? && file_key.present?
 
     destination.adapter.download_url(file_key)
+  end
+
+  # Single live-updates channel per run. Pages subscribe to it OUTSIDE any
+  # element that gets replaced, so a broadcast can never race a re-subscribe.
+  def updates_channel
+    [ self, :run_updates ]
+  end
+
+  private
+
+  def broadcast_refresh
+    BackupRuns::RowComponent.new(run: self).broadcast_refresh!
+    BackupRuns::DetailComponent.new(run: self).broadcast_refresh!
   end
 end

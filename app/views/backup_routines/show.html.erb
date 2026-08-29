@@ -1,0 +1,75 @@
+<% content_for :title, "#{@routine.name} · VitaPG" %>
+
+<%= render Ui::PageHeaderComponent.new(title: @routine.name, description: t(".description", database: @routine.database_connection.name, destination: @routine.destination.name)) do |header| %>
+  <% header.with_action do %>
+    <%= render Ui::ButtonComponent.new(variant: :secondary, href: edit_backup_routine_path(@routine)) do |b| %>
+      <% b.with_leading_icon { render Ui::IconComponent.new(:pencil, classes: "size-4") } %>
+      <%= t("actions.edit") %>
+    <% end %>
+  <% end %>
+  <% header.with_action do %>
+    <%= button_to run_backup_routine_path(@routine), class: "inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md bg-primary px-3.5 py-2 text-sm font-medium text-white transition-colors hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" do %>
+      <%= render Ui::IconComponent.new(:play, classes: "size-4") %>
+      <%= t(".run_now") %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<div class="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
+  <%= render Ui::CardComponent.new do %>
+    <p class="text-xs font-medium text-text-muted"><%= t(".state") %></p>
+    <div class="mt-1.5 flex items-center justify-between">
+      <%= render Ui::StatusBadgeComponent.new(status: @routine.enabled? ? :enabled : :disabled) %>
+      <%= button_to toggle_backup_routine_path(@routine), method: :patch, class: "cursor-pointer text-xs font-medium text-primary hover:text-primary-hover" do %>
+        <%= @routine.enabled? ? t(".disable") : t(".enable") %>
+      <% end %>
+    </div>
+  <% end %>
+  <%= render Ui::CardComponent.new do %>
+    <p class="text-xs font-medium text-text-muted"><%= t(".schedule") %></p>
+    <p class="mt-1.5 font-mono text-sm"><%= @routine.cron %></p>
+    <p class="mt-0.5 text-xs text-text-muted"><%= @routine.schedule_timezone %></p>
+  <% end %>
+  <%= render Ui::CardComponent.new do %>
+    <p class="text-xs font-medium text-text-muted"><%= t(".next_run") %></p>
+    <p class="mt-1.5 text-sm"><%= @routine.enabled? && @routine.next_run_at ? relative_time_future(@routine.next_run_at) : "—" %></p>
+  <% end %>
+  <%= render Ui::CardComponent.new do %>
+    <p class="text-xs font-medium text-text-muted"><%= t(".retention") %></p>
+    <p class="mt-1.5 text-sm">
+      <% parts = [] %>
+      <% parts << t(".keep_last", count: @routine.retention_keep_last) if @routine.retention_keep_last %>
+      <% parts << t(".max_age", count: @routine.retention_max_age_days) if @routine.retention_max_age_days %>
+      <%= parts.any? ? safe_join(parts, " · ") : t(".keep_forever") %>
+    </p>
+  <% end %>
+</div>
+
+<section class="mt-8">
+  <h2 class="text-sm font-semibold"><%= t(".runs") %></h2>
+  <% if @runs.any? %>
+        <% @runs.select(&:in_progress?).each do |live_run| %>
+      <%= turbo_stream_from live_run.updates_channel %>
+    <% end %>
+    <div class="mt-3 overflow-x-auto rounded-lg border border-border bg-surface">
+      <table class="w-full text-left">
+        <thead>
+          <tr class="border-b border-border text-xs text-text-muted">
+            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".table.status") %></th>
+            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".table.when") %></th>
+            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".table.duration") %></th>
+            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".table.size") %></th>
+            <th scope="col" class="px-4 py-2.5"><span class="sr-only"><%= t(".table.actions") %></span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= render BackupRuns::RowComponent.with_collection(@runs) %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <div class="mt-3">
+      <%= render Ui::EmptyStateComponent.new(icon: :clock, title: t(".no_runs.title"), description: t(".no_runs.description")) %>
+    </div>
+  <% end %>
+</section>
