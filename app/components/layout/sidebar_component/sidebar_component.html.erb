@@ -1,5 +1,5 @@
 <aside class="sticky top-4 flex h-[calc(100vh-2rem)] w-64 shrink-0 flex-col rounded-card bg-surface shadow-soft">
-  <div class="px-5 pt-6" <%= data_stimulus_controller.html_safe %>>
+  <div class="px-5 pt-6" <%= data_stimulus_controller.html_safe %> data-action="keydown.esc-><%= stimulus_controller %>#hide click@window-><%= stimulus_controller %>#hideOnOutsideClick">
     <%= link_to root_path, class: "flex items-center gap-2.5" do %>
       <span class="flex size-8 items-center justify-center rounded-full bg-ink">
         <span class="size-3 rounded-full bg-on-ink"></span>
@@ -7,7 +7,8 @@
       <span class="font-display text-lg font-bold tracking-tight">VitaPG</span>
     <% end %>
 
-    <button type="button" class="mt-5 flex w-full cursor-pointer items-center justify-between gap-2 rounded-2xl bg-surface-highlight px-3.5 py-2.5 text-left transition-colors hover:bg-border" data-action="<%= stimulus_controller %>#toggle">
+    <div class="relative mt-5">
+    <button type="button" class="flex w-full cursor-pointer items-center justify-between gap-2 rounded-2xl bg-surface-highlight px-3.5 py-2.5 text-left transition-colors hover:bg-border" data-action="<%= stimulus_controller %>#toggle">
       <span class="min-w-0">
         <span class="block text-[0.625rem] font-semibold uppercase tracking-[0.16em] text-text-faint"><%= t(".workspace") %></span>
         <span class="block truncate text-sm font-semibold"><%= workspace.name %></span>
@@ -15,7 +16,7 @@
       <%= render Ui::IconComponent.new(:chevron_down, classes: "size-4 shrink-0 text-text-faint") %>
     </button>
 
-    <div hidden data-<%= stimulus_controller %>-target="menu" class="mt-2 space-y-0.5 rounded-2xl bg-surface p-2 shadow-pop">
+    <div hidden data-<%= stimulus_controller %>-target="menu" class="absolute inset-x-0 top-full z-50 mt-2 space-y-0.5 rounded-2xl bg-surface p-2 shadow-pop">
       <% other_workspaces.each do |ws| %>
         <%= button_to switch_workspace_path(ws), class: "block w-full cursor-pointer rounded-xl px-3 py-2 text-left text-sm font-medium text-text-muted transition-colors hover:bg-surface-highlight hover:text-text-main" do %>
           <%= ws.name %>
@@ -34,6 +35,7 @@
           <%= f.submit_button t(".new_workspace_create"), class: "w-full" %>
         <% end %>
       <% end %>
+    </div>
     </div>
   </div>
 
