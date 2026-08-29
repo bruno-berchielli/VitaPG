@@ -1,4 +1,6 @@
 class WorkspacesController < ApplicationController
+  before_action :require_workspace_manager!, only: %i[edit update]
+
   def new
     @workspace = Workspace.new
   end
@@ -15,6 +17,20 @@ class WorkspacesController < ApplicationController
     redirect_to root_path, notice: t(".created")
   rescue ActiveRecord::RecordInvalid
     render :new, status: :unprocessable_entity
+  end
+
+  def edit
+    @workspace = Current.workspace
+  end
+
+  def update
+    @workspace = Current.workspace
+
+    if @workspace.update(workspace_params)
+      redirect_to edit_workspace_path(@workspace), notice: t(".updated")
+    else
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   def switch

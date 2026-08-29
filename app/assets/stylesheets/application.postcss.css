@@ -4,87 +4,145 @@
 @custom-variant dark (&:where([data-mode="dark"] *));
 
 /*
- * Theme contract ("Control Room" — see .claude/skills/vitapg-design).
- * Components consume the semantic --color-* tokens through Tailwind utilities;
- * raw palette values live only in the :root / [data-mode] blocks below.
+ * "Vision" theme contract (see .claude/skills/vitapg-design).
+ * Aesthetic ported from the Vision Marketing Dashboard kit: deep blacks,
+ * cool light grays, mint/coral/amber chips, borderless rounded-3xl cards
+ * with soft shadows, Quicksand display type over Inter body/numerals.
+ * Components consume the semantic --color-* tokens through Tailwind
+ * utilities; raw palette values live only in the blocks below.
  */
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Quicksand", "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+
+  --radius-card: 1.5rem;
+  --radius-inner: 1rem;
+
+  --shadow-soft: 0 8px 30px -12px rgb(16 17 20 / 0.14), 0 2px 8px -4px rgb(16 17 20 / 0.06);
+  --shadow-pop: 0 16px 44px -16px rgb(16 17 20 / 0.28);
 
   --color-background: var(--c-bg);
   --color-surface: var(--c-surface);
   --color-surface-highlight: var(--c-surface-highlight);
+  --color-hero: var(--c-hero);
+  --color-hero-soft: var(--c-hero-soft);
+  --color-on-hero: var(--c-on-hero);
+  --color-on-hero-muted: var(--c-on-hero-muted);
   --color-border: var(--c-border);
   --color-border-strong: var(--c-border-strong);
   --color-text-main: var(--c-text-main);
   --color-text-muted: var(--c-text-muted);
   --color-text-faint: var(--c-text-faint);
 
+  /* Signature Vision primary: ink pill — black on light, white on dark. */
+  --color-ink: var(--c-ink);
+  --color-on-ink: var(--c-on-ink);
+
   --color-primary: var(--c-primary);
   --color-primary-hover: var(--c-primary-hover);
   --color-primary-subtle: var(--c-primary-subtle);
 
   --color-success: var(--c-success);
+  --color-success-strong: var(--c-success-strong);
   --color-success-subtle: var(--c-success-subtle);
   --color-danger: var(--c-danger);
+  --color-danger-strong: var(--c-danger-strong);
   --color-danger-subtle: var(--c-danger-subtle);
   --color-warning: var(--c-warning);
+  --color-warning-strong: var(--c-warning-strong);
   --color-warning-subtle: var(--c-warning-subtle);
   --color-info: var(--c-info);
+  --color-info-strong: var(--c-info-strong);
   --color-info-subtle: var(--c-info-subtle);
 }
 
 @layer base {
   :root {
-    --c-bg: #f6f6f4;
+    --c-bg: #edeff4;
     --c-surface: #ffffff;
-    --c-surface-highlight: #f1f2f0;
-    --c-border: #e5e5e1;
-    --c-border-strong: #d2d2cc;
-    --c-text-main: #1d1f23;
-    --c-text-muted: #5f6672;
-    --c-text-faint: #9aa0aa;
+    --c-surface-highlight: #f3f4f7;
+    --c-hero: #101114;
+    --c-hero-soft: #26282e;
+    --c-on-hero: #ffffff;
+    --c-on-hero-muted: #9aa0ab;
+    --c-border: #e7e9ee;
+    --c-border-strong: #d5d8e0;
+    --c-text-main: #101114;
+    --c-text-muted: #6f7688;
+    --c-text-faint: #9ba1b0;
 
-    --c-primary: #336791;
-    --c-primary-hover: #2a5578;
-    --c-primary-subtle: #eaf1f7;
+    --c-ink: #101114;
+    --c-on-ink: #ffffff;
 
-    --c-success: #15803d;
-    --c-success-subtle: #ecf7ef;
-    --c-danger: #b91c1c;
-    --c-danger-subtle: #fbeeee;
-    --c-warning: #b45309;
-    --c-warning-subtle: #fdf3e7;
-    --c-info: #1d4ed8;
-    --c-info-subtle: #edf2fc;
+    --c-primary: #101114;
+    --c-primary-hover: #26282e;
+    --c-primary-subtle: #e9ebf0;
+
+    --c-success: #0f9d7c;
+    --c-success-strong: #3ec9a7;
+    --c-success-subtle: #e2f6f0;
+    --c-danger: #e4574e;
+    --c-danger-strong: #fd6c64;
+    --c-danger-subtle: #fdecea;
+    --c-warning: #c98a1b;
+    --c-warning-strong: #f5b544;
+    --c-warning-subtle: #fbf2df;
+    --c-info: #5a68d6;
+    --c-info-strong: #6e62e5;
+    --c-info-subtle: #ebeafb;
   }
 
   [data-mode="dark"] {
-    --c-bg: #131519;
-    --c-surface: #1b1e24;
-    --c-surface-highlight: #23272f;
-    --c-border: #2b2f38;
-    --c-border-strong: #3a3f4a;
-    --c-text-main: #e8eaed;
-    --c-text-muted: #a3aab6;
-    --c-text-faint: #6d7480;
+    --c-bg: #131417;
+    --c-surface: #1c1e23;
+    --c-surface-highlight: #26282e;
+    --c-hero: #0a0b0d;
+    --c-hero-soft: #202227;
+    --c-on-hero: #ffffff;
+    --c-on-hero-muted: #8e94a1;
+    --c-border: #26282e;
+    --c-border-strong: #34373f;
+    --c-text-main: #f4f5f7;
+    --c-text-muted: #9aa0ab;
+    --c-text-faint: #6b7080;
 
-    --c-primary: #6d9dc4;
-    --c-primary-hover: #85aecf;
-    --c-primary-subtle: #23303c;
+    --c-ink: #ffffff;
+    --c-on-ink: #101114;
 
-    --c-success: #4ade80;
-    --c-success-subtle: #1c2b21;
-    --c-danger: #f87171;
-    --c-danger-subtle: #32211f;
-    --c-warning: #fbbf24;
-    --c-warning-subtle: #322a1a;
-    --c-info: #93b4f5;
-    --c-info-subtle: #1f2735;
+    --c-primary: #ffffff;
+    --c-primary-hover: #d9dbe0;
+    --c-primary-subtle: #26282e;
+
+    --c-success: #3ec9a7;
+    --c-success-strong: #3ec9a7;
+    --c-success-subtle: #17342d;
+    --c-danger: #fd6c64;
+    --c-danger-strong: #fd6c64;
+    --c-danger-subtle: #3a221f;
+    --c-warning: #f5b544;
+    --c-warning-strong: #f5b544;
+    --c-warning-subtle: #37301c;
+    --c-info: #8f85f0;
+    --c-info-strong: #6e62e5;
+    --c-info-subtle: #262347;
   }
 
   body {
-    @apply bg-background text-text-main antialiased;
+    @apply bg-background font-sans text-[0.9375rem] text-text-main antialiased;
+  }
+
+  h1, h2, h3 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  /* Glossy black hero surface with the kit's soft specular ring. */
+  .hero-card {
+    background:
+      radial-gradient(120% 140% at 85% -20%, rgb(255 255 255 / 0.14) 0%, transparent 45%),
+      radial-gradient(90% 120% at 15% 120%, rgb(255 255 255 / 0.06) 0%, transparent 50%),
+      var(--c-hero);
   }
 }

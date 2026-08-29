@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<%= I18n.locale %>" data-mode="<%= current_mode %>">
+<html lang="<%= I18n.locale %>">
   <head>
     <title><%= content_for(:title) || "VitaPG" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -14,21 +14,24 @@
     <link rel="apple-touch-icon" href="/icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
-  <body>
+  <body data-mode="<%= current_mode %>">
     <%= render Ui::FlashComponent.new(flash: flash) %>
 
     <% if user_signed_in? && current_workspace %>
-      <div class="flex min-h-screen">
+      <div class="flex min-h-screen gap-6 p-4">
         <%= render Layout::SidebarComponent.new %>
-        <main class="min-w-0 flex-1 px-8 py-8">
+        <main class="min-w-0 flex-1 py-2 pr-2">
           <div class="mx-auto max-w-6xl">
-            <%= yield %>
+            <%= render Layout::TopbarComponent.new(query: params[:q]) %>
+            <div class="mt-8">
+              <%= yield %>
+            </div>
           </div>
         </main>
       </div>

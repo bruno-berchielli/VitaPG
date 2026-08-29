@@ -7,7 +7,7 @@
   <% filters.each do |status| %>
     <% active = params[:status].presence == status %>
     <%= link_to backup_runs_path(status: status),
-          class: "rounded-md px-2.5 py-1 text-sm font-medium #{active ? 'bg-primary-subtle text-primary' : 'text-text-muted hover:bg-surface-highlight'}" do %>
+          class: "rounded-full px-4 py-1.5 text-sm font-semibold transition-colors #{active ? 'bg-ink text-on-ink shadow-soft' : 'text-text-muted hover:bg-surface-highlight'}" do %>
       <%= status ? t(".filters.#{status}") : t(".filters.all") %>
     <% end %>
   <% end %>
@@ -18,16 +18,16 @@
         <% @runs.select(&:in_progress?).each do |live_run| %>
       <%= turbo_stream_from live_run.updates_channel %>
     <% end %>
-    <div class="overflow-x-auto rounded-lg border border-border bg-surface">
+    <div class="overflow-x-auto rounded-card bg-surface pb-2 shadow-soft">
       <table class="w-full text-left">
         <thead>
-          <tr class="border-b border-border text-xs text-text-muted">
-            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".table.routine") %></th>
-            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".table.status") %></th>
-            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".table.when") %></th>
-            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".table.duration") %></th>
-            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".table.size") %></th>
-            <th scope="col" class="px-4 py-2.5"><span class="sr-only"><%= t(".table.actions") %></span></th>
+          <tr class="text-[0.6875rem] uppercase tracking-[0.14em] text-text-faint">
+            <th scope="col" class="px-6 py-4 font-semibold"><%= t(".table.routine") %></th>
+            <th scope="col" class="px-6 py-4 font-semibold"><%= t(".table.status") %></th>
+            <th scope="col" class="px-6 py-4 font-semibold"><%= t(".table.when") %></th>
+            <th scope="col" class="px-6 py-4 font-semibold"><%= t(".table.duration") %></th>
+            <th scope="col" class="px-6 py-4 font-semibold"><%= t(".table.size") %></th>
+            <th scope="col" class="px-6 py-4"><span class="sr-only"><%= t(".table.actions") %></span></th>
           </tr>
         </thead>
         <tbody>

@@ -8,3 +8,17 @@ es:
       create: "Crear espacio de trabajo"
     create:
       created: "Espacio de trabajo creado"
+    edit:
+      title: "Configuración del espacio"
+      description: "Nombre, identidad y un retrato de lo que vive aquí."
+      general: "General"
+      name: "Nombre del espacio"
+      slug: "Slug"
+      slug_hint: "Se usa como prefijo de almacenamiento predeterminado de los respaldos."
+      at_a_glance: "De un vistazo"
+      members: "Miembros"
+      routines: "Rutinas de respaldo"
+      connections: "Bases de datos"
+      destinations_count: "Destinos"
+    update:
+      updated: "Espacio de trabajo actualizado"

@@ -11,30 +11,30 @@
 
 <div class="mt-6">
   <% if @destinations.any? %>
-    <div class="overflow-x-auto rounded-lg border border-border bg-surface">
+    <div class="overflow-x-auto rounded-card bg-surface pb-2 shadow-soft">
       <table class="w-full text-left">
         <thead>
-          <tr class="border-b border-border text-xs text-text-muted">
-            <th scope="col" class="px-4 py-2.5 font-medium"><%= Destination.human_attribute_name(:name) %></th>
-            <th scope="col" class="px-4 py-2.5 font-medium"><%= Destination.human_attribute_name(:provider) %></th>
-            <th scope="col" class="px-4 py-2.5 font-medium"><%= Destination.human_attribute_name(:bucket) %></th>
-            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".routines") %></th>
-            <th scope="col" class="px-4 py-2.5"><span class="sr-only"><%= t(".actions") %></span></th>
+          <tr class="text-[0.6875rem] uppercase tracking-[0.14em] text-text-faint">
+            <th scope="col" class="px-6 py-4 font-semibold"><%= Destination.human_attribute_name(:name) %></th>
+            <th scope="col" class="px-6 py-4 font-semibold"><%= Destination.human_attribute_name(:provider) %></th>
+            <th scope="col" class="px-6 py-4 font-semibold"><%= Destination.human_attribute_name(:bucket) %></th>
+            <th scope="col" class="px-6 py-4 font-semibold"><%= t(".routines") %></th>
+            <th scope="col" class="px-6 py-4"><span class="sr-only"><%= t(".actions") %></span></th>
           </tr>
         </thead>
         <tbody>
           <% @destinations.each do |destination| %>
-            <tr class="border-b border-border last:border-b-0 hover:bg-surface-highlight/50">
-              <td class="px-4 py-2.5 text-sm font-medium"><%= destination.name %></td>
-              <td class="px-4 py-2.5 text-sm text-text-muted"><%= t("destinations.providers.#{destination.provider}") %></td>
-              <td class="px-4 py-2.5 font-mono text-xs text-text-muted"><%= destination.bucket %></td>
-              <td class="px-4 py-2.5 text-sm tabular-nums text-text-muted"><%= destination.backup_routines.size %></td>
-              <td class="px-4 py-2.5 text-right">
+            <tr class="border-t border-border transition-colors hover:bg-surface-highlight/60">
+              <td class="px-6 py-3.5 text-sm font-medium"><%= destination.name %></td>
+              <td class="px-6 py-3.5 text-sm text-text-muted"><%= t("destinations.providers.#{destination.provider}") %></td>
+              <td class="px-6 py-3.5 font-mono text-xs text-text-muted"><%= destination.bucket %></td>
+              <td class="px-6 py-3.5 text-sm tabular-nums text-text-muted"><%= destination.backup_routines.size %></td>
+              <td class="px-6 py-3.5 text-right">
                 <div class="inline-flex items-center gap-1">
-                  <%= button_to test_destination_path(destination), class: "cursor-pointer rounded px-2 py-1 text-sm font-medium text-text-muted hover:bg-surface-highlight hover:text-text-main" do %>
+                  <%= button_to test_destination_path(destination), class: "cursor-pointer rounded-full border border-border-strong px-3.5 py-1.5 text-xs font-semibold text-text-muted transition-colors hover:bg-surface-highlight hover:text-text-main" do %>
                     <%= t("actions.test") %>
                   <% end %>
-                  <%= link_to t("actions.edit"), edit_destination_path(destination), class: "rounded px-2 py-1 text-sm font-medium text-primary hover:bg-surface-highlight" %>
+                  <%= link_to t("actions.edit"), edit_destination_path(destination), class: "rounded-full bg-ink px-3.5 py-1.5 text-xs font-semibold text-on-ink transition-opacity hover:opacity-85" %>
                 </div>
               </td>
             </tr>

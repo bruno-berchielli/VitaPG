@@ -1,0 +1,39 @@
+<% content_for :title, "#{t('.title')} · VitaPG" %>
+
+<%= render Ui::PageHeaderComponent.new(title: t(".title"), description: t(".description")) %>
+
+<div class="mt-6 grid gap-6 lg:grid-cols-3">
+  <div class="lg:col-span-2">
+    <%= render Ui::CardComponent.new do %>
+      <h2 class="font-display text-base font-semibold"><%= t(".general") %></h2>
+      <%= form_with model: @workspace, url: workspace_path(@workspace), method: :patch, class: "mt-5 space-y-5" do |f| %>
+        <%= f.labeled_text_field :name, label: t(".name") %>
+        <div>
+          <span class="block text-sm font-semibold"><%= t(".slug") %></span>
+          <p class="mt-1 font-mono text-sm text-text-muted"><%= @workspace.slug %></p>
+          <p class="mt-1 text-xs text-text-faint"><%= t(".slug_hint") %></p>
+        </div>
+        <%= f.submit_button t("actions.save") %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="space-y-6">
+    <%= render Ui::CardComponent.new do %>
+      <h2 class="font-display text-base font-semibold"><%= t(".at_a_glance") %></h2>
+      <dl class="mt-4 space-y-3">
+        <% {
+          t(".members") => @workspace.memberships.count,
+          t(".routines") => @workspace.backup_routines.count,
+          t(".connections") => @workspace.database_connections.count,
+          t(".destinations_count") => @workspace.destinations.count
+        }.each do |label, value| %>
+          <div class="flex items-center justify-between">
+            <dt class="text-sm text-text-muted"><%= label %></dt>
+            <dd class="font-display text-sm font-bold tabular-nums"><%= value %></dd>
+          </div>
+        <% end %>
+      </dl>
+    <% end %>
+  </div>
+</div>

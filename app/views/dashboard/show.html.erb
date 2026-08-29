@@ -1,89 +1,111 @@
 <% content_for :title, "#{t('.title')} · VitaPG" %>
 
-<%= render Ui::PageHeaderComponent.new(title: t(".title"), description: t(".description", workspace: current_workspace.name)) do |header| %>
-  <% header.with_action do %>
-    <%= render Ui::ButtonComponent.new(variant: :primary, href: new_backup_routine_path) do |b| %>
-      <% b.with_leading_icon { render Ui::IconComponent.new(:plus, classes: "size-4") } %>
-      <%= t(".new_routine") %>
-    <% end %>
-  <% end %>
-<% end %>
+<div class="grid gap-6 lg:grid-cols-3">
+  <div class="hero-card relative overflow-hidden rounded-card p-8 text-on-hero shadow-pop lg:col-span-2">
+    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-on-hero-muted"><%= t(".overview") %></p>
+    <h1 class="mt-2 font-display text-3xl font-bold"><%= t(".hello", name: current_user.name.split.first) %> 👋</h1>
+    <div class="mt-8 flex flex-wrap items-end gap-x-12 gap-y-6">
+      <div>
+        <p class="text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-on-hero-muted"><%= t(".stats.stored") %></p>
+        <p class="mt-1 font-display text-5xl font-bold tabular-nums"><%= human_size(@stored_bytes) %></p>
+        <p class="mt-1.5 text-xs text-on-hero-muted"><%= t(".stats.stored_hint") %></p>
+      </div>
+      <div>
+        <p class="text-[0.6875rem] font-semibold uppercase tracking-[0.18em] text-on-hero-muted"><%= t(".stats.routines") %></p>
+        <p class="mt-1 font-display text-5xl font-bold tabular-nums"><%= @enabled_count %><span class="text-xl text-on-hero-muted">/<%= @routines_count %></span></p>
+        <p class="mt-1.5 text-xs text-on-hero-muted"><%= t(".stats.routines_hint") %></p>
+      </div>
+    </div>
+    <div class="mt-8">
+      <%= render Ui::ButtonComponent.new(variant: :hero, href: new_backup_routine_path) do |b| %>
+        <% b.with_leading_icon { render Ui::IconComponent.new(:plus, classes: "size-4") } %>
+        <%= t(".new_routine") %>
+      <% end %>
+    </div>
+  </div>
 
-<div class="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
-  <%= render Ui::CardComponent.new do %>
-    <p class="text-xs font-medium text-text-muted"><%= t(".stats.routines") %></p>
-    <p class="mt-1 text-2xl font-semibold tabular-nums"><%= @routines_count %></p>
-    <p class="mt-0.5 text-xs text-text-muted"><%= t(".stats.enabled", count: @enabled_count) %></p>
-  <% end %>
-  <%= render Ui::CardComponent.new do %>
-    <p class="text-xs font-medium text-text-muted"><%= t(".stats.completed_24h") %></p>
-    <p class="mt-1 text-2xl font-semibold tabular-nums text-success"><%= @completed_last_24h %></p>
-    <p class="mt-0.5 text-xs text-text-muted"><%= t(".stats.last_24h") %></p>
-  <% end %>
-  <%= render Ui::CardComponent.new do %>
-    <p class="text-xs font-medium text-text-muted"><%= t(".stats.failed_24h") %></p>
-    <p class="mt-1 text-2xl font-semibold tabular-nums <%= @failed_last_24h.positive? ? 'text-danger' : '' %>"><%= @failed_last_24h %></p>
-    <p class="mt-0.5 text-xs text-text-muted"><%= t(".stats.last_24h") %></p>
-  <% end %>
-  <%= render Ui::CardComponent.new do %>
-    <p class="text-xs font-medium text-text-muted"><%= t(".stats.stored") %></p>
-    <p class="mt-1 text-2xl font-semibold tabular-nums"><%= human_size(@stored_bytes) %></p>
-    <p class="mt-0.5 text-xs text-text-muted"><%= t(".stats.stored_hint") %></p>
+  <% if @success_rate_30d %>
+    <%= render Ui::GaugeComponent.new(percent: @success_rate_30d, label: t(".gauge.title"),
+          caption: t(".gauge.caption", count: @finished_30d_count)) %>
+  <% else %>
+    <div class="hero-card flex flex-col items-center justify-center rounded-card p-8 text-center text-on-hero shadow-pop">
+      <h2 class="font-display text-base font-semibold"><%= t(".gauge.title") %></h2>
+      <p class="mt-3 text-sm text-on-hero-muted"><%= t(".gauge.empty") %></p>
+    </div>
   <% end %>
 </div>
 
-<% if @failing_routines.any? %>
-  <div class="mt-6 rounded-lg border border-danger/30 bg-danger-subtle p-4">
-    <h2 class="flex items-center gap-2 text-sm font-semibold text-danger">
-      <%= render Ui::IconComponent.new(:warning, classes: "size-4") %>
-      <%= t(".failing.title", count: @failing_routines.size) %>
-    </h2>
-    <ul class="mt-2 space-y-1">
-      <% @failing_routines.each do |routine| %>
-        <li>
-          <%= link_to backup_routine_path(routine), class: "text-sm text-danger underline-offset-2 hover:underline" do %>
-            <%= routine.name %> · <%= routine.database_connection.database_name %>
-          <% end %>
-        </li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
+<div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-3">
+  <%= render Ui::HeroStatComponent.new(label: t(".stats.completed_24h"), value: @completed_last_24h,
+        delta: (@completed_last_24h.positive? ? "✓" : nil), caption: t(".stats.last_24h")) %>
+  <%= render Ui::HeroStatComponent.new(label: t(".stats.failed_24h"), value: @failed_last_24h,
+        delta: (@failed_last_24h.positive? ? "!" : nil), delta_kind: :danger, caption: t(".stats.last_24h")) %>
+  <%= render Ui::HeroStatComponent.new(label: t(".stats.databases"), value: current_workspace.database_connections.count,
+        caption: t(".stats.databases_hint")) %>
+</div>
 
-<section class="mt-8">
-  <div class="flex items-center justify-between">
-    <h2 class="text-sm font-semibold"><%= t(".recent_runs") %></h2>
-    <%= link_to t(".view_all"), backup_runs_path, class: "text-sm font-medium text-primary hover:text-primary-hover" %>
-  </div>
-
-  <% if @recent_runs.any? %>
+<div class="mt-6 grid gap-6 lg:grid-cols-3">
+  <div class="lg:col-span-2">
+    <%= render Ui::CardComponent.new(padding: false) do %>
+      <div class="flex items-center justify-between px-6 pt-5">
+        <h2 class="font-display text-base font-semibold"><%= t(".recent_runs") %></h2>
+        <%= link_to t(".view_all"), backup_runs_path, class: "text-sm font-semibold text-text-muted transition-colors hover:text-text-main" %>
+      </div>
+      <% if @recent_runs.any? %>
         <% @recent_runs.select(&:in_progress?).each do |live_run| %>
-      <%= turbo_stream_from live_run.updates_channel %>
-    <% end %>
-    <div class="mt-3 overflow-x-auto rounded-lg border border-border bg-surface">
-      <table class="w-full text-left">
-        <thead>
-          <tr class="border-b border-border text-xs text-text-muted">
-            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".table.routine") %></th>
-            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".table.status") %></th>
-            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".table.when") %></th>
-            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".table.duration") %></th>
-            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".table.size") %></th>
-            <th scope="col" class="px-4 py-2.5"><span class="sr-only"><%= t(".table.actions") %></span></th>
-          </tr>
-        </thead>
-        <tbody>
-          <%= render BackupRuns::RowComponent.with_collection(@recent_runs, show_routine: true) %>
-        </tbody>
-      </table>
-    </div>
-  <% else %>
-    <div class="mt-3">
-      <%= render Ui::EmptyStateComponent.new(icon: :archive, title: t(".empty.title"), description: t(".empty.description")) do |empty| %>
-        <% empty.with_action do %>
-          <%= render Ui::ButtonComponent.new(variant: :primary, href: new_backup_routine_path) do %><%= t(".new_routine") %><% end %>
+          <%= turbo_stream_from live_run.updates_channel %>
         <% end %>
+        <div class="mt-3 overflow-x-auto pb-2">
+          <table class="w-full text-left">
+            <thead>
+              <tr class="text-[0.6875rem] uppercase tracking-[0.14em] text-text-faint">
+                <th scope="col" class="px-6 py-2 font-semibold"><%= t(".table.routine") %></th>
+                <th scope="col" class="px-6 py-2 font-semibold"><%= t(".table.status") %></th>
+                <th scope="col" class="px-6 py-2 font-semibold"><%= t(".table.when") %></th>
+                <th scope="col" class="px-6 py-2 font-semibold"><%= t(".table.duration") %></th>
+                <th scope="col" class="px-6 py-2 font-semibold"><%= t(".table.size") %></th>
+                <th scope="col" class="px-6 py-2"><span class="sr-only"><%= t(".table.actions") %></span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <%= render BackupRuns::RowComponent.with_collection(@recent_runs, show_routine: true) %>
+            </tbody>
+          </table>
+        </div>
+      <% else %>
+        <div class="p-6">
+          <%= render Ui::EmptyStateComponent.new(icon: :archive, title: t(".empty.title"), description: t(".empty.description")) do |empty| %>
+            <% empty.with_action do %>
+              <%= render Ui::ButtonComponent.new(variant: :primary, href: new_backup_routine_path) do %><%= t(".new_routine") %><% end %>
+            <% end %>
+          <% end %>
+        </div>
       <% end %>
-    </div>
+    <% end %>
+  </div>
+
+  <%= render Ui::CardComponent.new(padding: false) do %>
+    <h2 class="px-6 pt-5 font-display text-base font-semibold"><%= t(".health.title") %></h2>
+    <% if @routine_health.any? %>
+      <ul class="mt-2 pb-3">
+        <% @routine_health.each do |routine, last_run| %>
+          <li>
+            <%= link_to backup_routine_path(routine), class: "flex items-center justify-between gap-3 px-6 py-3 transition-colors hover:bg-surface-highlight" do %>
+              <span class="min-w-0">
+                <span class="block truncate text-sm font-semibold"><%= routine.name %></span>
+                <span class="block truncate font-mono text-xs text-text-faint"><%= routine.database_connection.database_name %></span>
+              </span>
+              <% if last_run %>
+                <%= render Ui::StatusBadgeComponent.new(status: last_run.status) %>
+              <% else %>
+                <span class="text-xs text-text-faint"><%= t(".health.never") %></span>
+              <% end %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="px-6 py-6 text-sm text-text-muted"><%= t(".health.empty") %></p>
+    <% end %>
   <% end %>
-</section>
+</div>

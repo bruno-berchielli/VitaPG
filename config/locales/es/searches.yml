@@ -1,0 +1,12 @@
+es:
+  searches:
+    show:
+      title: "Búsqueda"
+      description: "Resultados para \"%{query}\""
+      hint: "Escribe al menos 2 caracteres para buscar."
+      routines: "Rutinas de respaldo"
+      connections: "Bases de datos"
+      destinations: "Destinos"
+      empty:
+        title: "Nada encontrado"
+        description: "Ninguna rutina, base o destino coincide con \"%{query}\"."

@@ -1,0 +1,12 @@
+en:
+  searches:
+    show:
+      title: "Search"
+      description: "Results for \"%{query}\""
+      hint: "Type at least 2 characters to search."
+      routines: "Backup routines"
+      connections: "Databases"
+      destinations: "Destinations"
+      empty:
+        title: "Nothing found"
+        description: "No routine, database or destination matches \"%{query}\"."

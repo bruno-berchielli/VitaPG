@@ -13,34 +13,34 @@
 
 <div class="mt-6">
   <% if @channels.any? %>
-    <div class="overflow-x-auto rounded-lg border border-border bg-surface">
+    <div class="overflow-x-auto rounded-card bg-surface pb-2 shadow-soft">
       <table class="w-full text-left">
         <thead>
-          <tr class="border-b border-border text-xs text-text-muted">
-            <th scope="col" class="px-4 py-2.5 font-medium"><%= NotificationChannel.human_attribute_name(:name) %></th>
-            <th scope="col" class="px-4 py-2.5 font-medium"><%= NotificationChannel.human_attribute_name(:kind) %></th>
-            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".events") %></th>
-            <th scope="col" class="px-4 py-2.5 font-medium"><%= t(".state") %></th>
-            <th scope="col" class="px-4 py-2.5"><span class="sr-only"><%= t(".actions") %></span></th>
+          <tr class="text-[0.6875rem] uppercase tracking-[0.14em] text-text-faint">
+            <th scope="col" class="px-6 py-4 font-semibold"><%= NotificationChannel.human_attribute_name(:name) %></th>
+            <th scope="col" class="px-6 py-4 font-semibold"><%= NotificationChannel.human_attribute_name(:kind) %></th>
+            <th scope="col" class="px-6 py-4 font-semibold"><%= t(".events") %></th>
+            <th scope="col" class="px-6 py-4 font-semibold"><%= t(".state") %></th>
+            <th scope="col" class="px-6 py-4"><span class="sr-only"><%= t(".actions") %></span></th>
           </tr>
         </thead>
         <tbody>
           <% @channels.each do |channel| %>
-            <tr class="border-b border-border last:border-b-0 hover:bg-surface-highlight/50">
-              <td class="px-4 py-2.5 text-sm font-medium">
+            <tr class="border-t border-border transition-colors hover:bg-surface-highlight/60">
+              <td class="px-6 py-3.5 text-sm font-medium">
                 <%= channel.name %>
                 <% if channel.kind_email? %>
                   <span class="block font-mono text-xs text-text-faint"><%= channel.recipients %></span>
                 <% end %>
               </td>
-              <td class="px-4 py-2.5 text-sm text-text-muted"><%= t("notification_channels.kinds.#{channel.kind}") %></td>
-              <td class="px-4 py-2.5 text-sm text-text-muted">
+              <td class="px-6 py-3.5 text-sm text-text-muted"><%= t("notification_channels.kinds.#{channel.kind}") %></td>
+              <td class="px-6 py-3.5 text-sm text-text-muted">
                 <%= [channel.notify_on_failure? ? t(".on_failure") : nil, channel.notify_on_success? ? t(".on_success") : nil].compact.join(" · ") %>
               </td>
-              <td class="px-4 py-2.5"><%= render Ui::StatusBadgeComponent.new(status: channel.enabled? ? :enabled : :disabled) %></td>
-              <td class="px-4 py-2.5 text-right">
+              <td class="px-6 py-4"><%= render Ui::StatusBadgeComponent.new(status: channel.enabled? ? :enabled : :disabled) %></td>
+              <td class="px-6 py-3.5 text-right">
                 <% if current_membership&.manager? %>
-                  <%= link_to t("actions.edit"), edit_notification_channel_path(channel), class: "rounded px-2 py-1 text-sm font-medium text-primary hover:bg-surface-highlight" %>
+                  <%= link_to t("actions.edit"), edit_notification_channel_path(channel), class: "rounded-full bg-ink px-3.5 py-1.5 text-xs font-semibold text-on-ink transition-opacity hover:opacity-85" %>
                 <% end %>
               </td>
             </tr>

@@ -1,16 +1,19 @@
 # frozen_string_literal: true
 
 class Ui::ButtonComponent < ApplicationComponent
+  # Vision signature: the primary action is an "ink" pill — black on the light
+  # theme, white on the dark theme.
   VARIANTS = {
-    primary: "bg-primary text-white hover:bg-primary-hover focus-visible:ring-primary",
-    secondary: "border border-border-strong bg-surface text-text-main hover:bg-surface-highlight focus-visible:ring-primary",
-    danger: "bg-danger text-white hover:opacity-90 focus-visible:ring-danger",
-    ghost: "text-text-muted hover:bg-surface-highlight hover:text-text-main focus-visible:ring-primary"
+    primary: "bg-ink text-on-ink hover:opacity-85 focus-visible:ring-ink",
+    secondary: "border border-border-strong bg-surface text-text-main hover:bg-surface-highlight focus-visible:ring-ink",
+    danger: "bg-danger-strong text-white hover:opacity-85 focus-visible:ring-danger",
+    ghost: "text-text-muted hover:bg-surface-highlight hover:text-text-main focus-visible:ring-ink",
+    hero: "bg-white text-[#101114] hover:opacity-85 focus-visible:ring-white"
   }.freeze
 
   SIZES = {
-    sm: "px-2.5 py-1.5 text-xs",
-    md: "px-3.5 py-2 text-sm"
+    sm: "px-3.5 py-1.5 text-xs",
+    md: "px-5 py-2.5 text-sm"
   }.freeze
 
   renders_one :leading_icon
@@ -26,8 +29,8 @@ class Ui::ButtonComponent < ApplicationComponent
 
   def classes
     [
-      "inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-md font-medium",
-      "transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1",
+      "inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-full font-semibold",
+      "transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1",
       "disabled:cursor-not-allowed disabled:opacity-50",
       VARIANTS.fetch(@variant),
       SIZES.fetch(@size),

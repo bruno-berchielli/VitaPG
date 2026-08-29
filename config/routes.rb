@@ -5,11 +5,13 @@ Rails.application.routes.draw do
 
   mount MissionControl::Jobs::Engine, at: "/jobs"
 
-  resources :workspaces, only: %i[new create] do
+  resources :workspaces, only: %i[new create edit update] do
     member do
       post :switch
     end
   end
+
+  get "search" => "searches#show", as: :search
 
   resources :database_connections do
     member do

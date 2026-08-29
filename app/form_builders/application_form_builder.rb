@@ -3,8 +3,8 @@
 # Default form builder: every field renders label + input + hint + error with
 # the design system's classes, so form templates stay declarative.
 class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
-  INPUT_CLASSES = "block w-full rounded-md border-border-strong bg-surface text-sm shadow-none " \
-                  "placeholder:text-text-faint focus:border-primary focus:ring-primary " \
+  INPUT_CLASSES = "block w-full rounded-xl border-0 bg-surface-highlight px-4 py-2.5 text-sm shadow-none " \
+                  "placeholder:text-text-faint focus:bg-surface focus:ring-2 focus:ring-ink " \
                   "disabled:cursor-not-allowed disabled:opacity-60"
 
   def labeled_text_field(attribute, **options) = labeled_field(:text_field, attribute, **options)
@@ -29,9 +29,9 @@ class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
 
   def labeled_check_box(attribute, label: nil, hint: nil, **options)
     @template.tag.div(class: "flex items-start gap-2.5") do
-      check_box(attribute, class: "mt-0.5 size-4 rounded border-border-strong text-primary focus:ring-primary", **options) +
+      check_box(attribute, class: "mt-0.5 size-4 rounded-md border-border-strong text-ink focus:ring-ink", **options) +
         @template.tag.div do
-          label(attribute, label || default_label(attribute), class: "text-sm font-medium") +
+          label(attribute, label || default_label(attribute), class: "text-sm font-semibold") +
             (hint ? @template.tag.p(hint, class: "text-xs text-text-muted") : "".html_safe)
         end
     end
@@ -52,8 +52,8 @@ class ApplicationFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def wrap(attribute, label:, hint:)
-    @template.tag.div(class: "space-y-1") do
-      label(attribute, label || default_label(attribute), class: "block text-sm font-medium") +
+    @template.tag.div(class: "space-y-1.5") do
+      label(attribute, label || default_label(attribute), class: "block text-sm font-semibold") +
         yield +
         hint_tag(hint) +
         error_tag(attribute)

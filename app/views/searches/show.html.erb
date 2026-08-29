@@ -1,0 +1,69 @@
+<% content_for :title, "#{t('.title')} · VitaPG" %>
+
+<%= render Ui::PageHeaderComponent.new(title: t(".title"), description: @query.present? ? t(".description", query: @query) : t(".hint")) %>
+
+<div class="mt-6 space-y-6">
+  <% if @query.length >= 2 && @routines.empty? && @connections.empty? && @destinations.empty? %>
+    <%= render Ui::EmptyStateComponent.new(icon: :search, title: t(".empty.title"), description: t(".empty.description", query: @query)) %>
+  <% end %>
+
+  <% if @routines.any? %>
+    <%= render Ui::CardComponent.new(padding: false) do %>
+      <h2 class="px-6 pt-5 font-display text-base font-semibold"><%= t(".routines") %></h2>
+      <ul class="mt-2 pb-2">
+        <% @routines.each do |routine| %>
+          <li>
+            <%= link_to backup_routine_path(routine), class: "flex items-center justify-between px-6 py-3 transition-colors hover:bg-surface-highlight" do %>
+              <span class="flex items-center gap-3">
+                <span class="flex size-9 items-center justify-center rounded-xl bg-surface-highlight text-text-muted"><%= render Ui::IconComponent.new(:archive, classes: "size-4") %></span>
+                <span>
+                  <span class="block text-sm font-semibold"><%= routine.name %></span>
+                  <span class="block font-mono text-xs text-text-faint"><%= routine.cron %></span>
+                </span>
+              </span>
+              <%= render Ui::StatusBadgeComponent.new(status: routine.enabled? ? :enabled : :disabled) %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  <% end %>
+
+  <% if @connections.any? %>
+    <%= render Ui::CardComponent.new(padding: false) do %>
+      <h2 class="px-6 pt-5 font-display text-base font-semibold"><%= t(".connections") %></h2>
+      <ul class="mt-2 pb-2">
+        <% @connections.each do |connection| %>
+          <li>
+            <%= link_to edit_database_connection_path(connection), class: "flex items-center gap-3 px-6 py-3 transition-colors hover:bg-surface-highlight" do %>
+              <span class="flex size-9 items-center justify-center rounded-xl bg-surface-highlight text-text-muted"><%= render Ui::IconComponent.new(:database, classes: "size-4") %></span>
+              <span>
+                <span class="block text-sm font-semibold"><%= connection.name %></span>
+                <span class="block font-mono text-xs text-text-faint"><%= connection.host %>:<%= connection.port %>/<%= connection.database_name %></span>
+              </span>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  <% end %>
+
+  <% if @destinations.any? %>
+    <%= render Ui::CardComponent.new(padding: false) do %>
+      <h2 class="px-6 pt-5 font-display text-base font-semibold"><%= t(".destinations") %></h2>
+      <ul class="mt-2 pb-2">
+        <% @destinations.each do |destination| %>
+          <li>
+            <%= link_to edit_destination_path(destination), class: "flex items-center gap-3 px-6 py-3 transition-colors hover:bg-surface-highlight" do %>
+              <span class="flex size-9 items-center justify-center rounded-xl bg-surface-highlight text-text-muted"><%= render Ui::IconComponent.new(:server, classes: "size-4") %></span>
+              <span>
+                <span class="block text-sm font-semibold"><%= destination.name %></span>
+                <span class="block font-mono text-xs text-text-faint"><%= destination.bucket %></span>
+              </span>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+  <% end %>
+</div>

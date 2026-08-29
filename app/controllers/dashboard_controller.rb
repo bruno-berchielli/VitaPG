@@ -9,8 +9,14 @@ class DashboardController < ApplicationController
     @completed_last_24h = @runs_last_24h.completed.count
     @failed_last_24h = @runs_last_24h.failed.count
     @stored_bytes = runs.completed.sum(:size_bytes)
-    @recent_runs = runs.includes(backup_routine: :database_connection).order(created_at: :desc).limit(10)
-    @failing_routines = routines.includes(:database_connection)
-                                .select { |r| r.last_run&.failed? }
+
+    finished_30d = runs.finished.where(created_at: 30.days.ago..)
+    @finished_30d_count = finished_30d.count
+    @success_rate_30d = @finished_30d_count.zero? ? nil : (finished_30d.completed.count * 100.0 / @finished_30d_count)
+
+    @recent_runs = runs.includes(backup_routine: :database_connection).order(created_at: :desc).limit(8)
+    @routine_health = routines.includes(:database_connection).order(:name).limit(6).map do |routine|
+      [ routine, routine.last_run ]
+    end
   end
 end

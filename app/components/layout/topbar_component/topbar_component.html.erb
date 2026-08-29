@@ -1,0 +1,16 @@
+<header class="flex items-center gap-3">
+  <%= form_with url: search_path, method: :get, class: "min-w-0 flex-1" do |f| %>
+    <label class="relative block">
+      <span class="sr-only"><%= t(".search") %></span>
+      <span class="pointer-events-none absolute inset-y-0 left-4 flex items-center text-text-faint">
+        <%= render Ui::IconComponent.new(:search, classes: "size-4") %>
+      </span>
+      <%= f.search_field :q, value: query, placeholder: t(".placeholder"),
+            class: "w-full rounded-full border-0 bg-surface py-2.5 pl-11 pr-4 text-sm shadow-soft placeholder:text-text-faint focus:ring-2 focus:ring-ink" %>
+    </label>
+  <% end %>
+
+  <span class="hidden shrink-0 rounded-full bg-surface px-4 py-2.5 text-xs font-semibold text-text-muted shadow-soft sm:block">
+    <%= today %>
+  </span>
+</header>

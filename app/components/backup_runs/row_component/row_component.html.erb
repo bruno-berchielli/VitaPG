@@ -1,15 +1,15 @@
-<%= tag.tr id: id, class: "border-b border-border last:border-b-0 hover:bg-surface-highlight/50" do %>
+<%= tag.tr id: id, class: "border-t border-border transition-colors hover:bg-surface-highlight/60" do %>
   <% if @show_routine %>
-    <td class="px-4 py-2.5 text-sm">
-      <%= link_to routine.name, backup_routine_path(routine), class: "font-medium hover:text-primary" %>
+    <td class="min-w-44 px-6 py-3.5 text-sm">
+      <%= link_to routine.name, backup_routine_path(routine), class: "font-semibold hover:underline" %>
       <span class="block font-mono text-xs text-text-faint"><%= routine.database_connection.database_name %></span>
     </td>
   <% end %>
-  <td class="px-4 py-2.5"><%= render Ui::StatusBadgeComponent.new(status: @run.status) %></td>
-  <td class="px-4 py-2.5 text-sm text-text-muted"><%= helpers.relative_time(@run.created_at) %></td>
-  <td class="px-4 py-2.5 text-sm tabular-nums text-text-muted"><%= helpers.human_duration(@run.duration) %></td>
-  <td class="px-4 py-2.5 text-sm tabular-nums text-text-muted"><%= helpers.human_size(@run.size_bytes) %></td>
-  <td class="px-4 py-2.5 text-right">
-    <%= link_to t(".details"), backup_run_path(@run), class: "text-sm font-medium text-primary hover:text-primary-hover" %>
+  <td class="px-6 py-3.5"><%= render Ui::StatusBadgeComponent.new(status: @run.status) %></td>
+  <td class="whitespace-nowrap px-6 py-3.5 text-sm text-text-muted"><%= helpers.relative_time(@run.created_at) %></td>
+  <td class="px-6 py-3.5 text-sm tabular-nums text-text-muted"><%= helpers.human_duration(@run.duration) %></td>
+  <td class="px-6 py-3.5 text-sm tabular-nums text-text-muted"><%= helpers.human_size(@run.size_bytes) %></td>
+  <td class="px-6 py-3.5 text-right">
+    <%= link_to t(".details"), backup_run_path(@run), class: "inline-flex items-center rounded-full bg-ink px-3.5 py-1.5 text-xs font-semibold text-on-ink transition-opacity hover:opacity-85" %>
   </td>
 <% end %>
