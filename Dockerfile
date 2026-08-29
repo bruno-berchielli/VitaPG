@@ -14,9 +14,13 @@ FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 # Rails app lives here
 WORKDIR /rails
 
-# Install base packages
+# Install base packages. The PostgreSQL client comes from PGDG so pg_dump is
+# recent enough for the newest servers (a newer pg_dump handles older servers,
+# never the other way around).
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 postgresql-client && \
+    apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 postgresql-common ca-certificates gnupg && \
+    /usr/share/postgresql-common/pgdg/apt.postgresql.org.sh -y && \
+    apt-get install --no-install-recommends -y postgresql-client-18 && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Set production environment
