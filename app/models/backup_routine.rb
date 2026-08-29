@@ -60,11 +60,7 @@ class BackupRoutine < ApplicationRecord
 
   scope :enabled, -> { where(enabled: true) }
 
-  def run!(trigger: "scheduled")
-    Backups::Runner.call(self, trigger: trigger)
-  end
-
-  def run_later!(trigger: "manual")
+  def run_later!(trigger: :manual)
     run = runs.create!(status: :pending, trigger: trigger)
     RunBackupJob.perform_later(run.id)
     run

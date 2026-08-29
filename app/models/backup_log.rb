@@ -34,6 +34,7 @@ class BackupLog < ApplicationRecord
   private
 
   def print_to_rails_log
-    Rails.logger.send(status, "[BackupLog] #{message}")
+    level = status == "warning" ? "warn" : status
+    Rails.logger.send(level, "[BackupLog] #{message}")
   end
 end

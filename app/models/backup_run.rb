@@ -58,4 +58,10 @@ class BackupRun < ApplicationRecord
   def log!(message:, status: :info)
     logs.create!(message:, status:)
   end
+
+  def download_url
+    return unless completed? && file_key.present?
+
+    destination.adapter.download_url(file_key)
+  end
 end

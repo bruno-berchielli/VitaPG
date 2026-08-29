@@ -1,21 +1,9 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  name: MyString
-  provider: MyString
-  bucket: MyString
-  region: MyString
-  access_key_id: MyString
-  secret_access_key: MyString
-  project_id: MyString
-  credentials_path: MyString
-
-two:
-  name: MyString
-  provider: MyString
-  bucket: MyString
-  region: MyString
-  access_key_id: MyString
-  secret_access_key: MyString
-  project_id: MyString
-  credentials_path: MyString
+minio:
+  workspace: acme
+  name: MinIO
+  provider: s3_compatible
+  bucket: backups
+  region: us-east-1
+  endpoint: http://localhost:59000
+  access_key_id: AKIA123
+  secret_access_key: shhh
