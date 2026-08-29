@@ -12,6 +12,7 @@ es:
       table:
         member: "Miembro"
         role: "Rol"
+        role_tip: "Los propietarios gestionan todo, incluidos otros propietarios; los administradores gestionan miembros, notificaciones y configuración; los miembros operan los respaldos. Cada espacio conserva al menos un propietario."
         actions: "Acciones"
       invite:
         title: "Invitar miembro"

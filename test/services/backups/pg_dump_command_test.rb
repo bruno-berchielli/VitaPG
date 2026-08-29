@@ -16,13 +16,13 @@ module Backups
       assert_not argv.any? { |a| a.start_with?("--jobs") }
     end
 
-    test "directory format with parallel jobs omits compress and adds jobs" do
-      @routine.assign_attributes(format: "directory", parallel_jobs: 4)
+    test "directory format supports parallel jobs and per-table compression" do
+      @routine.assign_attributes(format: "directory", parallel_jobs: 4, compression_level: 9)
       argv = PgDumpCommand.new(@routine, output_path: "/tmp/dir").argv
 
       assert_includes argv, "--format=directory"
       assert_includes argv, "--jobs=4"
-      assert_not argv.any? { |a| a.start_with?("--compress") }
+      assert_includes argv, "--compress=9"
     end
 
     test "maps exclusion lists and flags" do

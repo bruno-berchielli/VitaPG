@@ -10,6 +10,7 @@ en:
       gauge:
         title: "Success rate"
         caption: "across %{count} runs in the last 30 days"
+        tip: "Share of finished runs that completed successfully in the last 30 days. Failures and missed schedules are what the notification channels alert about."
         empty: "Run your first backup to start measuring reliability."
       stats:
         routines: "Active routines"
@@ -18,6 +19,7 @@ en:
         failed_24h: "Failed · 24h"
         last_24h: "last 24 hours"
         stored: "Protected data"
+        stored_tip: "Total size of all retained backups across this workspace's destinations — what you could restore right now."
         stored_hint: "across retained backups"
         databases: "Databases"
         databases_hint: "connected to this workspace"

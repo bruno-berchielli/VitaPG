@@ -10,6 +10,7 @@ es:
       gauge:
         title: "Tasa de éxito"
         caption: "en %{count} ejecuciones de los últimos 30 días"
+        tip: "Fracción de las ejecuciones finalizadas que completaron con éxito en los últimos 30 días. Los fallos y horarios perdidos son lo que alertan los canales de notificación."
         empty: "Ejecuta tu primer respaldo para empezar a medir la confiabilidad."
       stats:
         routines: "Rutinas activas"
@@ -18,6 +19,7 @@ es:
         failed_24h: "Fallidas · 24h"
         last_24h: "últimas 24 horas"
         stored: "Datos protegidos"
+        stored_tip: "Tamaño total de todos los respaldos retenidos en los destinos de este espacio — lo que podrías restaurar ahora mismo."
         stored_hint: "en respaldos retenidos"
         databases: "Bases de datos"
         databases_hint: "conectadas a este espacio"

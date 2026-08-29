@@ -71,6 +71,13 @@ en:
     edit:
       title: "Edit routine"
     form:
+      frequency: "Frequency"
+      custom_frequency: "Custom (cron expression)…"
+      tips:
+        what: "Pick which PostgreSQL database gets dumped and which storage bucket receives the file. VitaPG only ever reads from the database."
+        schedule: "The routine runs automatically on this schedule, in the timezone you pick. You can also run it manually anytime."
+        dump: "How pg_dump packages the data. Custom suits most cases; directory splits the dump so large databases run with parallel jobs; plain is human-readable SQL."
+        retention: "How long backups stay in your bucket. Pruning only ever deletes files this routine created — never anything else."
       sections:
         what: "What to back up"
         schedule: "Schedule"
@@ -90,9 +97,9 @@ en:
       max_age_hint: "Delete backups older than this."
       prefix_hint: "Object key prefix in the bucket. Defaults to workspace/routine."
       formats:
-        custom: "Custom (compressed, pg_restore)"
-        plain: "Plain SQL"
-        directory: "Directory (parallel)"
+        custom: "Custom — compressed, restore with pg_restore"
+        plain: "Plain SQL — readable, restore with psql"
+        directory: "Directory — parallel, restore with pg_restore"
     create:
       created: "Routine created"
     update:

@@ -30,7 +30,9 @@
                 <%= link_to routine.name, backup_routine_path(routine), class: "font-medium hover:text-primary" %>
               </td>
               <td class="px-6 py-3.5 font-mono text-xs text-text-muted"><%= routine.database_connection.database_name %></td>
-              <td class="px-6 py-3.5 font-mono text-xs text-text-muted"><%= routine.cron %></td>
+              <td class="px-6 py-3.5 text-sm text-text-muted">
+                <%= Backups::CronHumanizer.humanize(routine.cron) || tag.span(routine.cron, class: "font-mono text-xs") %>
+              </td>
               <td class="px-6 py-4"><%= render Ui::StatusBadgeComponent.new(status: routine.enabled? ? :enabled : :disabled) %></td>
               <td class="px-6 py-4">
                 <% if routine.last_run %>

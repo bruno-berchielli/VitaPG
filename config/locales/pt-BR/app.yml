@@ -1,4 +1,15 @@
 pt-BR:
+  date:
+    day_names: [domingo, segunda-feira, terça-feira, quarta-feira, quinta-feira, sexta-feira, sábado]
+  cron:
+    daily: "Todos os dias às %{time}"
+    weekdays: "Dias úteis às %{time}"
+    weekly: "Toda %{day} às %{time}"
+    monthly: "Todo dia %{day} do mês às %{time}"
+    hourly: "A cada hora"
+    hourly_at: "A cada hora, no minuto %{minute}"
+    every_minutes: "A cada %{count} minutos"
+    every_hours: "A cada %{count} horas"
   devise:
     registrations:
       closed: "Cadastros estão fechados nesta instância. Peça um convite a um gestor do workspace."

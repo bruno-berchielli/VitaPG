@@ -26,7 +26,7 @@
 
     <% if restore_command %>
       <div class="mt-5 border-t border-border pt-4">
-        <p class="text-xs font-medium text-text-muted"><%= t(".restore") %></p>
+        <p class="flex items-center gap-1.5 text-xs font-medium text-text-muted"><%= t(".restore") %> <%= render Ui::InfoTipComponent.new(text: t(".restore_tip")) %></p>
         <div class="mt-1.5 flex items-center gap-2">
           <code class="min-w-0 flex-1 overflow-x-auto whitespace-nowrap rounded-md bg-surface-highlight px-3 py-2 font-mono text-xs"><%= restore_command %></code>
           <%= render Ui::CopyButtonComponent.new(text: restore_command) %>

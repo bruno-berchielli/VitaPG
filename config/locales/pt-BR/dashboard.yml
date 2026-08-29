@@ -10,6 +10,7 @@ pt-BR:
       gauge:
         title: "Taxa de sucesso"
         caption: "em %{count} execuções nos últimos 30 dias"
+        tip: "Fração das execuções finalizadas que concluíram com sucesso nos últimos 30 dias. Falhas e agendamentos perdidos são o que os canais de notificação alertam."
         empty: "Execute seu primeiro backup para começar a medir a confiabilidade."
       stats:
         routines: "Rotinas ativas"
@@ -18,6 +19,7 @@ pt-BR:
         failed_24h: "Falhas · 24h"
         last_24h: "últimas 24 horas"
         stored: "Dados protegidos"
+        stored_tip: "Tamanho total de todos os backups retidos nos destinos deste workspace — o que você conseguiria restaurar agora."
         stored_hint: "em backups retidos"
         databases: "Bancos de dados"
         databases_hint: "conectados a este workspace"

@@ -12,6 +12,7 @@ en:
       table:
         member: "Member"
         role: "Role"
+        role_tip: "Owners manage everything including other owners; admins manage members, notifications and settings; members operate backups. Every workspace keeps at least one owner."
         actions: "Actions"
       invite:
         title: "Invite member"

@@ -1,4 +1,13 @@
 en:
+  cron:
+    daily: "Every day at %{time}"
+    weekdays: "Weekdays at %{time}"
+    weekly: "Every %{day} at %{time}"
+    monthly: "Every month on day %{day} at %{time}"
+    hourly: "Every hour"
+    hourly_at: "Every hour at minute %{minute}"
+    every_minutes: "Every %{count} minutes"
+    every_hours: "Every %{count} hours"
   devise:
     registrations:
       closed: "Sign-ups are closed on this instance. Ask a workspace manager for an invitation."
