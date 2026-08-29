@@ -1,0 +1,12 @@
+en:
+  ui:
+    modal_component:
+      close: "Close"
+pt-BR:
+  ui:
+    modal_component:
+      close: "Fechar"
+es:
+  ui:
+    modal_component:
+      close: "Cerrar"
