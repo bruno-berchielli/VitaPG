@@ -1,19 +1,9 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  name: MyString
-  host: MyString
-  port: 1
-  username: MyString
-  password: MyString
-  database_name: MyString
-  sslmode: MyString
-
-two:
-  name: MyString
-  host: MyString
-  port: 1
-  username: MyString
-  password: MyString
-  database_name: MyString
-  sslmode: MyString
+prod:
+  workspace: acme
+  name: Production
+  host: db.example.com
+  port: 5432
+  username: backup_reader
+  password: secret
+  database_name: prod_db
+  sslmode: prefer

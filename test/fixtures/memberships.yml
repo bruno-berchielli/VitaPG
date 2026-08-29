@@ -1,0 +1,9 @@
+alice_acme:
+  user: alice
+  workspace: acme
+  role: owner
+
+bob_acme:
+  user: bob
+  workspace: acme
+  role: member

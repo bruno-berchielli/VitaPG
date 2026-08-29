@@ -1,13 +1,12 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  name: MyString
-  frequency: MyString
-  database_connection: one
-  destination: one
-
-two:
-  name: MyString
-  frequency: MyString
-  database_connection: two
-  destination: two
+nightly:
+  workspace: acme
+  name: Nightly
+  database_connection: prod
+  destination: minio
+  cron: "0 3 * * *"
+  schedule_timezone: UTC
+  format: custom
+  compression_level: 6
+  parallel_jobs: 1
+  retention_keep_last: 2
+  enabled: true

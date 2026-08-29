@@ -1,0 +1,10 @@
+pt-BR:
+  workspaces:
+    not_authorized: "Você não tem permissão para gerenciar este workspace"
+    new:
+      title: "Crie seu workspace"
+      subtitle: "Um workspace agrupa suas conexões de banco, destinos e rotinas de backup."
+      name: "Nome do workspace"
+      create: "Criar workspace"
+    create:
+      created: "Workspace criado"

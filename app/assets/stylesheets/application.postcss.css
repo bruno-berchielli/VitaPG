@@ -1,0 +1,90 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+
+@custom-variant dark (&:where([data-mode="dark"] *));
+
+/*
+ * Theme contract ("Control Room" — see .claude/skills/vitapg-design).
+ * Components consume the semantic --color-* tokens through Tailwind utilities;
+ * raw palette values live only in the :root / [data-mode] blocks below.
+ */
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+
+  --color-background: var(--c-bg);
+  --color-surface: var(--c-surface);
+  --color-surface-highlight: var(--c-surface-highlight);
+  --color-border: var(--c-border);
+  --color-border-strong: var(--c-border-strong);
+  --color-text-main: var(--c-text-main);
+  --color-text-muted: var(--c-text-muted);
+  --color-text-faint: var(--c-text-faint);
+
+  --color-primary: var(--c-primary);
+  --color-primary-hover: var(--c-primary-hover);
+  --color-primary-subtle: var(--c-primary-subtle);
+
+  --color-success: var(--c-success);
+  --color-success-subtle: var(--c-success-subtle);
+  --color-danger: var(--c-danger);
+  --color-danger-subtle: var(--c-danger-subtle);
+  --color-warning: var(--c-warning);
+  --color-warning-subtle: var(--c-warning-subtle);
+  --color-info: var(--c-info);
+  --color-info-subtle: var(--c-info-subtle);
+}
+
+@layer base {
+  :root {
+    --c-bg: #f6f6f4;
+    --c-surface: #ffffff;
+    --c-surface-highlight: #f1f2f0;
+    --c-border: #e5e5e1;
+    --c-border-strong: #d2d2cc;
+    --c-text-main: #1d1f23;
+    --c-text-muted: #5f6672;
+    --c-text-faint: #9aa0aa;
+
+    --c-primary: #336791;
+    --c-primary-hover: #2a5578;
+    --c-primary-subtle: #eaf1f7;
+
+    --c-success: #15803d;
+    --c-success-subtle: #ecf7ef;
+    --c-danger: #b91c1c;
+    --c-danger-subtle: #fbeeee;
+    --c-warning: #b45309;
+    --c-warning-subtle: #fdf3e7;
+    --c-info: #1d4ed8;
+    --c-info-subtle: #edf2fc;
+  }
+
+  [data-mode="dark"] {
+    --c-bg: #131519;
+    --c-surface: #1b1e24;
+    --c-surface-highlight: #23272f;
+    --c-border: #2b2f38;
+    --c-border-strong: #3a3f4a;
+    --c-text-main: #e8eaed;
+    --c-text-muted: #a3aab6;
+    --c-text-faint: #6d7480;
+
+    --c-primary: #6d9dc4;
+    --c-primary-hover: #85aecf;
+    --c-primary-subtle: #23303c;
+
+    --c-success: #4ade80;
+    --c-success-subtle: #1c2b21;
+    --c-danger: #f87171;
+    --c-danger-subtle: #32211f;
+    --c-warning: #fbbf24;
+    --c-warning-subtle: #322a1a;
+    --c-info: #93b4f5;
+    --c-info-subtle: #1f2735;
+  }
+
+  body {
+    @apply bg-background text-text-main antialiased;
+  }
+}

@@ -1,10 +1,10 @@
 # == Schema Information
 #
 # Table name: destinations
+# Database name: primary
 #
 #  id                :integer          not null, primary key
 #  bucket            :string
-#  credentials_path  :string
 #  endpoint          :string
 #  name              :string
 #  provider          :string
@@ -13,12 +13,34 @@
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  access_key_id     :string
-#  project_id        :string
+#  workspace_id      :integer          not null
+#
+# Indexes
+#
+#  index_destinations_on_workspace_id  (workspace_id)
+#
+# Foreign Keys
+#
+#  workspace_id  (workspace_id => workspaces.id)
 #
 class Destination < ApplicationRecord
-  enum :provider, { s3: "s3", google_drive: "google_drive" }
+  belongs_to :workspace
+  has_many :backup_routines, dependent: :restrict_with_error
 
-  has_many :backup_routines, dependent: :nullify
+  encrypts :secret_access_key
 
-  validates :name, :provider, :bucket, presence: true
+  # All providers speak the S3 API; the enum drives UI presets (endpoint,
+  # region hints) and future non-S3 adapters.
+  enum :provider, {
+    s3: "s3",
+    s3_compatible: "s3_compatible"
+  }, default: :s3
+
+  validates :name, :provider, :bucket, :access_key_id, :secret_access_key, presence: true
+  validates :region, presence: true, if: :s3?
+  validates :endpoint, presence: true, if: :s3_compatible?
+
+  def adapter
+    Storage::S3Adapter.new(self)
+  end
 end

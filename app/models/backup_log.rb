@@ -1,6 +1,7 @@
 # == Schema Information
 #
 # Table name: backup_logs
+# Database name: primary
 #
 #  id            :integer          not null, primary key
 #  message       :json
@@ -25,7 +26,7 @@ class BackupLog < ApplicationRecord
   enum :status, {
     info: "info",
     warning: "warning",
-    error: "error",
+    error: "error"
   }
 
   validates :status, presence: true
@@ -33,6 +34,7 @@ class BackupLog < ApplicationRecord
   private
 
   def print_to_rails_log
-    Rails.logger.send(status, "[BackupLog] #{message}")
+    level = status == "warning" ? "warn" : status
+    Rails.logger.send(level, "[BackupLog] #{message}")
   end
 end

@@ -1,10 +1,13 @@
 class RunBackupJob < ApplicationJob
-  queue_as :default
+  queue_as :backups
 
-  def perform(backup_routine_id)
-    routine = BackupRoutine.find_by(id: backup_routine_id)
-    return unless routine&.enabled?
+  # Safe to retry: Backups::Runner only executes runs still in pending.
+  retry_on Errno::ECONNRESET, Seahorse::Client::NetworkingError, wait: :polynomially_longer, attempts: 3
 
-    routine.run!
+  def perform(backup_run_id)
+    run = BackupRun.find_by(id: backup_run_id)
+    return unless run
+
+    Backups::Runner.call(run)
   end
 end
