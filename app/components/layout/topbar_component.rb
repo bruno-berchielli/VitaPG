@@ -9,10 +9,6 @@ class Layout::TopbarComponent < ApplicationComponent
 
   def query = @query
 
-  def today
-    helpers.l(Date.current, format: :long)
-  end
-
   # The bell feed: latest finished runs across the workspace, newest first.
   def recent_events
     @recent_events ||= BackupRun.finished
