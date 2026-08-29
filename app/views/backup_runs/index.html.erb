@@ -35,6 +35,17 @@
         </tbody>
       </table>
     </div>
+    <% if @page > 1 || @has_next_page %>
+      <div class="mt-4 flex items-center justify-between">
+        <% if @page > 1 %>
+          <%= render Ui::ButtonComponent.new(variant: :secondary, size: :sm, href: backup_runs_path(status: params[:status], page: @page - 1)) do %><%= t(".previous") %><% end %>
+        <% else %><span></span><% end %>
+        <span class="text-xs text-text-muted"><%= t(".page", page: @page) %></span>
+        <% if @has_next_page %>
+          <%= render Ui::ButtonComponent.new(variant: :secondary, size: :sm, href: backup_runs_path(status: params[:status], page: @page + 1)) do %><%= t(".next") %><% end %>
+        <% else %><span></span><% end %>
+      </div>
+    <% end %>
   <% else %>
     <%= render Ui::EmptyStateComponent.new(icon: :clock, title: t(".empty.title"), description: t(".empty.description")) %>
   <% end %>

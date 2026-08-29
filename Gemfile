@@ -14,7 +14,6 @@ gem "view_component"
 gem "jbuilder"
 gem "bcrypt", "~> 3.1.7"
 gem "devise"
-gem "pagy"
 gem "fugit"
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "solid_cache"
