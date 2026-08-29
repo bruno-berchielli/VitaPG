@@ -1,13 +1,48 @@
 #!/usr/bin/env sh
 
-if gem list --no-installed --exact --silent foreman; then
+# procman lands in one of these depending on the installer; make sure the rest
+# of the script (and the exec below) can find it.
+export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$PATH"
+
+# procman is the recommended runner: unlike foreman it gives each process a real
+# TTY, so interactive debuggers (binding.irb / rdbg) work. Press `i` to attach
+# to a process, `Ctrl-A` to detach. Try to install it automatically the first
+# time; a failure here is non-fatal — we fall back to foreman below.
+if ! command -v procman >/dev/null 2>&1; then
+  echo "procman not found — attempting to install it (recommended runner)..."
+  curl --proto '=https' --tlsv1.2 -LsSf \
+    https://github.com/a-chacon/procman/releases/latest/download/proc-man-installer.sh | sh || true
+fi
+
+if ! command -v procman >/dev/null 2>&1 && gem list --no-installed --exact --silent foreman; then
   echo "Installing foreman..."
   gem install foreman
 fi
 
-# Default to port 3000 if not specified
-export PORT="${PORT:-3000}"
+# Default to port 3000 if not specified; auto-increment when busy
+if [ -z "$PORT" ]; then
+  PORT=3000
+  while lsof -iTCP:"$PORT" -sTCP:LISTEN -n -P >/dev/null 2>&1; do
+    PORT=$((PORT + 1))
+  done
+fi
+export PORT
+echo "Using PORT=$PORT"
 
-rails assets:clobber
-rails assets:clean
+bin/rails zeitwerk:check
+
+if command -v procman >/dev/null 2>&1; then
+  exec procman Procfile.dev "$@"
+fi
+
+# procman still unavailable — fall back to foreman, but make clear it's a
+# degraded mode the dev should fix.
+echo ""
+echo "⚠️  procman could not be installed, so bin/dev is running under foreman for now."
+echo "    Recommended usage is procman (TUI): it gives binding.irb / rdbg a real"
+echo "    TTY, which foreman does not. Install it and ensure it's on your PATH:"
+echo "        cargo install proc-man     # or the installer script above"
+echo "    Docs: https://github.com/a-chacon/procman"
+echo ""
+
 exec foreman start -f Procfile.dev --env /dev/null "$@"

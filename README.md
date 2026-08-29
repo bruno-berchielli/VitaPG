@@ -49,7 +49,7 @@ Open the app, create the first account and workspace, and start adding routines.
 git clone https://github.com/bruno-berchielli/VitaPG.git
 cd VitaPG
 bin/setup            # bundle + yarn + db:prepare
-bin/dev              # web + js/css watchers + jobs
+bin/dev              # web + js/css watchers + jobs (procman TUI; picks the first free port from 3000)
 ```
 
 Visit `http://localhost:3000`, sign up, create a workspace.
