@@ -1,4 +1,9 @@
 module ApplicationHelper
+  # Public signup is only open to bootstrap the instance (or when explicitly
+  # enabled); afterwards people join via Members invitations.
+  def signups_open?
+    ENV["VITAPG_OPEN_SIGNUPS"] == "1" || !User.exists?
+  end
   def human_size(bytes)
     return "—" if bytes.blank?
 

@@ -69,6 +69,7 @@ Add a connection to `localhost:55432`, an S3-compatible destination pointing at 
 - **Deploy** — a Kamal config ships in `config/deploy.yml`; any Docker host works. One container runs web + jobs (see `Procfile` semantics in `bin/thrust`/`bin/jobs`); scale job concurrency with `JOB_CONCURRENCY`.
 - **Email** — set the `SMTP_*` variables (see `.env.example`) to enable password resets and email notifications.
 - **Job dashboard** — `/jobs` (Mission Control) requires a signed-in user.
+- **Sign-ups** — the first account bootstraps the instance; after that, public registration closes and people join via **Members** invitations. Set `VITAPG_OPEN_SIGNUPS=1` to keep it open.
 - **Database permissions** — back up with a dedicated read-only role. VitaPG only ever runs `pg_dump` and `SELECT 1` against your servers.
 - **Storage permissions** — scope credentials to the bucket, with put/get/delete-object rights only (no bucket deletion needed).
 
