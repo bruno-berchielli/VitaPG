@@ -7,3 +7,6 @@ application.register("routine-form", RoutineFormController)
 
 import ConnectionFormController from "./connection_form_controller"
 application.register("connection-form", ConnectionFormController)
+
+import DestinationFormController from "./destination_form_controller"
+application.register("destination-form", DestinationFormController)

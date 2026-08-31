@@ -16,7 +16,7 @@ module Destinations
     def call
       destination.adapter.verify_access!
       Result.new(success: true, message: "Bucket accessible")
-    rescue Aws::Errors::ServiceError, Seahorse::Client::NetworkingError, ArgumentError => e
+    rescue Aws::Errors::ServiceError, Seahorse::Client::NetworkingError, Backups::Error, ArgumentError => e
       Result.new(success: false, message: e.message.to_s.first(500))
     end
   end

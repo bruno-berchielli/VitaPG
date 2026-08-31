@@ -1,20 +1,30 @@
-<%= form_with model: @destination, class: "space-y-5" do |f| %>
+<%= form_with model: @destination, class: "space-y-5", html: { data: { controller: "destination-form" } } do |f| %>
   <%= f.labeled_text_field :name, hint: t(".name_hint") %>
 
   <%= f.labeled_select :provider,
         Destination.providers.keys.map { |k| [t("destinations.providers.#{k}"), k] },
-        hint: t(".provider_hint") %>
+        hint: t(".provider_hint"),
+        data: { destination_form_target: "provider", action: "destination-form#providerChanged" } %>
 
-  <div class="grid grid-cols-2 gap-4">
-    <%= f.labeled_text_field :bucket %>
-    <%= f.labeled_text_field :region, placeholder: "us-east-1" %>
+  <div data-destination-form-target="s3Fields" class="space-y-5">
+    <div class="grid grid-cols-2 gap-4">
+      <%= f.labeled_text_field :bucket %>
+      <%= f.labeled_text_field :region, placeholder: "us-east-1" %>
+    </div>
+
+    <%= f.labeled_url_field :endpoint, placeholder: "https://…", hint: t(".endpoint_hint") %>
+
+    <div class="grid grid-cols-2 gap-4">
+      <%= f.labeled_text_field :access_key_id, autocomplete: "off" %>
+      <%= f.labeled_password_field :secret_access_key, hint: (t(".secret_keep_hint") if @destination.persisted?) %>
+    </div>
   </div>
 
-  <%= f.labeled_url_field :endpoint, placeholder: "https://…", hint: t(".endpoint_hint") %>
-
-  <div class="grid grid-cols-2 gap-4">
-    <%= f.labeled_text_field :access_key_id, autocomplete: "off" %>
-    <%= f.labeled_password_field :secret_access_key, hint: (t(".secret_keep_hint") if @destination.persisted?) %>
+  <div data-destination-form-target="localFields" class="space-y-5">
+    <%= f.labeled_text_field :base_path, placeholder: "/var/backups/vitapg", class: "font-mono", hint: t(".base_path_hint") %>
+    <div class="rounded-xl bg-surface-highlight p-3.5 text-xs font-medium text-text-muted">
+      <%= t(".local_note") %>
+    </div>
   </div>
 
   <div class="rounded-xl bg-success-subtle p-3.5 text-xs font-medium text-success">

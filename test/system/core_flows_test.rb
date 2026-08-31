@@ -66,6 +66,17 @@ class CoreFlowsTest < ApplicationSystemTestCase
     assert_no_selector "input[name='database_connection[ssh_host]']", visible: :visible
   end
 
+  test "destination form swaps S3 fields for the directory field on local provider" do
+    sign_in
+    visit new_destination_path
+
+    assert_selector "input[name='destination[bucket]']", visible: :visible
+    assert_no_selector "input[name='destination[base_path]']", visible: :visible
+    select I18n.t("destinations.providers.local"), from: "destination[provider]"
+    assert_selector "input[name='destination[base_path]']", visible: :visible
+    assert_no_selector "input[name='destination[bucket]']", visible: :visible
+  end
+
   test "custom cron field appears when choosing the custom frequency" do
     sign_in
     visit new_backup_routine_path

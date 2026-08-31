@@ -13,14 +13,17 @@ es:
         endpoint: "Endpoint"
         access_key_id: "Access key ID"
         secret_access_key: "Secret access key"
+        base_path: "Directorio"
   destinations:
     providers:
       s3: "Amazon S3"
       s3_compatible: "Compatible con S3 (MinIO, R2, Backblaze, Wasabi, Spaces…)"
+      local: "Directorio local (en el servidor de VitaPG)"
     index:
       title: "Destinos"
       description: "Dónde se almacenan tus respaldos. VitaPG solo crea archivos aquí — nunca elimina nada que no haya creado."
       new: "Nuevo destino"
+      location: "Ubicación"
       routines: "Rutinas"
       actions: "Acciones"
       empty:
@@ -36,6 +39,8 @@ es:
       provider_hint: "Cualquier servicio compatible con S3 funciona: MinIO, Cloudflare R2, Backblaze B2, Wasabi, DigitalOcean Spaces…"
       endpoint_hint: "Obligatorio para proveedores compatibles con S3; déjalo en blanco para Amazon S3."
       secret_keep_hint: "Déjalo en blanco para conservar la clave actual."
+      base_path_hint: "Directorio absoluto en el servidor de VitaPG. Debe existir y ser escribible por el usuario de la app."
+      local_note: "Totalmente offline: los archivos se escriben en este directorio, sin red. Recuerda incluirlo en el respaldo del propio servidor y en el monitoreo de disco."
       security_note: "Las claves se cifran en reposo. Usa credenciales limitadas a este bucket, sin permiso para eliminar buckets."
     create:
       created: "Destino creado"

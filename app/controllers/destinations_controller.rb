@@ -55,7 +55,7 @@ class DestinationsController < ApplicationController
   end
 
   def destination_params
-    params.expect(destination: %i[name provider bucket region endpoint access_key_id secret_access_key])
+    params.expect(destination: %i[name provider bucket region endpoint access_key_id secret_access_key base_path])
   end
 
   def destination_params_for_update
