@@ -40,6 +40,15 @@ module Backups
       assert_includes argv, "--no-privileges"
     end
 
+    test "a table listed in both exclusion fields produces no duplicate flags" do
+      @routine.assign_attributes(tables_to_exclude: "cron.job", tables_to_exclude_data: "cron.job, audits")
+      argv = PgDumpCommand.new(@routine, output_path: "/tmp/x.dump").argv
+
+      assert_equal 1, argv.count("--exclude-table=cron.job")
+      assert_equal 1, argv.count("--exclude-table-data=cron.job")
+      assert_equal argv, argv.uniq
+    end
+
     test "never contains credentials" do
       line = PgDumpCommand.new(@routine, output_path: "/tmp/x.dump").to_log_line
 
