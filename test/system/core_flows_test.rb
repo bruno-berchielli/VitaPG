@@ -48,7 +48,9 @@ class CoreFlowsTest < ApplicationSystemTestCase
     fill_in "database_connection[password]", with: "secret123"
     click_on I18n.t("actions.save")
 
-    assert_text I18n.t("database_connections.ssh_setup.title")
+    # Saving generates an RSA-4096 keypair, which can take a while on slow CI
+    # machines — wait well past Capybara's default.
+    assert_text I18n.t("database_connections.ssh_setup.title"), wait: 30
     assert_text "ssh-rsa"
     assert_text "authorized_keys"
   end
