@@ -47,6 +47,8 @@ es:
           remove: "Quitar"
           confirm_remove: "¿Quitar a %{name} de %{workspace}?"
           none: "Este usuario aún no está en ningún espacio."
+          global_access: "Acceso global"
+          global_access_tip: "Por ser superadmin, este usuario ya abre y gestiona todos los espacios de la instancia. Los roles por espacio no tienen efecto mientras dure el acceso de superadmin — vuelven a aplicar si se le quita."
         add:
           title: "Agregar a un espacio"
           workspace: "Espacio"
