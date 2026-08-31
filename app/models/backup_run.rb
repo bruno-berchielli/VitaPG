@@ -3,17 +3,23 @@
 # Table name: backup_runs
 # Database name: primary
 #
-#  id                :integer          not null, primary key
-#  error_message     :text
-#  file_key          :string
-#  finished_at       :datetime
-#  size_bytes        :bigint
-#  started_at        :datetime
-#  status            :string
-#  trigger           :string           default("scheduled"), not null
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  backup_routine_id :integer          not null
+#  id                   :integer          not null, primary key
+#  error_message        :text
+#  file_key             :string
+#  finished_at          :datetime
+#  progress_bytes       :bigint
+#  progress_detail      :string
+#  progress_rate_bps    :bigint
+#  progress_total_bytes :bigint
+#  size_bytes           :bigint
+#  source_size_bytes    :bigint
+#  stage_started_at     :datetime
+#  started_at           :datetime
+#  status               :string
+#  trigger              :string           default("scheduled"), not null
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  backup_routine_id    :integer          not null
 #
 # Indexes
 #
@@ -46,6 +52,8 @@ class BackupRun < ApplicationRecord
   # Cable carries it to browser sessions.
   after_update_commit :broadcast_refresh
 
+  before_save -> { self.stage_started_at = Time.current }, if: :status_changed?
+
   scope :in_progress, -> { where(status: %i[pending dumping uploading]) }
   scope :finished, -> { where(status: %i[completed failed]) }
   scope :prunable, -> { completed.where.not(file_key: nil) }
@@ -62,6 +70,30 @@ class BackupRun < ApplicationRecord
 
   def log!(message:, status: :info)
     logs.create!(message:, status:)
+  end
+
+  def stage_elapsed
+    return unless in_progress?
+
+    Time.current - (stage_started_at || started_at || created_at)
+  end
+
+  # Live KPIs while dumping/uploading. Saving broadcasts the refresh, so
+  # callers throttle how often they invoke this.
+  def progress!(bytes:, rate_bps: nil, detail: nil, total_bytes: nil)
+    update!(
+      progress_bytes: bytes,
+      progress_rate_bps: rate_bps,
+      progress_detail: detail&.first(255),
+      progress_total_bytes: total_bytes || progress_total_bytes
+    )
+  end
+
+  # @return [Integer, nil] 0..100 when the total is known (upload stage)
+  def progress_percent
+    return unless progress_bytes && progress_total_bytes&.positive?
+
+    [ (progress_bytes * 100 / progress_total_bytes), 100 ].min
   end
 
   def download_url

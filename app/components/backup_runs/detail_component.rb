@@ -48,4 +48,14 @@ class BackupRuns::DetailComponent < ApplicationComponent
       [ t(".trigger"), t(".triggers.#{run.trigger}") ]
     ]
   end
+
+  def progress_facts
+    facts = [ [ t(".stage_time"), helpers.human_duration(run.stage_elapsed) ] ]
+    if run.progress_bytes
+      facts << [ run.uploading? ? t(".sent") : t(".written"), helpers.human_size(run.progress_bytes) ]
+    end
+    facts << [ t(".speed"), "#{helpers.human_size(run.progress_rate_bps)}/s" ] if run.progress_rate_bps.to_i.positive?
+    facts << [ t(".source_size"), "~#{helpers.human_size(run.source_size_bytes)}" ] if run.source_size_bytes
+    facts
+  end
 end

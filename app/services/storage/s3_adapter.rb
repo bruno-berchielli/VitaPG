@@ -15,14 +15,19 @@ module Storage
 
     # @param path [String] local file path
     # @param key [String] object key to create
-    def upload!(path, key)
-      Aws::S3::TransferManager.new(client: client).upload_file(
-        path,
+    # @param on_progress [Proc, nil] called with cumulative bytes sent
+    def upload!(path, key, on_progress: nil)
+      options = {
         bucket: destination.bucket,
         key: key,
         multipart_threshold: MULTIPART_THRESHOLD,
         thread_count: 4
-      )
+      }
+      if on_progress
+        options[:progress_callback] = ->(bytes, _totals, _file_size = nil) { on_progress.call(Array(bytes).sum) }
+      end
+
+      Aws::S3::TransferManager.new(client: client).upload_file(path, **options)
     end
 
     # Only ever called by retention pruning with keys recorded on BackupRun.

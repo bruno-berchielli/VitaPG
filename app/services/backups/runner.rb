@@ -58,15 +58,35 @@ module Backups
     end
 
     def upload!(artifact)
-      run.update!(status: :uploading)
+      run.update!(status: :uploading, progress_bytes: 0, progress_rate_bps: nil,
+                  progress_detail: nil, progress_total_bytes: artifact.size_bytes)
       key = object_key(artifact)
       adapter = routine.destination.adapter
 
       run.log!(message: "Uploading to #{routine.destination.name} as #{key}")
-      adapter.upload!(artifact.path, key)
+      adapter.upload!(artifact.path, key, on_progress: upload_progress_reporter)
 
       verify!(adapter, key, artifact.size_bytes)
       run.update!(file_key: key, size_bytes: artifact.size_bytes)
+    end
+
+    # Publishes upload KPIs at most every 2s. The rate is averaged over the
+    # stage, which stays meaningful across multipart thread bursts.
+    def upload_progress_reporter
+      started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+      last_published = 0.0
+
+      lambda do |bytes_sent|
+        now = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+        next if now - last_published < 2
+
+        last_published = now
+        elapsed = now - started
+        rate = elapsed.positive? ? (bytes_sent / elapsed).to_i : nil
+        run.progress!(bytes: bytes_sent, rate_bps: rate)
+      rescue
+        # Progress reporting must never break the upload.
+      end
     end
 
     def verify!(adapter, key, expected_size)
@@ -84,6 +104,13 @@ module Backups
     def complete!
       run.update!(status: :completed, finished_at: Time.current)
       run.log!(message: "Backup completed in #{run.duration.round}s")
+
+      if run.source_size_bytes.to_i.positive? && run.size_bytes.to_i.positive?
+        ratio = run.source_size_bytes.to_f / run.size_bytes
+        human = ActiveSupport::NumberHelper.method(:number_to_human_size)
+        run.log!(message: "Effective compression: #{format('%.1f', ratio)}x " \
+          "(source ~#{human.call(run.source_size_bytes)} → #{human.call(run.size_bytes)})")
+      end
     end
 
     def fail!(error)

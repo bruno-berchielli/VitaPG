@@ -24,6 +24,40 @@
       <% end %>
     </dl>
 
+    <% if run.in_progress? %>
+      <div class="mt-5 border-t border-border pt-4">
+        <div class="flex items-center gap-2">
+          <span class="relative flex size-2">
+            <span class="absolute inline-flex size-full animate-ping rounded-full bg-success opacity-60"></span>
+            <span class="relative inline-flex size-2 rounded-full bg-success"></span>
+          </span>
+          <p class="text-xs font-semibold"><%= t(".live_title") %></p>
+        </div>
+
+        <% if run.progress_percent %>
+          <div class="mt-3 flex items-center gap-3">
+            <div class="h-1.5 min-w-0 flex-1 overflow-hidden rounded-full bg-surface-highlight">
+              <div class="h-full rounded-full bg-ink transition-all duration-700" style="width: <%= run.progress_percent %>%"></div>
+            </div>
+            <span class="text-xs font-semibold tabular-nums"><%= run.progress_percent %>%</span>
+          </div>
+        <% end %>
+
+        <dl class="mt-3 grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <% progress_facts.each do |label, value| %>
+            <div>
+              <dt class="text-xs font-medium text-text-muted"><%= label %></dt>
+              <dd class="mt-0.5 text-sm tabular-nums"><%= value %></dd>
+            </div>
+          <% end %>
+        </dl>
+
+        <% if run.progress_detail.present? %>
+          <p class="mt-2 truncate font-mono text-[11px] text-text-faint"><%= run.progress_detail %></p>
+        <% end %>
+      </div>
+    <% end %>
+
     <% if restore_command %>
       <div class="mt-5 border-t border-border pt-4">
         <p class="flex items-center gap-1.5 text-xs font-medium text-text-muted"><%= t(".restore") %> <%= render Ui::InfoTipComponent.new(text: t(".restore_tip")) %></p>
