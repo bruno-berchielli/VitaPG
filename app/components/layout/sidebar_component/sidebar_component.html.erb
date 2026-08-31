@@ -50,6 +50,18 @@
       <% end %>
     </div>
 
+    <% if instance_items.any? %>
+      <p class="mt-7 px-4 text-[0.625rem] font-semibold uppercase tracking-[0.16em] text-text-faint"><%= t(".sections.instance") %></p>
+      <div class="mt-2 space-y-1">
+        <% instance_items.each do |item| %>
+          <%= link_to item.path, class: item_classes(item), aria: { current: active?(item) ? "page" : nil } do %>
+            <%= render Ui::IconComponent.new(item.icon, classes: "size-[18px]") %>
+            <%= t(".nav.#{item.key}") %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+
     <p class="mt-7 px-4 text-[0.625rem] font-semibold uppercase tracking-[0.16em] text-text-faint"><%= t(".sections.workspace") %></p>
     <div class="mt-2 space-y-1">
       <% workspace_items.each do |item| %>

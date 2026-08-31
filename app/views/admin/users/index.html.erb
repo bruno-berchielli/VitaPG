@@ -1,0 +1,77 @@
+<% content_for :title, "#{t('.title')} · VitaPG" %>
+
+<%= render Ui::PageHeaderComponent.new(title: t(".title"), description: t(".description")) do |header| %>
+  <% header.with_action do %>
+    <span class="inline-flex items-center gap-1.5 rounded-full bg-warning-subtle px-4 py-2 text-xs font-semibold text-warning">
+      <%= render Ui::IconComponent.new(:warning, classes: "size-3.5") %>
+      <%= t(".restricted") %>
+    </span>
+  <% end %>
+<% end %>
+
+<div class="mt-6 grid gap-6 lg:grid-cols-3">
+  <div class="lg:col-span-2">
+    <div class="overflow-x-auto rounded-card bg-surface pb-2 shadow-soft">
+      <table class="w-full text-left">
+        <thead>
+          <tr class="text-[0.6875rem] uppercase tracking-[0.14em] text-text-faint">
+            <th scope="col" class="px-6 py-4 font-semibold"><%= t(".table.user") %></th>
+            <th scope="col" class="px-6 py-4 font-semibold"><%= t(".table.workspaces") %></th>
+            <th scope="col" class="px-6 py-4 font-semibold">
+              <span class="inline-flex items-center gap-1.5"><%= t(".table.access") %> <%= render Ui::InfoTipComponent.new(text: t(".table.access_tip")) %></span>
+            </th>
+            <th scope="col" class="px-6 py-4"><span class="sr-only"><%= t(".table.actions") %></span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @users.each do |user| %>
+            <tr class="border-t border-border">
+              <td class="px-6 py-4">
+                <span class="flex items-center gap-3">
+                  <span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-ink font-display text-sm font-bold text-on-ink"><%= user.name.first(1).upcase %></span>
+                  <span class="min-w-0">
+                    <span class="block truncate text-sm font-semibold"><%= user.name %><%= " (#{t('.you')})" if user == current_user %></span>
+                    <span class="block truncate text-xs text-text-muted"><%= user.email %></span>
+                  </span>
+                </span>
+              </td>
+              <td class="px-6 py-4 text-sm tabular-nums text-text-muted"><%= user.memberships.size %></td>
+              <td class="px-6 py-4">
+                <% if user.superadmin? %>
+                  <span class="inline-flex items-center rounded-lg bg-ink px-2.5 py-1 text-xs font-semibold text-on-ink"><%= t(".superadmin") %></span>
+                <% else %>
+                  <span class="text-sm text-text-muted"><%= t(".regular") %></span>
+                <% end %>
+              </td>
+              <td class="px-6 py-4 text-right">
+                <div class="inline-flex items-center gap-1.5">
+                  <% if user != current_user %>
+                    <%= button_to toggle_superadmin_admin_user_path(user), method: :patch,
+                          data: (user.superadmin? ? {} : { turbo_confirm: t(".confirm_promote", name: user.name) }),
+                          class: "cursor-pointer rounded-full border border-border-strong px-3.5 py-1.5 text-xs font-semibold text-text-muted transition-colors hover:bg-surface-highlight hover:text-text-main" do %>
+                      <%= user.superadmin? ? t(".demote") : t(".promote") %>
+                    <% end %>
+                  <% end %>
+                  <%= link_to t(".manage"), edit_admin_user_path(user), class: "inline-flex items-center rounded-full bg-ink px-3.5 py-1.5 text-xs font-semibold text-on-ink transition-opacity hover:opacity-85" %>
+                </div>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div>
+    <%= render Ui::CardComponent.new do %>
+      <h2 class="font-display text-base font-semibold"><%= t(".new.title") %></h2>
+      <p class="mt-1 text-xs text-text-muted"><%= t(".new.description") %></p>
+      <%= form_with url: admin_users_path, scope: :user, class: "mt-4 space-y-4" do |f| %>
+        <%= f.labeled_email_field :email, label: t(".new.email") %>
+        <%= f.labeled_text_field :name, label: t(".new.name"), hint: t(".new.name_hint") %>
+        <%= f.labeled_check_box :superadmin, label: t(".new.superadmin"), hint: t(".new.superadmin_hint") %>
+        <%= f.submit_button t(".new.submit") %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

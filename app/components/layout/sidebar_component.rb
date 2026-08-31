@@ -13,6 +13,12 @@ class Layout::SidebarComponent < ApplicationComponent
     ]
   end
 
+  def instance_items
+    return [] unless user.superadmin?
+
+    [ NavItem.new(key: :admin_users, icon: :users, path: admin_users_path) ]
+  end
+
   def workspace_items
     [
       NavItem.new(key: :directory, icon: :building, path: workspaces_path),
@@ -29,6 +35,8 @@ class Layout::SidebarComponent < ApplicationComponent
       request.path.match?(%r{\A/workspaces/\d+/edit})
     elsif item.key == :directory
       request.path == workspaces_path || request.path == new_workspace_path
+    elsif item.key == :admin_users
+      request.path.start_with?("/admin")
     else
       request.path.start_with?(item.path)
     end

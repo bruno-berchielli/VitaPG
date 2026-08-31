@@ -1,0 +1,70 @@
+es:
+  admin:
+    not_authorized: "Solo los superadmins acceden a la administración de la instancia."
+    users:
+      index:
+        title: "Usuarios"
+        description: "Todas las personas con cuenta en esta instancia. Solo los superadmins ven esta pantalla."
+        restricted: "Solo superadmins"
+        manage: "Gestionar"
+        you: "tú"
+        superadmin: "Superadmin"
+        regular: "Común"
+        promote: "Hacer superadmin"
+        demote: "Quitar superadmin"
+        confirm_promote: "¿Hacer a %{name} superadmin? Tendrá acceso total a todos los espacios de esta instancia."
+        table:
+          user: "Usuario"
+          workspaces: "Espacios"
+          access: "Acceso"
+          access_tip: "Los superadmins abren y gestionan todos los espacios, deciden solicitudes de acceso en cualquiera y administran usuarios. Los usuarios comunes solo ven los espacios a los que pertenecen."
+          actions: "Acciones"
+        new:
+          title: "Nuevo usuario"
+          description: "Crea la cuenta y envía un enlace de acceso por correo. Sin contraseña."
+          email: "Correo"
+          name: "Nombre"
+          name_hint: "Opcional; por defecto es el prefijo del correo."
+          superadmin: "Superadmin"
+          superadmin_hint: "Acceso total a todos los espacios y a esta pantalla."
+          submit: "Crear usuario"
+      edit:
+        breadcrumb: "Usuarios"
+        description: "Cuenta, acceso a la instancia y roles por espacio."
+        account:
+          title: "Cuenta"
+          name: "Nombre"
+          email: "Correo"
+        access:
+          title: "Acceso a la instancia"
+          hint: "Los superadmins abren y gestionan todos los espacios y esta pantalla."
+        workspaces:
+          title: "Espacios"
+          tip: "Los roles aplican por espacio. Los propietarios gestionan todo allí; los administradores gestionan miembros, notificaciones y configuración; los miembros operan los respaldos."
+          workspace: "Espacio"
+          role: "Rol"
+          actions: "Acciones"
+          remove: "Quitar"
+          confirm_remove: "¿Quitar a %{name} de %{workspace}?"
+          none: "Este usuario aún no está en ningún espacio."
+        add:
+          title: "Agregar a un espacio"
+          workspace: "Espacio"
+          role: "Rol"
+          submit: "Agregar"
+      update:
+        updated: "Cuenta actualizada."
+      create:
+        created: "Cuenta creada. Se envió un enlace de acceso a %{email}."
+      toggle_superadmin:
+        promoted: "%{name} ahora es superadmin."
+        demoted: "%{name} ya no es superadmin."
+        cannot_change_self: "No puedes cambiar tu propio acceso de superadmin."
+        last_superadmin: "La instancia necesita al menos un superadmin."
+    memberships:
+      create:
+        created: "Agregado a %{workspace}."
+      update:
+        updated: "Rol actualizado."
+      destroy:
+        destroyed: "Quitado de %{workspace}."

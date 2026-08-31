@@ -15,8 +15,10 @@ en:
       dark: "Dark"
       sections:
         operations: "Operations"
+        instance: "Instance"
         workspace: "Workspace"
       nav:
+        admin_users: "Users"
         directory: "All workspaces"
         dashboard: "Dashboard"
         backup_routines: "Backup routines"
@@ -43,8 +45,10 @@ pt-BR:
       dark: "Escuro"
       sections:
         operations: "Operações"
+        instance: "Instância"
         workspace: "Workspace"
       nav:
+        admin_users: "Usuários"
         directory: "Todos os workspaces"
         dashboard: "Painel"
         backup_routines: "Rotinas de backup"
@@ -71,8 +75,10 @@ es:
       dark: "Oscuro"
       sections:
         operations: "Operaciones"
+        instance: "Instancia"
         workspace: "Espacio de trabajo"
       nav:
+        admin_users: "Usuarios"
         directory: "Todos los espacios"
         dashboard: "Panel"
         backup_routines: "Rutinas de respaldo"

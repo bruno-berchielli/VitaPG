@@ -1,0 +1,70 @@
+pt-BR:
+  admin:
+    not_authorized: "Apenas superadmins acessam a administração da instância."
+    users:
+      index:
+        title: "Usuários"
+        description: "Todas as pessoas com conta nesta instância. Somente superadmins veem esta tela."
+        restricted: "Somente superadmins"
+        manage: "Gerenciar"
+        you: "você"
+        superadmin: "Superadmin"
+        regular: "Comum"
+        promote: "Tornar superadmin"
+        demote: "Remover superadmin"
+        confirm_promote: "Tornar %{name} superadmin? A pessoa terá acesso total a todos os workspaces desta instância."
+        table:
+          user: "Usuário"
+          workspaces: "Workspaces"
+          access: "Acesso"
+          access_tip: "Superadmins abrem e gerenciam todos os workspaces, decidem pedidos de acesso em qualquer um e administram usuários. Usuários comuns só veem os workspaces de que participam."
+          actions: "Ações"
+        new:
+          title: "Novo usuário"
+          description: "Cria a conta e envia um link de acesso por e-mail. Sem senha."
+          email: "E-mail"
+          name: "Nome"
+          name_hint: "Opcional; padrão é o prefixo do e-mail."
+          superadmin: "Superadmin"
+          superadmin_hint: "Acesso total a todos os workspaces e a esta tela."
+          submit: "Criar usuário"
+      edit:
+        breadcrumb: "Usuários"
+        description: "Conta, acesso à instância e papéis por workspace."
+        account:
+          title: "Conta"
+          name: "Nome"
+          email: "E-mail"
+        access:
+          title: "Acesso à instância"
+          hint: "Superadmins abrem e gerenciam todos os workspaces e esta tela."
+        workspaces:
+          title: "Workspaces"
+          tip: "Papéis valem por workspace. Proprietários gerenciam tudo ali; administradores gerenciam membros, notificações e configurações; membros operam os backups."
+          workspace: "Workspace"
+          role: "Papel"
+          actions: "Ações"
+          remove: "Remover"
+          confirm_remove: "Remover %{name} de %{workspace}?"
+          none: "Este usuário ainda não está em nenhum workspace."
+        add:
+          title: "Adicionar a um workspace"
+          workspace: "Workspace"
+          role: "Papel"
+          submit: "Adicionar"
+      update:
+        updated: "Conta atualizada."
+      create:
+        created: "Conta criada. Um link de acesso foi enviado para %{email}."
+      toggle_superadmin:
+        promoted: "%{name} agora é superadmin."
+        demoted: "%{name} não é mais superadmin."
+        cannot_change_self: "Você não pode alterar seu próprio acesso de superadmin."
+        last_superadmin: "A instância precisa de pelo menos um superadmin."
+    memberships:
+      create:
+        created: "Adicionado a %{workspace}."
+      update:
+        updated: "Papel atualizado."
+      destroy:
+        destroyed: "Removido de %{workspace}."
