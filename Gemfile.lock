@@ -503,6 +503,7 @@ DEPENDENCIES
   jsbundling-rails
   kamal
   mission_control-jobs
+  net-ssh (~> 7.3)
   omniauth-google-oauth2 (~> 1.2)
   omniauth-rails_csrf_protection (~> 2.0)
   propshaft

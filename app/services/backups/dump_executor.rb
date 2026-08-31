@@ -20,8 +20,13 @@ module Backups
       command = PgDumpCommand.new(routine, output_path: output_path)
 
       run.log!(message: "Executing: #{command.to_log_line}")
+      if connection.ssh_tunnel?
+        run.log!(message: "Opening SSH tunnel via #{connection.ssh_user}@#{connection.ssh_host}")
+      end
 
-      result = CommandRunner.run(command.argv, env: connection.pg_env, timeout: dump_timeout)
+      result = connection.with_pg_env do |env|
+        CommandRunner.run(command.argv, env: env, timeout: dump_timeout)
+      end
 
       raise Backups::Error, "pg_dump timed out after #{dump_timeout}s" if result.timed_out
       raise Backups::Error, "pg_dump failed: #{result.stderr.to_s.last(2000)}" unless result.success?

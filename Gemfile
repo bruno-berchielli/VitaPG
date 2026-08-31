@@ -47,3 +47,6 @@ gem "devise-i18n", "~> 1.16"
 
 gem "omniauth-google-oauth2", "~> 1.2"
 gem "omniauth-rails_csrf_protection", "~> 2.0"
+
+# SSH tunnels to databases that only listen on localhost (no exposed PG port).
+gem "net-ssh", "~> 7.3"

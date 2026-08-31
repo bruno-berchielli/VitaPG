@@ -13,6 +13,10 @@ es:
         password: "Contraseña"
         database_name: "Base de datos"
         sslmode: "Modo SSL"
+        connection_mode: "Conexión"
+        ssh_host: "Host SSH"
+        ssh_port: "Puerto SSH"
+        ssh_user: "Usuario SSH"
   database_connections:
     index:
       title: "Bases de datos"
@@ -33,6 +37,18 @@ es:
       password_keep_hint: "Déjalo en blanco para conservar la contraseña actual."
       sslmode_hint: "\"verify-full\" es la opción más segura cuando el servidor admite TLS."
       security_note: "Las credenciales se cifran en reposo y nunca aparecen en registros ni URLs."
+      modes:
+        direct: "Directa (host accesible desde VitaPG)"
+        ssh_tunnel: "Túnel SSH (la base solo escucha en el servidor)"
+      connection_mode_hint: "Usa un túnel SSH cuando PostgreSQL no está expuesto a la red — VitaPG se conecta por SSH y reenvía un puerto local."
+      ssh_user_hint: "Un usuario del sistema en el servidor. VitaPG se autentica con su propia clave, nunca con contraseña."
+      host_hint: "Con túnel SSH, esta es la dirección de la base vista desde el servidor — normalmente localhost."
+      public_key_title: "Clave pública de VitaPG"
+      public_key_hint: "Agrega esta línea al ~/.ssh/authorized_keys del usuario SSH en el servidor. La clave privada se cifra y nunca sale de VitaPG."
+      key_generated_note: "Al guardar se genera un par de claves SSH dedicado. La clave pública para instalar en el servidor aparece aquí después."
+      host_key_pinned: "Host key del servidor fijada en la primera conexión. Las siguientes conexiones deben presentar la misma clave."
+      host_key_reset: "Restablecer host key"
+      host_key_reset_confirm: "Restablece solo si el servidor fue reinstalado legítimamente. ¿Restablecer la host key fijada?"
     create:
       created: "Conexión creada"
     update:
@@ -42,3 +58,5 @@ es:
     test:
       success: "Conexión exitosa"
       failure: "Falló la conexión: %{message}"
+    reset_ssh_host_key:
+      reset: "Host key fijada eliminada. Se fijará de nuevo en la próxima conexión."

@@ -141,7 +141,7 @@ docker run -d --name vitapg -p 80:80 \
 
 Set `VITAPG_SUPERADMIN_EMAIL` (add `-e VITAPG_SUPERADMIN_EMAIL=you@company.com` to the command above) and the account is created at boot; you can also run `docker exec vitapg bin/rails vitapg:superadmin EMAIL=you@company.com` later. Sign in with the magic link sent by email. Then:
 
-1. **Databases**: add a PostgreSQL connection (a dedicated read-only role is recommended) and use *Test*.
+1. **Databases**: add a PostgreSQL connection (a dedicated read-only role is recommended) and use *Test*. For a database that only listens on its own server, choose **SSH tunnel**: VitaPG generates a keypair, you add the public key to the server's `~/.ssh/authorized_keys`, and backups run through a forwarded port — no PostgreSQL port exposed to the internet.
 2. **Destinations**: add your bucket (any S3-compatible endpoint) and use *Test*. The check is a `HEAD` request, nothing is written.
 3. **Backup routines**: pick database, destination, frequency, dump options and retention. Use *Run now* for the first backup.
 4. **Notifications**: add email, Slack or a signed webhook to hear about failures.
@@ -212,6 +212,7 @@ CI runs lint, Brakeman, unit and system tests, plus the integration suite agains
 - Secrets are write-only in the UI: stored values are never rendered back, and leaving a secret field blank on edit keeps the current value.
 - Passwords reach `pg_dump` through the child process environment only: not argv (visible in `ps`), not logs, not error messages. There are tests asserting this.
 - The app cannot write to a source database, and cannot delete a destination object it didn't create.
+- SSH tunnels authenticate with an app-generated key (private half encrypted at rest, never shown) and pin the server's host key on first connection; a changed host key aborts the backup.
 - There is no registration and there are no passwords. People sign in with a short-lived emailed link or Google (optionally restricted by domain); accounts exist only by superadmin bootstrap, workspace invitation or whitelisted Google domain.
 - Brakeman runs in CI on every change.
 

@@ -13,6 +13,10 @@ en:
         password: "Password"
         database_name: "Database"
         sslmode: "SSL mode"
+        connection_mode: "Connection"
+        ssh_host: "SSH host"
+        ssh_port: "SSH port"
+        ssh_user: "SSH user"
   database_connections:
     index:
       title: "Databases"
@@ -30,6 +34,18 @@ en:
       title: "Edit connection"
     form:
       name_hint: "A label to recognize this database, e.g. \"Production — billing\""
+      modes:
+        direct: "Direct (host reachable from VitaPG)"
+        ssh_tunnel: "SSH tunnel (database only listens on the server)"
+      connection_mode_hint: "Use an SSH tunnel when PostgreSQL is not exposed to the network — VitaPG connects over SSH and forwards a local port."
+      ssh_user_hint: "A system user on the server. VitaPG authenticates with its own key, never with a password."
+      host_hint: "With an SSH tunnel, this is the database address as seen from the server — usually localhost."
+      public_key_title: "VitaPG's public key"
+      public_key_hint: "Add this line to ~/.ssh/authorized_keys of the SSH user on the server. The private key is encrypted and never leaves VitaPG."
+      key_generated_note: "A dedicated SSH keypair is generated when you save. The public key to install on the server appears here afterwards."
+      host_key_pinned: "Server host key pinned on first connection. Later connections must present the same key."
+      host_key_reset: "Reset host key"
+      host_key_reset_confirm: "Only reset if the server was legitimately reinstalled. Reset the pinned host key?"
       password_keep_hint: "Leave blank to keep the current password."
       sslmode_hint: "\"verify-full\" is the safest option when the server supports TLS."
       security_note: "Credentials are encrypted at rest and never appear in logs or URLs."
@@ -42,3 +58,5 @@ en:
     test:
       success: "Connection successful"
       failure: "Connection failed: %{message}"
+    reset_ssh_host_key:
+      reset: "Pinned host key cleared. It will be pinned again on the next connection."

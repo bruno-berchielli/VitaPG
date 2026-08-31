@@ -13,6 +13,10 @@ pt-BR:
         password: "Senha"
         database_name: "Banco de dados"
         sslmode: "Modo SSL"
+        connection_mode: "Conexão"
+        ssh_host: "Host SSH"
+        ssh_port: "Porta SSH"
+        ssh_user: "Usuário SSH"
   database_connections:
     index:
       title: "Bancos de dados"
@@ -33,6 +37,18 @@ pt-BR:
       password_keep_hint: "Deixe em branco para manter a senha atual."
       sslmode_hint: "\"verify-full\" é a opção mais segura quando o servidor suporta TLS."
       security_note: "Credenciais são criptografadas em repouso e nunca aparecem em logs ou URLs."
+      modes:
+        direct: "Direta (host acessível pelo VitaPG)"
+        ssh_tunnel: "Túnel SSH (banco só escuta no servidor)"
+      connection_mode_hint: "Use túnel SSH quando o PostgreSQL não está exposto à rede — o VitaPG conecta por SSH e encaminha uma porta local."
+      ssh_user_hint: "Um usuário do sistema no servidor. O VitaPG autentica com a própria chave, nunca com senha."
+      host_hint: "Com túnel SSH, este é o endereço do banco visto de dentro do servidor — normalmente localhost."
+      public_key_title: "Chave pública do VitaPG"
+      public_key_hint: "Adicione esta linha ao ~/.ssh/authorized_keys do usuário SSH no servidor. A chave privada é criptografada e nunca sai do VitaPG."
+      key_generated_note: "Um par de chaves SSH dedicado é gerado ao salvar. A chave pública para instalar no servidor aparece aqui depois."
+      host_key_pinned: "Host key do servidor fixada na primeira conexão. Conexões seguintes devem apresentar a mesma chave."
+      host_key_reset: "Redefinir host key"
+      host_key_reset_confirm: "Só redefina se o servidor foi legitimamente reinstalado. Redefinir a host key fixada?"
     create:
       created: "Conexão criada"
     update:
@@ -42,3 +58,5 @@ pt-BR:
     test:
       success: "Conexão bem-sucedida"
       failure: "Falha na conexão: %{message}"
+    reset_ssh_host_key:
+      reset: "Host key fixada removida. Será fixada novamente na próxima conexão."
