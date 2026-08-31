@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_31_135327) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_31_150559) do
   create_table "backup_logs", force: :cascade do |t|
     t.integer "backup_run_id", null: false
     t.datetime "created_at", null: false
@@ -61,12 +61,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_31_135327) do
   end
 
   create_table "database_connections", force: :cascade do |t|
+    t.string "connection_mode", default: "direct", null: false
     t.datetime "created_at", null: false
     t.string "database_name"
     t.string "host"
     t.string "name"
     t.string "password"
     t.integer "port"
+    t.string "ssh_host"
+    t.text "ssh_known_host_key"
+    t.integer "ssh_port", default: 22
+    t.text "ssh_private_key"
+    t.text "ssh_public_key"
+    t.string "ssh_user"
     t.string "sslmode"
     t.datetime "updated_at", null: false
     t.string "username"

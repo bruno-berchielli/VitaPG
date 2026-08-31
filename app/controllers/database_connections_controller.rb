@@ -1,5 +1,5 @@
 class DatabaseConnectionsController < ApplicationController
-  before_action :set_connection, only: %i[edit update destroy test]
+  before_action :set_connection, only: %i[edit update destroy test reset_ssh_host_key]
 
   def index
     @connections = Current.workspace.database_connections.order(:name)
@@ -48,6 +48,13 @@ class DatabaseConnectionsController < ApplicationController
     end
   end
 
+  # A reinstalled server presents a new host key; the pinned one must be
+  # cleared explicitly so a silent MITM can never look like a reinstall.
+  def reset_ssh_host_key
+    @connection.update_column(:ssh_known_host_key, nil)
+    redirect_to edit_database_connection_path(@connection), notice: t(".reset")
+  end
+
   private
 
   def set_connection
@@ -55,7 +62,8 @@ class DatabaseConnectionsController < ApplicationController
   end
 
   def connection_params
-    params.expect(database_connection: %i[name host port username password database_name sslmode])
+    params.expect(database_connection: %i[name host port username password database_name sslmode
+                                          connection_mode ssh_host ssh_port ssh_user])
   end
 
   # A blank password on edit means "keep the current one" — secrets are write-only in the UI.

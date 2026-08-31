@@ -1,8 +1,43 @@
-<%= form_with model: @connection, class: "space-y-5" do |f| %>
+<%= form_with model: @connection, class: "space-y-5", html: { data: { controller: "connection-form" } } do |f| %>
   <%= f.labeled_text_field :name, hint: t(".name_hint") %>
 
+  <%= f.labeled_select :connection_mode,
+        DatabaseConnection.connection_modes.keys.map { |k| [ t(".modes.#{k}"), k ] },
+        hint: t(".connection_mode_hint"),
+        data: { connection_form_target: "mode", action: "connection-form#modeChanged" } %>
+
+  <div data-connection-form-target="sshFields" class="space-y-5">
+    <div class="grid grid-cols-3 gap-4">
+      <div class="col-span-2"><%= f.labeled_text_field :ssh_host, placeholder: "server.example.com" %></div>
+      <%= f.labeled_number_field :ssh_port %>
+    </div>
+    <%= f.labeled_text_field :ssh_user, placeholder: "deploy", autocomplete: "off", hint: t(".ssh_user_hint") %>
+
+    <% if @connection.persisted? && @connection.ssh_public_key.present? %>
+      <div class="space-y-2 rounded-xl bg-surface-highlight p-4">
+        <div class="flex items-center justify-between gap-2">
+          <p class="text-sm font-semibold"><%= t(".public_key_title") %></p>
+          <%= render Ui::CopyButtonComponent.new(text: @connection.ssh_public_key) %>
+        </div>
+        <p class="text-xs text-text-muted"><%= t(".public_key_hint") %></p>
+        <pre class="overflow-x-auto rounded-lg bg-surface p-3 font-mono text-[11px] leading-relaxed"><%= @connection.ssh_public_key %></pre>
+        <% if @connection.ssh_known_host_key.present? %>
+          <div class="flex items-center justify-between gap-2 border-t border-border pt-2">
+            <p class="text-xs text-text-muted"><%= t(".host_key_pinned") %></p>
+            <%= render Ui::ButtonComponent.new(variant: :ghost, href: reset_ssh_host_key_database_connection_path(@connection),
+                  method: :delete, data: { turbo_confirm: t(".host_key_reset_confirm") }) do %><%= t(".host_key_reset") %><% end %>
+          </div>
+        <% end %>
+      </div>
+    <% elsif @connection.new_record? %>
+      <div class="rounded-xl bg-surface-highlight p-3.5 text-xs font-medium text-text-muted">
+        <%= t(".key_generated_note") %>
+      </div>
+    <% end %>
+  </div>
+
   <div class="grid grid-cols-3 gap-4">
-    <div class="col-span-2"><%= f.labeled_text_field :host, placeholder: "db.example.com" %></div>
+    <div class="col-span-2"><%= f.labeled_text_field :host, placeholder: "db.example.com", hint: t(".host_hint") %></div>
     <%= f.labeled_number_field :port %>
   </div>
 

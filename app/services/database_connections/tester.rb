@@ -14,11 +14,13 @@ module DatabaseConnections
     end
 
     def call
-      result = Backups::CommandRunner.run(
-        [ "psql", "--no-psqlrc", "--tuples-only", "--command", "SELECT 1" ],
-        env: connection.pg_env,
-        timeout: 15
-      )
+      result = connection.with_pg_env do |env|
+        Backups::CommandRunner.run(
+          [ "psql", "--no-psqlrc", "--tuples-only", "--command", "SELECT 1" ],
+          env: env,
+          timeout: 15
+        )
+      end
 
       if result.timed_out
         Result.new(success: false, message: "Connection timed out after 15s")
@@ -27,6 +29,8 @@ module DatabaseConnections
       else
         Result.new(success: false, message: result.stderr.to_s.first(500))
       end
+    rescue Backups::Error, Net::SSH::Exception, SocketError, Errno::ECONNREFUSED, Errno::EHOSTUNREACH, Errno::ETIMEDOUT => e
+      Result.new(success: false, message: e.message.to_s.first(500))
     end
   end
 end

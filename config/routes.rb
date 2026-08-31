@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   resources :database_connections do
     member do
       post :test
+      delete :reset_ssh_host_key
     end
   end
 
