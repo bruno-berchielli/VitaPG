@@ -17,7 +17,7 @@
           <tr class="text-[0.6875rem] uppercase tracking-[0.14em] text-text-faint">
             <th scope="col" class="px-6 py-4 font-semibold"><%= Destination.human_attribute_name(:name) %></th>
             <th scope="col" class="px-6 py-4 font-semibold"><%= Destination.human_attribute_name(:provider) %></th>
-            <th scope="col" class="px-6 py-4 font-semibold"><%= Destination.human_attribute_name(:bucket) %></th>
+            <th scope="col" class="px-6 py-4 font-semibold"><%= t(".location") %></th>
             <th scope="col" class="px-6 py-4 font-semibold"><%= t(".routines") %></th>
             <th scope="col" class="px-6 py-4"><span class="sr-only"><%= t(".actions") %></span></th>
           </tr>
@@ -27,7 +27,7 @@
             <tr class="border-t border-border transition-colors hover:bg-surface-highlight/60">
               <td class="px-6 py-3.5 text-sm font-medium"><%= destination.name %></td>
               <td class="px-6 py-3.5 text-sm text-text-muted"><%= t("destinations.providers.#{destination.provider}") %></td>
-              <td class="px-6 py-3.5 font-mono text-xs text-text-muted"><%= destination.bucket %></td>
+              <td class="px-6 py-3.5 font-mono text-xs text-text-muted"><%= destination.location %></td>
               <td class="px-6 py-3.5 text-sm tabular-nums text-text-muted"><%= destination.backup_routines.size %></td>
               <td class="px-6 py-3.5 text-right">
                 <div class="inline-flex items-center gap-1">
