@@ -47,6 +47,8 @@ pt-BR:
           remove: "Remover"
           confirm_remove: "Remover %{name} de %{workspace}?"
           none: "Este usuário ainda não está em nenhum workspace."
+          global_access: "Acesso global"
+          global_access_tip: "Por ser superadmin, este usuário já abre e gerencia todos os workspaces da instância. Os papéis por workspace não têm efeito enquanto o acesso de superadmin durar — voltam a valer se ele for removido."
         add:
           title: "Adicionar a um workspace"
           workspace: "Workspace"

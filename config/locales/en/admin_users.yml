@@ -47,6 +47,8 @@ en:
           remove: "Remove"
           confirm_remove: "Remove %{name} from %{workspace}?"
           none: "This user is not in any workspace yet."
+          global_access: "Global access"
+          global_access_tip: "As a superadmin, this user already opens and manages every workspace on the instance. Per-workspace roles have no effect while the superadmin access lasts — they apply again if it is removed."
         add:
           title: "Add to a workspace"
           workspace: "Workspace"

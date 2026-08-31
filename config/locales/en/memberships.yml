@@ -8,6 +8,8 @@ en:
       title: "Members"
       description: "People with access to %{workspace}."
       you: "you"
+      superadmin: "Superadmin"
+      superadmin_tip: "This person is an instance superadmin and already has global access to every workspace; the role here has no effect."
       remove: "Remove"
       table:
         member: "Member"

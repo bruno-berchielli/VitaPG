@@ -8,6 +8,8 @@ pt-BR:
       title: "Membros"
       description: "Pessoas com acesso a %{workspace}."
       you: "você"
+      superadmin: "Superadmin"
+      superadmin_tip: "Esta pessoa é superadmin da instância e já tem acesso global a todos os workspaces; o papel aqui não tem efeito."
       remove: "Remover"
       table:
         member: "Membro"

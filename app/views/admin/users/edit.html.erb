@@ -13,14 +13,21 @@
 <div class="mt-6 grid gap-6 lg:grid-cols-3">
   <div class="space-y-6 lg:col-span-2">
     <%= render Ui::CardComponent.new(padding: false) do %>
-      <div class="flex items-center justify-between px-6 pt-5">
+      <div class="flex flex-wrap items-center justify-between gap-3 px-6 pt-5">
         <h2 class="flex items-center gap-1.5 font-display text-base font-semibold">
           <%= t(".workspaces.title") %>
           <%= render Ui::InfoTipComponent.new(text: t(".workspaces.tip")) %>
         </h2>
+        <% if @user.superadmin? %>
+          <span class="inline-flex items-center gap-1.5 rounded-full bg-info-subtle px-4 py-2 text-xs font-semibold text-info">
+            <%= render Ui::IconComponent.new(:bolt, classes: "size-3.5") %>
+            <%= t(".workspaces.global_access") %>
+            <%= render Ui::InfoTipComponent.new(text: t(".workspaces.global_access_tip")) %>
+          </span>
+        <% end %>
       </div>
       <% if @memberships.any? %>
-        <table class="mt-2 w-full text-left">
+        <table class="mt-2 w-full text-left <%= "pointer-events-none opacity-45 select-none" if @user.superadmin? %>" <%= "aria-disabled=true".html_safe if @user.superadmin? %>>
           <thead>
             <tr class="text-[0.6875rem] uppercase tracking-[0.14em] text-text-faint">
               <th scope="col" class="px-6 py-2 font-semibold"><%= t(".workspaces.workspace") %></th>
@@ -56,7 +63,7 @@
       <% end %>
     <% end %>
 
-    <% if @available_workspaces.any? %>
+    <% if @available_workspaces.any? && !@user.superadmin? %>
       <%= render Ui::CardComponent.new do %>
         <h2 class="font-display text-base font-semibold"><%= t(".add.title") %></h2>
         <%= form_with url: admin_user_memberships_path(@user), scope: :membership, class: "mt-4 flex flex-wrap items-end gap-3" do |f| %>
