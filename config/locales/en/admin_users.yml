@@ -1,0 +1,70 @@
+en:
+  admin:
+    not_authorized: "Only superadmins can access instance administration."
+    users:
+      index:
+        title: "Users"
+        description: "Everyone with an account on this instance. Only superadmins can see this screen."
+        restricted: "Superadmins only"
+        manage: "Manage"
+        you: "you"
+        superadmin: "Superadmin"
+        regular: "Regular"
+        promote: "Make superadmin"
+        demote: "Remove superadmin"
+        confirm_promote: "Make %{name} a superadmin? They will have full access to every workspace on this instance."
+        table:
+          user: "User"
+          workspaces: "Workspaces"
+          access: "Access"
+          access_tip: "Superadmins can open and manage every workspace, decide join requests anywhere and administer users. Regular users only see workspaces they belong to."
+          actions: "Actions"
+        new:
+          title: "New user"
+          description: "Creates the account and emails a sign-in link. No password involved."
+          email: "Email"
+          name: "Name"
+          name_hint: "Optional; defaults to the email prefix."
+          superadmin: "Superadmin"
+          superadmin_hint: "Full access to every workspace and to this screen."
+          submit: "Create user"
+      edit:
+        breadcrumb: "Users"
+        description: "Account, instance access and workspace roles."
+        account:
+          title: "Account"
+          name: "Name"
+          email: "Email"
+        access:
+          title: "Instance access"
+          hint: "Superadmins can open and manage every workspace and this screen."
+        workspaces:
+          title: "Workspaces"
+          tip: "Roles apply per workspace. Owners manage everything there; admins manage members, notifications and settings; members operate backups."
+          workspace: "Workspace"
+          role: "Role"
+          actions: "Actions"
+          remove: "Remove"
+          confirm_remove: "Remove %{name} from %{workspace}?"
+          none: "This user is not in any workspace yet."
+        add:
+          title: "Add to a workspace"
+          workspace: "Workspace"
+          role: "Role"
+          submit: "Add"
+      update:
+        updated: "Account updated."
+      create:
+        created: "Account created. A sign-in link was emailed to %{email}."
+      toggle_superadmin:
+        promoted: "%{name} is now a superadmin."
+        demoted: "%{name} is no longer a superadmin."
+        cannot_change_self: "You cannot change your own superadmin access."
+        last_superadmin: "The instance needs at least one superadmin."
+    memberships:
+      create:
+        created: "Added to %{workspace}."
+      update:
+        updated: "Role updated."
+      destroy:
+        destroyed: "Removed from %{workspace}."

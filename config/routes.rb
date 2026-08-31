@@ -26,6 +26,16 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :admin do
+    resources :users, only: %i[index create edit update] do
+      member do
+        patch :toggle_superadmin
+      end
+      resources :memberships, only: :create
+    end
+    resources :memberships, only: %i[update destroy]
+  end
+
   get "search" => "searches#show", as: :search
 
   resources :database_connections do
