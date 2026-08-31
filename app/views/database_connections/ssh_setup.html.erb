@@ -1,0 +1,44 @@
+<% content_for :title, "#{t('.title')} · VitaPG" %>
+
+<div class="mx-auto max-w-xl">
+  <%= render Ui::PageHeaderComponent.new(title: t(".title"), description: @connection.name) %>
+
+  <div class="mt-6 space-y-4">
+    <%= render Ui::CardComponent.new do %>
+      <div class="space-y-5">
+        <div class="flex gap-3">
+          <span class="flex size-6 shrink-0 items-center justify-center rounded-full bg-ink text-xs font-bold text-on-ink">1</span>
+          <div class="min-w-0 flex-1 space-y-2">
+            <p class="text-sm font-semibold"><%= t(".step_key_title") %></p>
+            <p class="text-xs text-text-muted"><%= t(".step_key_hint", user: @connection.ssh_user, host: @connection.ssh_host) %></p>
+            <div class="flex items-start gap-2">
+              <pre class="min-w-0 flex-1 overflow-x-auto rounded-lg bg-surface-highlight p-3 font-mono text-[11px] leading-relaxed"><%= @connection.ssh_public_key %></pre>
+              <%= render Ui::CopyButtonComponent.new(text: @connection.ssh_public_key) %>
+            </div>
+            <p class="text-xs text-text-muted"><%= t(".step_key_command") %></p>
+            <div class="flex items-start gap-2">
+              <pre class="min-w-0 flex-1 overflow-x-auto rounded-lg bg-surface-highlight p-3 font-mono text-[11px] leading-relaxed"><%= authorized_keys_command(@connection) %></pre>
+              <%= render Ui::CopyButtonComponent.new(text: authorized_keys_command(@connection)) %>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex gap-3 border-t border-border pt-5">
+          <span class="flex size-6 shrink-0 items-center justify-center rounded-full bg-ink text-xs font-bold text-on-ink">2</span>
+          <div class="flex-1 space-y-2">
+            <p class="text-sm font-semibold"><%= t(".step_test_title") %></p>
+            <p class="text-xs text-text-muted"><%= t(".step_test_hint") %></p>
+            <%= button_to test_database_connection_path(@connection), class: "cursor-pointer rounded-full bg-ink px-4 py-2 text-xs font-semibold text-on-ink transition-opacity hover:opacity-85" do %>
+              <%= t("actions.test") %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="flex items-center gap-2">
+      <%= render Ui::ButtonComponent.new(variant: :secondary, href: database_connections_path) do %><%= t(".done") %><% end %>
+      <%= render Ui::ButtonComponent.new(variant: :ghost, href: edit_database_connection_path(@connection)) do %><%= t(".back_to_edit") %><% end %>
+    </div>
+  </div>
+</div>
