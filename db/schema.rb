@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_29_204937) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_31_135327) do
   create_table "backup_logs", force: :cascade do |t|
     t.integer "backup_run_id", null: false
     t.datetime "created_at", null: false

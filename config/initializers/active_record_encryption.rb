@@ -5,6 +5,11 @@
 # SECRET_KEY_BASE therefore invalidates stored credentials — set the explicit
 # variables before rotating if you need to keep them.
 Rails.application.configure do
+  # Reads tolerate plain-text rows so installs upgraded from the
+  # pre-encryption era keep working; the EncryptLegacyCredentials migration
+  # rewrites those rows encrypted.
+  config.active_record.encryption.support_unencrypted_data = true
+
   derive = ->(salt) { Rails.application.key_generator.generate_key(salt, 32).unpack1("H*") }
 
   config.active_record.encryption.primary_key =
