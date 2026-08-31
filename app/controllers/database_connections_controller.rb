@@ -1,5 +1,5 @@
 class DatabaseConnectionsController < ApplicationController
-  before_action :set_connection, only: %i[edit update destroy test reset_ssh_host_key]
+  before_action :set_connection, only: %i[edit update destroy test reset_ssh_host_key ssh_setup]
 
   def index
     @connections = Current.workspace.database_connections.order(:name)
@@ -13,7 +13,7 @@ class DatabaseConnectionsController < ApplicationController
     @connection = Current.workspace.database_connections.new(connection_params)
 
     if @connection.save
-      redirect_to database_connections_path, notice: t(".created")
+      redirect_to after_save_path(@connection), notice: t(".created")
     else
       render :new, status: :unprocessable_entity
     end
@@ -24,7 +24,7 @@ class DatabaseConnectionsController < ApplicationController
 
   def update
     if @connection.update(connection_params_for_update)
-      redirect_to database_connections_path, notice: t(".updated")
+      redirect_to after_save_path(@connection), notice: t(".updated")
     else
       render :edit, status: :unprocessable_entity
     end
@@ -48,6 +48,12 @@ class DatabaseConnectionsController < ApplicationController
     end
   end
 
+  # Guided step after saving a tunneled connection: shows the public key to
+  # install on the server before anything tries to connect.
+  def ssh_setup
+    redirect_to database_connections_path unless @connection.ssh_tunnel?
+  end
+
   # A reinstalled server presents a new host key; the pinned one must be
   # cleared explicitly so a silent MITM can never look like a reinstall.
   def reset_ssh_host_key
@@ -56,6 +62,12 @@ class DatabaseConnectionsController < ApplicationController
   end
 
   private
+
+  # Saving a tunneled connection lands on the key-installation step instead of
+  # the list, so the public key is in front of the user right away.
+  def after_save_path(connection)
+    connection.ssh_tunnel? ? ssh_setup_database_connection_path(connection) : database_connections_path
+  end
 
   def set_connection
     @connection = Current.workspace.database_connections.find(params[:id])

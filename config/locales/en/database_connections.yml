@@ -49,6 +49,15 @@ en:
       password_keep_hint: "Leave blank to keep the current password."
       sslmode_hint: "\"verify-full\" is the safest option when the server supports TLS."
       security_note: "Credentials are encrypted at rest and never appear in logs or URLs."
+    ssh_setup:
+      title: "Install VitaPG's SSH key"
+      step_key_title: "Add the public key to the server"
+      step_key_hint: "Append this key to ~/.ssh/authorized_keys of %{user} on %{host}. The private key stays encrypted inside VitaPG."
+      step_key_command: "Or run this on the server, logged in as that user:"
+      step_test_title: "Test the connection"
+      step_test_hint: "Connects over SSH, forwards a local port and runs SELECT 1 against the database. Nothing is written."
+      done: "Done"
+      back_to_edit: "Back to settings"
     create:
       created: "Connection created"
     update:

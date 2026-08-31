@@ -49,6 +49,15 @@ pt-BR:
       host_key_pinned: "Host key do servidor fixada na primeira conexão. Conexões seguintes devem apresentar a mesma chave."
       host_key_reset: "Redefinir host key"
       host_key_reset_confirm: "Só redefina se o servidor foi legitimamente reinstalado. Redefinir a host key fixada?"
+    ssh_setup:
+      title: "Instale a chave SSH do VitaPG"
+      step_key_title: "Adicione a chave pública ao servidor"
+      step_key_hint: "Acrescente esta chave ao ~/.ssh/authorized_keys de %{user} em %{host}. A chave privada fica criptografada dentro do VitaPG."
+      step_key_command: "Ou rode isto no servidor, logado como esse usuário:"
+      step_test_title: "Teste a conexão"
+      step_test_hint: "Conecta por SSH, encaminha uma porta local e roda SELECT 1 no banco. Nada é escrito."
+      done: "Concluir"
+      back_to_edit: "Voltar às configurações"
     create:
       created: "Conexão criada"
     update:

@@ -33,6 +33,26 @@ class CoreFlowsTest < ApplicationSystemTestCase
     assert_text "db.internal:5432"
   end
 
+  test "saving a tunneled connection lands on the ssh key installation step" do
+    sign_in
+    visit new_database_connection_path
+
+    fill_in "database_connection[name]", with: "Behind SSH"
+    select I18n.t("database_connections.form.modes.ssh_tunnel"), from: "database_connection[connection_mode]"
+    fill_in "database_connection[ssh_host]", with: "server.internal"
+    fill_in "database_connection[ssh_user]", with: "deploy"
+    fill_in "database_connection[host]", with: "localhost"
+    fill_in "database_connection[port]", with: "5432"
+    fill_in "database_connection[database_name]", with: "app_db"
+    fill_in "database_connection[username]", with: "reader"
+    fill_in "database_connection[password]", with: "secret123"
+    click_on I18n.t("actions.save")
+
+    assert_text I18n.t("database_connections.ssh_setup.title")
+    assert_text "ssh-rsa"
+    assert_text "authorized_keys"
+  end
+
   test "ssh fields appear only when the connection mode is a tunnel" do
     sign_in
     visit new_database_connection_path
