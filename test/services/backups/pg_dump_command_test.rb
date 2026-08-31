@@ -31,6 +31,10 @@ module Backups
 
       assert_includes argv, "--exclude-table=logs"
       assert_includes argv, "--exclude-table=temp_stuff"
+      # Excluded tables also exclude data so extension config tables
+      # (pg_cron's cron.job) are actually skipped.
+      assert_includes argv, "--exclude-table-data=logs"
+      assert_includes argv, "--exclude-table-data=temp_stuff"
       assert_includes argv, "--exclude-table-data=audits"
       assert_includes argv, "--no-owner"
       assert_includes argv, "--no-privileges"

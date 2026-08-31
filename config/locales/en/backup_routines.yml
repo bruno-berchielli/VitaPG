@@ -88,7 +88,7 @@ en:
       format_hint: "Custom is compressed and restorable with pg_restore; directory enables parallel dumps; plain is a readable .sql."
       compression_hint: "0 disables compression."
       parallel_hint: "Only applies to the directory format."
-      exclude_hint: "Comma-separated table names to skip entirely."
+      exclude_hint: "Comma-separated, schema-qualified names (e.g. public.logs, cron.job)."
       exclude_data_hint: "Schema is kept, rows are skipped. Comma-separated."
       no_owner_hint: "Restorable by a different role."
       no_privileges_hint: "Skip GRANT/REVOKE statements."
