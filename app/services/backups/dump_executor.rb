@@ -12,6 +12,7 @@ module Backups
 
     PROGRESS_INTERVAL = 5
     HISTORY_LOG_INTERVAL = 300
+    TABLE_LOG_INTERVAL = 2
 
     attr_reader :run, :routine, :connection, :workdir
 
@@ -73,7 +74,6 @@ module Backups
     # publishes progress every PROGRESS_INTERVAL seconds and appends a history
     # log line every HISTORY_LOG_INTERVAL seconds.
     def with_progress_ticker
-      latest_line = nil
       stop = false
 
       ticker = Thread.new do
@@ -89,7 +89,7 @@ module Backups
             bytes = dumped_bytes
             now = monotonic
             rate = ((bytes - previous_bytes) / (now - previous_at)).to_i
-            run.progress!(bytes: bytes, rate_bps: rate, detail: latest_line&.delete_prefix("pg_dump: "))
+            run.progress!(bytes: bytes, rate_bps: rate, detail: @latest_line)
 
             if now - last_history_at >= HISTORY_LOG_INTERVAL
               run.log!(message: "Dump in progress: #{human_size(bytes)} written (#{human_size(rate)}/s)")
@@ -104,10 +104,31 @@ module Backups
         end
       end
 
-      yield ->(line) { latest_line = line }
+      yield method(:handle_stderr_line)
     ensure
       stop = true
       ticker&.join(PROGRESS_INTERVAL + 1)
+    end
+
+    def handle_stderr_line(line)
+      @latest_line = line.delete_prefix("pg_dump: ")
+      log_table_change(@latest_line)
+    end
+
+    # One history line per table so the log tells which data is being dumped.
+    # Tables shorter than TABLE_LOG_INTERVAL are skipped (the live panel still
+    # shows them) so thousands of tiny tables can't flood the log.
+    def log_table_change(line)
+      table = line[/\Adumping contents of table (.+)\z/, 1]
+      return unless table
+      return if table == @last_logged_table
+
+      now = monotonic
+      return if @last_table_logged_at && now - @last_table_logged_at < TABLE_LOG_INTERVAL
+
+      @last_logged_table = table
+      @last_table_logged_at = now
+      run.log!(message: "Dumping table #{table}")
     end
 
     def dumped_bytes
