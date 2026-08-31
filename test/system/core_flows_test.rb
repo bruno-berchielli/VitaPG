@@ -33,6 +33,17 @@ class CoreFlowsTest < ApplicationSystemTestCase
     assert_text "db.internal:5432"
   end
 
+  test "ssh fields appear only when the connection mode is a tunnel" do
+    sign_in
+    visit new_database_connection_path
+
+    assert_no_selector "input[name='database_connection[ssh_host]']", visible: :visible
+    select I18n.t("database_connections.form.modes.ssh_tunnel"), from: "database_connection[connection_mode]"
+    assert_selector "input[name='database_connection[ssh_host]']", visible: :visible
+    select I18n.t("database_connections.form.modes.direct"), from: "database_connection[connection_mode]"
+    assert_no_selector "input[name='database_connection[ssh_host]']", visible: :visible
+  end
+
   test "custom cron field appears when choosing the custom frequency" do
     sign_in
     visit new_backup_routine_path
