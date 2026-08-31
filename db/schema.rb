@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_31_150559) do
+ActiveRecord::Schema[8.1].define(version: 2026_08_31_184155) do
   create_table "backup_logs", force: :cascade do |t|
     t.integer "backup_run_id", null: false
     t.datetime "created_at", null: false
@@ -52,7 +52,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_31_150559) do
     t.text "error_message"
     t.string "file_key"
     t.datetime "finished_at"
+    t.bigint "progress_bytes"
+    t.string "progress_detail"
+    t.bigint "progress_rate_bps"
+    t.bigint "progress_total_bytes"
     t.bigint "size_bytes"
+    t.bigint "source_size_bytes"
+    t.datetime "stage_started_at"
     t.datetime "started_at"
     t.string "status"
     t.string "trigger", default: "scheduled", null: false

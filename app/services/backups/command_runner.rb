@@ -11,7 +11,9 @@ module Backups
     end
 
     class << self
-      def run(argv, env: {}, timeout: 3600, chdir: nil)
+      # @param on_stderr_line [Proc, nil] called with each stderr line as the
+      #   child produces it (pg_dump --verbose reports progress there)
+      def run(argv, env: {}, timeout: 3600, chdir: nil, on_stderr_line: nil)
         stdout_r, stdout_w = IO.pipe
         stderr_r, stderr_w = IO.pipe
 
@@ -21,7 +23,8 @@ module Backups
         stdout_w.close
         stderr_w.close
 
-        stdout, stderr = read_both(stdout_r, stderr_r)
+        stdout = Thread.new { stdout_r.read }
+        stderr = Thread.new { read_lines(stderr_r, on_stderr_line) }
         status = wait_with_timeout(pid, timeout)
 
         Result.new(stdout: stdout.value, stderr: stderr.value, exit_status: status&.exitstatus, timed_out: status.nil?)
@@ -31,8 +34,17 @@ module Backups
 
       private
 
-      def read_both(stdout_r, stderr_r)
-        [ Thread.new { stdout_r.read }, Thread.new { stderr_r.read } ]
+      def read_lines(io, callback)
+        buffer = +""
+        io.each_line do |line|
+          buffer << line
+          begin
+            callback&.call(line.chomp)
+          rescue
+            # A progress observer must never kill the read loop.
+          end
+        end
+        buffer
       end
 
       def wait_with_timeout(pid, timeout)
