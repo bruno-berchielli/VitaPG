@@ -88,7 +88,7 @@ es:
       format_hint: "Custom es comprimido y restaurable con pg_restore; directory permite dumps paralelos; plain es un .sql legible."
       compression_hint: "0 desactiva la compresión."
       parallel_hint: "Solo aplica al formato directory."
-      exclude_hint: "Nombres de tablas separados por comas para omitir por completo."
+      exclude_hint: "Nombres separados por comas, con esquema (ej.: public.logs, cron.job)."
       exclude_data_hint: "Conserva el esquema, omite las filas. Separado por comas."
       no_owner_hint: "Restaurable por otro rol."
       no_privileges_hint: "Omite sentencias GRANT/REVOKE."

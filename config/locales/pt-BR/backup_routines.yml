@@ -88,7 +88,7 @@ pt-BR:
       format_hint: "Custom é comprimido e restaurável com pg_restore; directory permite dumps paralelos; plain é um .sql legível."
       compression_hint: "0 desativa a compressão."
       parallel_hint: "Aplica-se apenas ao formato directory."
-      exclude_hint: "Nomes de tabelas separados por vírgula para pular completamente."
+      exclude_hint: "Nomes separados por vírgula, com schema (ex.: public.logs, cron.job)."
       exclude_data_hint: "Mantém o schema, pula as linhas. Separado por vírgula."
       no_owner_hint: "Restaurável por outro usuário."
       no_privileges_hint: "Pula comandos GRANT/REVOKE."

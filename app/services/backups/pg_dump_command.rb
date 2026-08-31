@@ -19,7 +19,13 @@ module Backups
       cmd << "--no-owner" if routine.no_owner
       cmd << "--no-privileges" if routine.no_privileges
 
-      excluded_tables.each { |table| cmd << "--exclude-table=#{table}" }
+      # Extension config tables (e.g. pg_cron's cron.job) ignore
+      # --exclude-table and are only skipped via --exclude-table-data, so an
+      # excluded table always gets both flags.
+      excluded_tables.each do |table|
+        cmd << "--exclude-table=#{table}"
+        cmd << "--exclude-table-data=#{table}"
+      end
       excluded_data_tables.each { |table| cmd << "--exclude-table-data=#{table}" }
 
       cmd
