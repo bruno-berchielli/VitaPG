@@ -49,6 +49,10 @@ class BackupRoutine < ApplicationRecord
   after_commit :sync_solid_queue_task, on: %i[create update]
   after_destroy :remove_solid_queue_task
 
+  normalizes :tables_to_exclude, :tables_to_exclude_data, with: ->(value) {
+    value.to_s.split(",").map(&:strip).reject(&:blank?).uniq.join(", ").presence
+  }
+
   validates :name, presence: true
   validates :cron, presence: true
   validates :format, inclusion: { in: FORMATS }

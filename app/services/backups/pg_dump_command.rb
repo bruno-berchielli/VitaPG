@@ -22,11 +22,8 @@ module Backups
       # Extension config tables (e.g. pg_cron's cron.job) ignore
       # --exclude-table and are only skipped via --exclude-table-data, so an
       # excluded table always gets both flags.
-      excluded_tables.each do |table|
-        cmd << "--exclude-table=#{table}"
-        cmd << "--exclude-table-data=#{table}"
-      end
-      excluded_data_tables.each { |table| cmd << "--exclude-table-data=#{table}" }
+      excluded_tables.each { |table| cmd << "--exclude-table=#{table}" }
+      (excluded_tables | excluded_data_tables).each { |table| cmd << "--exclude-table-data=#{table}" }
 
       cmd
     end
@@ -63,7 +60,7 @@ module Backups
     end
 
     def split_list(value)
-      value.to_s.split(",").map(&:strip).reject(&:blank?)
+      value.to_s.split(",").map(&:strip).reject(&:blank?).uniq
     end
   end
 end
