@@ -1,4 +1,9 @@
 default: &default
+  # Backup routines register themselves as dynamic recurring tasks; the
+  # scheduler ignores those unless dynamic_tasks_enabled is on (Solid Queue
+  # defaults it to false and only schedules recurring.yml entries).
+  scheduler:
+    dynamic_tasks_enabled: true
   dispatchers:
     - polling_interval: 1
       batch_size: 500
