@@ -157,6 +157,7 @@ Everything is configured through environment variables (see `.env.example`):
 | `SMTP_ADDRESS`, `SMTP_PORT`, `SMTP_USERNAME`, `SMTP_PASSWORD`, `SMTP_AUTHENTICATION` | prod | — | Outgoing mail (sign-in links, email notifications). In development the sign-in link is printed to the server log |
 | `JOB_CONCURRENCY` | no | `1` | Solid Queue worker processes |
 | `VITAPG_DUMP_TIMEOUT_SECONDS` | no | `21600` | Wall-clock limit for a single `pg_dump` |
+| `VITAPG_MIN_FREE_DISK_MB` | no | `1024` | Disk reserve kept free while dumping: a run refuses to start if the last dump plus this reserve won't fit, and `pg_dump` is stopped if free space drops below it |
 | `VITAPG_SUPERADMIN_EMAIL`, `VITAPG_SUPERADMIN_NAME` | first boot | — | Creates/promotes the superadmin account at boot |
 | `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | no | — | Enables the "Continue with Google" button |
 | `GOOGLE_ALLOWED_DOMAINS` | no | — | Comma-separated email domains allowed to auto-provision accounts via Google |

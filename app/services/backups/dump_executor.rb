@@ -7,6 +7,11 @@ module Backups
   #
   # While pg_dump runs, a ticker samples the output size to publish live KPIs
   # (bytes written, write rate, current pg_dump activity) on the run.
+  #
+  # The dump lands on local disk before upload, so free space is guarded
+  # twice: up front against the routine's last dump size, and on every tick,
+  # killing pg_dump once free space drops below the reserve instead of
+  # filling the disk the app (and its SQLite databases) lives on.
   class DumpExecutor < ApplicationService
     DumpArtifact = Data.define(:path, :size_bytes)
 
@@ -26,6 +31,8 @@ module Backups
     def call
       command = PgDumpCommand.new(routine, output_path: output_path)
 
+      ensure_disk_space!
+
       run.log!(message: "Executing: #{command.to_log_line}")
       if connection.ssh_tunnel?
         run.log!(message: "Opening SSH tunnel via #{connection.ssh_user}@#{connection.ssh_host}")
@@ -34,10 +41,15 @@ module Backups
       result = connection.with_pg_env do |env|
         measure_source_size(env)
         with_progress_ticker do |capture_line|
-          CommandRunner.run(command.argv, env: env, timeout: dump_timeout, on_stderr_line: capture_line)
+          CommandRunner.run(command.argv, env: env, timeout: dump_timeout, on_stderr_line: capture_line,
+                            abort_if: -> { @disk_shortage })
         end
       end
 
+      if result.aborted
+        raise Backups::Error, "pg_dump aborted: free disk space dropped to #{human_size(@disk_shortage)} " \
+                              "(reserve #{human_size(min_free_disk_bytes)}). #{disk_space_hint}"
+      end
       raise Backups::Error, "pg_dump timed out after #{dump_timeout}s" if result.timed_out
       raise Backups::Error, "pg_dump failed: #{result.stderr.to_s.last(2000)}" unless result.success?
 
@@ -85,6 +97,8 @@ module Backups
           sleep PROGRESS_INTERVAL
           break if stop
 
+          check_disk_space
+
           begin
             bytes = dumped_bytes
             now = monotonic
@@ -108,6 +122,47 @@ module Backups
     ensure
       stop = true
       ticker&.join(PROGRESS_INTERVAL + 1)
+    end
+
+    # Fails before connecting when the work directory cannot hold the routine's
+    # last dump plus the reserve. Without a previous dump only the reserve is
+    # checked; the per-tick guard covers the rest.
+    def ensure_disk_space!
+      free = free_disk_bytes
+      return unless free
+
+      expected = expected_dump_bytes
+      run.log!(message: "Free disk space in work directory: #{human_size(free)}")
+      return if free >= expected + min_free_disk_bytes
+
+      needed = expected.positive? ? "~#{human_size(expected)} for the dump (last backup) plus " : ""
+      raise Backups::Error, "Not enough disk space: #{human_size(free)} free, #{needed}" \
+                            "a #{human_size(min_free_disk_bytes)} reserve needed. #{disk_space_hint}"
+    end
+
+    # Directory dumps are tarred next to themselves, so they need twice the room.
+    def expected_dump_bytes
+      last = routine.runs.completed.where.not(size_bytes: nil).order(finished_at: :desc).pick(:size_bytes).to_i
+      routine.format == "directory" ? last * 2 : last
+    end
+
+    def check_disk_space
+      free = free_disk_bytes
+      @disk_shortage = free if free && free < min_free_disk_bytes
+    rescue
+      # A failed probe must never break the dump.
+    end
+
+    def free_disk_bytes
+      DiskSpace.free_bytes(workdir)
+    end
+
+    def min_free_disk_bytes
+      Integer(ENV.fetch("VITAPG_MIN_FREE_DISK_MB", 1024)) * 1024**2
+    end
+
+    def disk_space_hint
+      "Free up space, exclude large tables from the routine or lower VITAPG_MIN_FREE_DISK_MB."
     end
 
     def handle_stderr_line(line)
