@@ -13,6 +13,9 @@ en:
       source_size: "Source size"
       restore: "Restore with"
       restore_tip: "Run this on a machine with PostgreSQL client tools after downloading the file. Custom and directory dumps use pg_restore; plain SQL pipes into psql. It only writes to the database YOU point it at."
+      cancel: "Cancel"
+      cancel_confirm: "Cancel this backup? The partial dump is discarded."
+      canceling: "Canceling…"
       triggers:
         scheduled: "Scheduled"
         manual: "Manual"
@@ -31,6 +34,9 @@ pt-BR:
       source_size: "Tamanho da origem"
       restore: "Restaurar com"
       restore_tip: "Execute isto numa máquina com as ferramentas de cliente do PostgreSQL após baixar o arquivo. Dumps custom e directory usam pg_restore; SQL puro vai para o psql. Só escreve no banco que VOCÊ indicar."
+      cancel: "Cancelar"
+      cancel_confirm: "Cancelar este backup? O dump parcial é descartado."
+      canceling: "Cancelando…"
       triggers:
         scheduled: "Agendado"
         manual: "Manual"
@@ -49,6 +55,9 @@ es:
       source_size: "Tamaño del origen"
       restore: "Restaurar con"
       restore_tip: "Ejecuta esto en una máquina con las herramientas de cliente de PostgreSQL tras descargar el archivo. Los dumps custom y directory usan pg_restore; el SQL plano va a psql. Solo escribe en la base que TÚ indiques."
+      cancel: "Cancelar"
+      cancel_confirm: "¿Cancelar este backup? El dump parcial se descarta."
+      canceling: "Cancelando…"
       triggers:
         scheduled: "Programado"
         manual: "Manual"

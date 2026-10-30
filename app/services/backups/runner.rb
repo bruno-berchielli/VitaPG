@@ -24,8 +24,14 @@ module Backups
       after_finish_housekeeping
       true
     rescue => e
-      fail!(e)
-      notify
+      # A canceled upload can surface as the SDK's own error (it aborts the
+      # multipart upload and re-raises), so the request decides, not the class.
+      if run.cancel_requested_in_db?
+        cancel!
+      else
+        fail!(e)
+        notify
+      end
       false
     end
 
@@ -58,6 +64,8 @@ module Backups
     end
 
     def upload!(artifact)
+      raise Backups::Canceled if run.cancel_requested_in_db?
+
       run.update!(status: :uploading, progress_bytes: 0, progress_rate_bps: nil,
                   progress_detail: nil, progress_total_bytes: artifact.size_bytes)
       key = object_key(artifact)
@@ -71,7 +79,10 @@ module Backups
     end
 
     # Publishes upload KPIs at most every 2s. The rate is averaged over the
-    # stage, which stays meaningful across multipart thread bursts.
+    # stage, which stays meaningful across multipart thread bursts. The same
+    # beat checks for a cancel request; raising here makes the adapter abort
+    # the upload (the SDK aborts its multipart upload, the local adapter drops
+    # its partial file).
     def upload_progress_reporter
       started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
       last_published = 0.0
@@ -81,12 +92,17 @@ module Backups
         next if now - last_published < 2
 
         last_published = now
-        elapsed = now - started
-        rate = elapsed.positive? ? (bytes_sent / elapsed).to_i : nil
-        run.progress!(bytes: bytes_sent, rate_bps: rate)
-      rescue
-        # Progress reporting must never break the upload.
+        raise Backups::Canceled if run.cancel_requested_in_db?
+
+        publish_upload_progress(bytes_sent, now - started)
       end
+    end
+
+    def publish_upload_progress(bytes_sent, elapsed)
+      rate = elapsed.positive? ? (bytes_sent / elapsed).to_i : nil
+      run.progress!(bytes: bytes_sent, rate_bps: rate)
+    rescue
+      # Progress reporting must never break the upload.
     end
 
     def verify!(adapter, key, expected_size)
@@ -111,6 +127,12 @@ module Backups
         run.log!(message: "Effective compression: #{format('%.1f', ratio)}x " \
           "(source ~#{human.call(run.source_size_bytes)} → #{human.call(run.size_bytes)})")
       end
+    end
+
+    # Not a failure: no error report and no failure notification.
+    def cancel!
+      run.update!(status: :canceled, finished_at: Time.current)
+      run.log!(message: "Backup canceled", status: :warning)
     end
 
     def fail!(error)

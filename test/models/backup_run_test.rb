@@ -24,6 +24,29 @@ class BackupRunTest < ActiveSupport::TestCase
     assert_equal 255, @run.progress_detail.length
   end
 
+  test "canceling a pending run stops it on the spot" do
+    assert @run.request_cancel!(by: "Alice")
+
+    assert @run.reload.canceled?
+    assert_not_nil @run.finished_at
+    assert_equal "Cancel requested by Alice", @run.logs.last.message
+  end
+
+  test "canceling a running backup only flags it for the worker" do
+    @run.update!(status: :dumping)
+
+    assert @run.request_cancel!(by: "Alice")
+    assert @run.reload.dumping?
+    assert @run.cancel_requested_in_db?
+  end
+
+  test "a finished run cannot be canceled" do
+    @run.update!(status: :completed)
+
+    assert_not @run.request_cancel!(by: "Alice")
+    assert_not @run.reload.cancel_requested?
+  end
+
   test "progress! bumps updated_at even when nothing moved" do
     @run.update!(status: :dumping)
     @run.progress!(bytes: 10)

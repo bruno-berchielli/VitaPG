@@ -38,14 +38,17 @@ module Backups
         run.log!(message: "Opening SSH tunnel via #{connection.ssh_user}@#{connection.ssh_host}")
       end
 
+      # The ticker already runs while the source is measured: that query can
+      # wait on the same locks pg_dump would, and must stay cancelable too.
       result = connection.with_pg_env do |env|
-        measure_source_size(env, command)
         with_progress_ticker do |capture_line|
+          measure_source_size(env, command)
           CommandRunner.run(command.argv, env: env, timeout: dump_timeout, on_stderr_line: capture_line,
-                            abort_if: -> { @disk_shortage })
+                            abort_if: method(:abort_dump?))
         end
       end
 
+      raise Backups::Canceled if result.aborted && @cancel_requested
       if result.aborted
         raise Backups::Error, "pg_dump aborted: free disk space dropped to #{human_size(@disk_shortage)} " \
                               "(reserve #{human_size(min_free_disk_bytes)}). #{disk_space_hint}"
@@ -71,7 +74,7 @@ module Backups
     def measure_source_size(env, command)
       result = CommandRunner.run(
         [ "psql", "--no-psqlrc", "--tuples-only", "--no-align", "--command", command.source_size_sql ],
-        env: env, timeout: 30
+        env: env, timeout: 30, abort_if: method(:abort_dump?)
       )
       size = Integer(result.stdout.to_s.strip) if result.success?
       return unless size&.positive?
@@ -98,6 +101,7 @@ module Backups
           break if stop
 
           check_disk_space
+          check_cancel_request
 
           begin
             bytes = dumped_bytes
@@ -151,6 +155,16 @@ module Backups
       @disk_shortage = free if free && free < min_free_disk_bytes
     rescue
       # A failed probe must never break the dump.
+    end
+
+    def abort_dump?
+      @cancel_requested || @disk_shortage
+    end
+
+    def check_cancel_request
+      @cancel_requested ||= run.cancel_requested_in_db?
+    rescue
+      # A failed lookup must never break the dump; the next tick retries.
     end
 
     def free_disk_bytes

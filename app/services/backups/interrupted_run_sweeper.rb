@@ -21,6 +21,12 @@ module Backups
     def fail_run(run)
       abort_upload(run) if run.uploading?
 
+      if run.cancel_requested?
+        run.update!(status: :canceled, finished_at: Time.current)
+        run.log!(message: "Backup canceled", status: :warning)
+        return
+      end
+
       message = "Interrupted: no activity for over #{STALE_AFTER.inspect}, the worker stopped mid-run"
       run.update!(status: :failed, finished_at: Time.current, error_message: message)
       run.log!(message: message, status: :error)

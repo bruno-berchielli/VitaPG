@@ -9,6 +9,7 @@ class Ui::StatusBadgeComponent < ApplicationComponent
     uploading: "bg-info-strong text-white",
     completed: "bg-success-strong text-white",
     failed: "bg-danger-strong text-white",
+    canceled: "bg-warning-strong text-white",
     pruned: "bg-surface-highlight text-text-muted",
     enabled: "bg-success-strong text-white",
     disabled: "bg-surface-highlight text-text-muted",

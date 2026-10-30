@@ -4,6 +4,7 @@
 # Database name: primary
 #
 #  id                   :integer          not null, primary key
+#  cancel_requested_at  :datetime
 #  error_message        :text
 #  file_key             :string
 #  finished_at          :datetime
@@ -42,6 +43,7 @@ class BackupRun < ApplicationRecord
     uploading: "uploading",
     completed: "completed",
     failed: "failed",
+    canceled: "canceled",
     pruned: "pruned"
   }, default: :pending
 
@@ -60,6 +62,37 @@ class BackupRun < ApplicationRecord
 
   def in_progress?
     pending? || dumping? || uploading?
+  end
+
+  # Asks the worker to stop. The web process never kills anything itself:
+  # the worker may live elsewhere. A pending run has no worker yet and is
+  # canceled on the spot; a running one is stopped by its worker within a
+  # progress tick (see Backups::Runner).
+  #
+  # @return [Boolean] false when the run had already finished
+  def request_cancel!(by:)
+    with_lock do
+      return false unless in_progress?
+
+      if pending?
+        update!(status: :canceled, cancel_requested_at: Time.current, finished_at: Time.current)
+      else
+        update!(cancel_requested_at: Time.current)
+      end
+    end
+
+    log!(message: "Cancel requested by #{by}", status: :warning)
+    true
+  end
+
+  def cancel_requested?
+    cancel_requested_at.present?
+  end
+
+  # Fresh read for the worker, whose in-memory run never sees the web
+  # process's write.
+  def cancel_requested_in_db?
+    self.class.where(id: id).where.not(cancel_requested_at: nil).exists?
   end
 
   def duration

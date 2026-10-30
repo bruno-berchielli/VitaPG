@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_31_204218) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_30_190756) do
   create_table "backup_logs", force: :cascade do |t|
     t.integer "backup_run_id", null: false
     t.datetime "created_at", null: false
@@ -48,6 +48,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_31_204218) do
 
   create_table "backup_runs", force: :cascade do |t|
     t.integer "backup_routine_id", null: false
+    t.datetime "cancel_requested_at"
     t.datetime "created_at", null: false
     t.text "error_message"
     t.string "file_key"

@@ -1,5 +1,5 @@
 class BackupRunsController < ApplicationController
-  before_action :set_run, only: %i[show download]
+  before_action :set_run, only: %i[show download cancel]
 
   PER_PAGE = 50
 
@@ -16,6 +16,15 @@ class BackupRunsController < ApplicationController
 
   def show
     @logs = @run.logs.order(:id)
+  end
+
+  # Same audience as "Run now": any member of the workspace.
+  def cancel
+    if @run.request_cancel!(by: current_user.name.presence || current_user.email)
+      redirect_to backup_run_path(@run), notice: t(".requested")
+    else
+      redirect_to backup_run_path(@run), alert: t(".not_running")
+    end
   end
 
   def download

@@ -7,6 +7,7 @@ en:
         all: "All"
         completed: "Completed"
         failed: "Failed"
+        canceled: "Canceled"
       table:
         routine: "Routine"
         status: "Status"
@@ -25,3 +26,6 @@ en:
       breadcrumb: "Run #%{id}"
     download:
       unavailable: "This run has no downloadable file"
+    cancel:
+      requested: "Cancel requested. The backup stops within a few seconds."
+      not_running: "This run has already finished"

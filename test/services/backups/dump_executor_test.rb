@@ -72,6 +72,15 @@ module Backups
       assert_equal 100.megabytes, @executor.instance_variable_get(:@disk_shortage)
     end
 
+    test "picks up a cancel request made by another process" do
+      @executor.send(:check_cancel_request)
+      assert_not @executor.instance_variable_get(:@cancel_requested)
+
+      BackupRun.find(@run.id).request_cancel!(by: "Alice")
+      @executor.send(:check_cancel_request)
+      assert @executor.instance_variable_get(:@cancel_requested)
+    end
+
     private
 
     def completed_run(size_bytes:)
