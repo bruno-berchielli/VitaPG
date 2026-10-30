@@ -36,6 +36,8 @@ module Storage
         end
       end
       File.rename(partial, target)
+    ensure
+      FileUtils.rm_f(partial) if partial
     end
 
     # Only ever called by retention pruning with keys recorded on BackupRun.
@@ -58,6 +60,17 @@ module Storage
     # @return [String] absolute path for a stored key (for send_file)
     def file_path(key)
       resolve(key)
+    end
+
+    # Removes the .partial files a killed run left under a key prefix.
+    def abort_incomplete_uploads!(key_prefix)
+      stem = resolve(key_prefix)
+      dir = File.dirname(stem)
+      return unless Dir.exist?(dir)
+
+      Dir.children(dir)
+        .select { |name| name.start_with?(File.basename(stem)) && name.end_with?(".partial") }
+        .each { |name| FileUtils.rm_f(File.join(dir, name)) }
     end
 
     # Write-free check: the directory must exist and be writable.

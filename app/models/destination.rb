@@ -47,6 +47,21 @@ class Destination < ApplicationRecord
 
   normalizes :base_path, with: ->(value) { value.presence && File.expand_path(value.strip) }
 
+  before_validation -> { self.endpoint = service_endpoint }, unless: :local?
+
+  # The endpoint without the bucket. Providers often show the bucket's own
+  # URL (https://<bucket>.nyc3.digitaloceanspaces.com); handed to the SDK as
+  # is, it prepends the bucket a second time and TLS fails on the hostname.
+  def service_endpoint
+    return endpoint if endpoint.blank? || bucket.blank?
+
+    uri = URI.parse(endpoint.strip)
+    uri.host = uri.host.delete_prefix("#{bucket}.") if uri.host&.start_with?("#{bucket}.")
+    uri.to_s.chomp("/")
+  rescue URI::InvalidURIError
+    endpoint
+  end
+
   def adapter
     local? ? Storage::LocalAdapter.new(self) : Storage::S3Adapter.new(self)
   end

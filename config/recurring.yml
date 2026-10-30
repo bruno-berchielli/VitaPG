@@ -7,5 +7,9 @@ production: &recurring
     class: CheckMissedRunsJob
     queue: backups
     schedule: every hour
+  recover_interrupted_runs:
+    class: RecoverInterruptedRunsJob
+    queue: backups
+    schedule: every 15 minutes
 
 development: *recurring

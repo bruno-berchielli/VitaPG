@@ -79,14 +79,26 @@ class BackupRun < ApplicationRecord
   end
 
   # Live KPIs while dumping/uploading. Saving broadcasts the refresh, so
-  # callers throttle how often they invoke this.
+  # callers throttle how often they invoke this. Always bumps updated_at,
+  # even when nothing moved: it is the heartbeat InterruptedRunSweeper
+  # relies on to tell a stalled-but-alive dump from a dead one.
   def progress!(bytes:, rate_bps: nil, detail: nil, total_bytes: nil)
     update!(
       progress_bytes: bytes,
       progress_rate_bps: rate_bps,
       progress_detail: detail&.first(255),
-      progress_total_bytes: total_bytes || progress_total_bytes
+      progress_total_bytes: total_bytes || progress_total_bytes,
+      updated_at: Time.current
     )
+  end
+
+  # Object key without its extension: <prefix>/<database>-<started at>-<id>.
+  # The run id keeps it unique even when two runs share a timestamp.
+  def storage_key_stem
+    prefix = backup_routine.path_prefix.presence || "#{workspace.slug}/#{backup_routine.name.parameterize}"
+    timestamp = started_at.utc.strftime("%Y-%m-%dT%H-%M-%S")
+
+    "#{prefix.chomp("/")}/#{backup_routine.database_connection.database_name}-#{timestamp}-#{id}"
   end
 
   # @return [Integer, nil] 0..100 when the total is known (upload stage)

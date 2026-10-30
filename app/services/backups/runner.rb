@@ -138,14 +138,11 @@ module Backups
       Rails.error.report(e, context: { backup_run_id: run.id }, source: "backups")
     end
 
-    # The run id makes the key unique even when two runs share a timestamp —
-    # otherwise the earlier run's retention pruning would delete the newer object.
+    # The run id in the stem makes the key unique even when two runs share a
+    # timestamp — otherwise the earlier run's retention pruning would delete
+    # the newer object.
     def object_key(artifact)
-      prefix = routine.path_prefix.presence || "#{routine.workspace.slug}/#{routine.name.parameterize}"
-      timestamp = run.started_at.utc.strftime("%Y-%m-%dT%H-%M-%S")
-      extension = File.basename(artifact.path).sub(/\Adump/, "")
-
-      "#{prefix.chomp("/")}/#{routine.database_connection.database_name}-#{timestamp}-#{run.id}#{extension}"
+      "#{run.storage_key_stem}#{File.basename(artifact.path).sub(/\Adump/, "")}"
     end
   end
 end
