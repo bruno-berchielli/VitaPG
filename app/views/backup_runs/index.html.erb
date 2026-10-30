@@ -3,7 +3,7 @@
 <%= render Ui::PageHeaderComponent.new(title: t(".title"), description: t(".description")) %>
 
 <div class="mt-6 flex items-center gap-1.5">
-  <% filters = [nil, "completed", "failed"] %>
+  <% filters = [nil, "completed", "failed", "canceled"] %>
   <% filters.each do |status| %>
     <% active = params[:status].presence == status %>
     <%= link_to backup_runs_path(status: status),

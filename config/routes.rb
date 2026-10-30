@@ -62,6 +62,7 @@ Rails.application.routes.draw do
   resources :backup_runs, only: %i[index show] do
     member do
       get :download
+      post :cancel
     end
   end
 

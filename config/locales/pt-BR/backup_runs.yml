@@ -7,6 +7,7 @@ pt-BR:
         all: "Todas"
         completed: "Concluídas"
         failed: "Falhas"
+        canceled: "Canceladas"
       table:
         routine: "Rotina"
         status: "Status"
@@ -25,3 +26,6 @@ pt-BR:
       breadcrumb: "Execução #%{id}"
     download:
       unavailable: "Esta execução não tem arquivo para baixar"
+    cancel:
+      requested: "Cancelamento solicitado. O backup para em alguns segundos."
+      not_running: "Esta execução já terminou"

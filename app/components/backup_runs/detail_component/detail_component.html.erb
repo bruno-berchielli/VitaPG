@@ -12,6 +12,14 @@
           <% b.with_leading_icon { render Ui::IconComponent.new(:arrow_down_tray, classes: "size-4") } %>
           <%= t("actions.download") %>
         <% end %>
+      <% elsif run.in_progress? && run.cancel_requested? %>
+        <span class="text-xs font-semibold text-text-muted"><%= t(".canceling") %></span>
+      <% elsif run.in_progress? %>
+        <%= render Ui::ButtonComponent.new(variant: :secondary, size: :sm, href: cancel_backup_run_path(run), method: :post,
+              data: { turbo_confirm: t(".cancel_confirm") }) do |b| %>
+          <% b.with_leading_icon { render Ui::IconComponent.new(:x_circle, classes: "size-4") } %>
+          <%= t(".cancel") %>
+        <% end %>
       <% end %>
     </div>
 
