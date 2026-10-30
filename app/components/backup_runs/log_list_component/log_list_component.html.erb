@@ -1,16 +1,18 @@
-<div class="overflow-hidden rounded-card bg-surface shadow-soft">
+<%= tag.div class: "overflow-hidden rounded-card bg-surface shadow-soft",
+            data: { controller: stimulus_controller,
+                    "#{stimulus_controller}-one-value": t(".count.one", count: "{count}"),
+                    "#{stimulus_controller}-other-value": t(".count.other", count: "{count}") } do %>
   <div class="flex items-center justify-between px-6 py-4">
     <h2 class="font-display text-base font-semibold"><%= t(".title") %></h2>
-    <span class="text-xs text-text-muted"><%= t(".count", count: logs.size) %></span>
+    <span class="text-xs text-text-muted" <%= data_stimulus("target", "count").html_safe %>><%= t(".count", count: logs.size) %></span>
   </div>
-  <div class="max-h-[32rem] overflow-y-auto mx-3 mb-3 rounded-2xl bg-[#0a0b0d] px-4 py-3" <%= data_stimulus_controller.html_safe %>>
-    <% if logs.empty? %>
-      <p class="py-2 font-mono text-xs text-gray-500"><%= t(".empty") %></p>
-    <% end %>
-    <%= tag.ol id: list_id, class: "space-y-0.5" do %>
+  <div class="max-h-[32rem] overflow-y-auto mx-3 mb-3 rounded-2xl bg-[#0a0b0d] px-4 py-3" <%= data_stimulus("target", "viewport").html_safe %>>
+    <%= tag.p t(".empty"), class: "py-2 font-mono text-xs text-gray-500", hidden: logs.any?,
+                           data: { "#{stimulus_controller}-target": "empty" } %>
+    <%= tag.ol id: list_id, class: "space-y-0.5", data: { "#{stimulus_controller}-target": "list" } do %>
       <% logs.each do |log| %>
         <%= render BackupRuns::LogLineComponent.new(log: log) %>
       <% end %>
     <% end %>
   </div>
-</div>
+<% end %>
