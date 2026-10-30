@@ -39,7 +39,7 @@ module Backups
       end
 
       result = connection.with_pg_env do |env|
-        measure_source_size(env)
+        measure_source_size(env, command)
         with_progress_ticker do |capture_line|
           CommandRunner.run(command.argv, env: env, timeout: dump_timeout, on_stderr_line: capture_line,
                             abort_if: -> { @disk_shortage })
@@ -65,19 +65,19 @@ module Backups
       @output_path ||= File.join(workdir, "dump#{PgDumpCommand.new(routine, output_path: nil).file_extension}")
     end
 
-    # The raw database size gives context to judge dump progress and, at the
-    # end, the effective compression ratio. Best-effort: a failure here must
-    # never fail the backup.
-    def measure_source_size(env)
+    # The size of the table data being dumped gives context to judge dump
+    # progress and, at the end, the effective compression ratio. Best-effort:
+    # a failure here must never fail the backup.
+    def measure_source_size(env, command)
       result = CommandRunner.run(
-        [ "psql", "--no-psqlrc", "--tuples-only", "--no-align", "--command", "SELECT pg_database_size(current_database())" ],
-        env: env, timeout: 15
+        [ "psql", "--no-psqlrc", "--tuples-only", "--no-align", "--command", command.source_size_sql ],
+        env: env, timeout: 30
       )
       size = Integer(result.stdout.to_s.strip) if result.success?
       return unless size&.positive?
 
       run.update!(source_size_bytes: size)
-      run.log!(message: "Source database size: ~#{human_size(size)}")
+      run.log!(message: "Source data size: ~#{human_size(size)} (tables in the dump, without indexes)")
     rescue ArgumentError, TypeError
       nil
     end

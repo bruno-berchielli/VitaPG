@@ -33,6 +33,21 @@ module Backups
       argv.join(" ")
     end
 
+    # Size of the table data pg_dump will actually read: heap and TOAST of
+    # every user table, leaving out indexes (dumped as DDL only) and tables
+    # whose data is excluded. Patterns follow pg_dump's rules: unquoted names
+    # fold to lower case, `*` and `?` are wildcards.
+    def source_size_sql
+      <<~SQL.squish
+        SELECT COALESCE(sum(pg_table_size(c.oid)), 0)
+        FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace
+        WHERE c.relkind IN ('r', 'm')
+          AND n.nspname NOT IN ('pg_catalog', 'information_schema')
+          AND n.nspname NOT LIKE 'pg\\_toast%' AND n.nspname NOT LIKE 'pg\\_temp%'
+          #{(excluded_tables | excluded_data_tables).map { |pattern| "AND NOT (#{pattern_condition(pattern)})" }.join(" ")}
+      SQL
+    end
+
     def file_extension
       case routine.format
       when "custom" then ".dump"
@@ -61,6 +76,20 @@ module Backups
 
     def split_list(value)
       value.to_s.split(",").map(&:strip).reject(&:blank?).uniq
+    end
+
+    def pattern_condition(pattern)
+      parts = pattern.scan(/"(?:[^"]|"")*"|[^.]+/)
+      table = like_literal(parts.last)
+      return "c.relname LIKE #{table}" if parts.one?
+
+      "n.nspname LIKE #{like_literal(parts.first)} AND c.relname LIKE #{table}"
+    end
+
+    def like_literal(name)
+      name = name.start_with?('"') ? name[1..-2].gsub('""', '"') : name.downcase
+      like = name.gsub(/[\\%_]/) { "\\#{it}" }.tr("*?", "%_")
+      "'#{like.gsub("'", "''")}'"
     end
   end
 end

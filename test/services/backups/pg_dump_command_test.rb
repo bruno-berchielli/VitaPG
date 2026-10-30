@@ -49,6 +49,23 @@ module Backups
       assert_equal argv, argv.uniq
     end
 
+    test "source size leaves out tables whose data is not dumped" do
+      @routine.assign_attributes(tables_to_exclude: "cron.job", tables_to_exclude_data: "public.versions, audits")
+      sql = PgDumpCommand.new(@routine, output_path: nil).source_size_sql
+
+      assert_includes sql, "AND NOT (n.nspname LIKE 'cron' AND c.relname LIKE 'job')"
+      assert_includes sql, "AND NOT (n.nspname LIKE 'public' AND c.relname LIKE 'versions')"
+      assert_includes sql, "AND NOT (c.relname LIKE 'audits')"
+    end
+
+    test "source size follows pg_dump pattern rules" do
+      @routine.assign_attributes(tables_to_exclude_data: %(Logs_*, "Mixed.Case"."it's"))
+      sql = PgDumpCommand.new(@routine, output_path: nil).source_size_sql
+
+      assert_includes sql, %q(c.relname LIKE 'logs\_%')
+      assert_includes sql, %q(n.nspname LIKE 'Mixed.Case' AND c.relname LIKE 'it''s')
+    end
+
     test "never contains credentials" do
       line = PgDumpCommand.new(@routine, output_path: "/tmp/x.dump").to_log_line
 
