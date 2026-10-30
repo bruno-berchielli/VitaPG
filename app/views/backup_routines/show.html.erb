@@ -53,7 +53,7 @@
       <%= turbo_stream_from live_run.updates_channel %>
     <% end %>
     <div class="mt-3 overflow-x-auto rounded-card bg-surface pb-2 shadow-soft">
-      <table class="w-full text-left">
+      <table class="group/runs w-full text-left" data-hide-routine>
         <thead>
           <tr class="text-[0.6875rem] uppercase tracking-[0.14em] text-text-faint">
             <th scope="col" class="px-6 py-4 font-semibold"><%= t(".table.status") %></th>

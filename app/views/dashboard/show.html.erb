@@ -68,7 +68,7 @@
               </tr>
             </thead>
             <tbody>
-              <%= render BackupRuns::RowComponent.with_collection(@recent_runs, show_routine: true) %>
+              <%= render BackupRuns::RowComponent.with_collection(@recent_runs) %>
             </tbody>
           </table>
         </div>
