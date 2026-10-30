@@ -23,5 +23,22 @@ module Backups
       assert result.success?
       assert_equal "boom\n", result.stderr
     end
+
+    test "abort_if kills the command and flags the result" do
+      started = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+      result = CommandRunner.run([ "sleep", "30" ], abort_if: -> { true })
+
+      assert result.aborted
+      assert_not result.timed_out
+      assert_not result.success?
+      assert_operator Process.clock_gettime(Process::CLOCK_MONOTONIC) - started, :<, 10
+    end
+
+    test "a falsy abort_if lets the command finish" do
+      result = CommandRunner.run([ "true" ], abort_if: -> { false })
+
+      assert result.success?
+      assert_not result.aborted
+    end
   end
 end

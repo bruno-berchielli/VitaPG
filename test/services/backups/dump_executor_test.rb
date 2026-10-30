@@ -29,7 +29,59 @@ module Backups
       assert_equal "reading indexes", @executor.instance_variable_get(:@latest_line)
     end
 
+    test "refuses to start when free space cannot hold the last dump plus the reserve" do
+      completed_run(size_bytes: 10.gigabytes)
+      free_disk(10.5.gigabytes)
+
+      error = assert_raises(Backups::Error) { @executor.send(:ensure_disk_space!) }
+      assert_match "Not enough disk space", error.message
+      assert_match "10 GB for the dump", error.message
+    end
+
+    test "starts when free space holds the last dump plus the reserve" do
+      completed_run(size_bytes: 10.gigabytes)
+      free_disk(20.gigabytes)
+
+      assert_nothing_raised { @executor.send(:ensure_disk_space!) }
+      assert_match "Free disk space", @run.logs.last.message
+    end
+
+    test "without a previous dump only the reserve is required" do
+      free_disk(2.gigabytes)
+      assert_nothing_raised { @executor.send(:ensure_disk_space!) }
+
+      free_disk(512.megabytes)
+      assert_raises(Backups::Error) { @executor.send(:ensure_disk_space!) }
+    end
+
+    test "an unknown free space never blocks the dump" do
+      free_disk(nil)
+
+      assert_nothing_raised { @executor.send(:ensure_disk_space!) }
+      @executor.send(:check_disk_space)
+      assert_nil @executor.instance_variable_get(:@disk_shortage)
+    end
+
+    test "flags a shortage once free space drops below the reserve" do
+      free_disk(5.gigabytes)
+      @executor.send(:check_disk_space)
+      assert_nil @executor.instance_variable_get(:@disk_shortage)
+
+      free_disk(100.megabytes)
+      @executor.send(:check_disk_space)
+      assert_equal 100.megabytes, @executor.instance_variable_get(:@disk_shortage)
+    end
+
     private
+
+    def completed_run(size_bytes:)
+      @run.backup_routine.runs.create!(status: :completed, trigger: :scheduled,
+                                       finished_at: 1.day.ago, size_bytes: size_bytes)
+    end
+
+    def free_disk(bytes)
+      @executor.define_singleton_method(:free_disk_bytes) { bytes }
+    end
 
     def table_log_lines
       @run.logs.pluck(:message).grep(/\ADumping table/)
