@@ -52,6 +52,14 @@ module Storage
       true
     end
 
+    # Aborts multipart uploads a killed run left open under a key prefix. The
+    # SDK aborts its own uploads on errors; only a hard kill leaves one behind.
+    def abort_incomplete_uploads!(key_prefix)
+      client.list_multipart_uploads(bucket: destination.bucket, prefix: key_prefix).uploads.each do |upload|
+        client.abort_multipart_upload(bucket: destination.bucket, key: upload.key, upload_id: upload.upload_id)
+      end
+    end
+
     private
 
     def object(key)
@@ -63,7 +71,7 @@ module Storage
         access_key_id: destination.access_key_id,
         secret_access_key: destination.secret_access_key,
         region: destination.region.presence || "us-east-1",
-        endpoint: destination.endpoint.presence,
+        endpoint: destination.service_endpoint.presence,
         force_path_style: destination.s3_compatible?
       )
     end

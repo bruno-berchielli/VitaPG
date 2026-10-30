@@ -49,6 +49,27 @@ module Storage
       assert_match(/does not exist/, error.message)
     end
 
+    test "a failed upload leaves no partial file behind" do
+      assert_raises(RuntimeError) do
+        @adapter.upload!(@source, "a/b.dump", on_progress: ->(_bytes) { raise "disk gone" })
+      end
+
+      assert_empty Dir.glob(File.join(@base, "**", "*.partial"))
+    end
+
+    test "abort_incomplete_uploads! removes partials under the key prefix only" do
+      FileUtils.mkdir_p(File.join(@base, "a"))
+      File.write(File.join(@base, "a/db-1.dump.partial"), "x")
+      File.write(File.join(@base, "a/db-2.dump.partial"), "x")
+      File.write(File.join(@base, "a/db-1.dump"), "x")
+
+      @adapter.abort_incomplete_uploads!("a/db-1")
+
+      assert_not File.exist?(File.join(@base, "a/db-1.dump.partial"))
+      assert File.exist?(File.join(@base, "a/db-2.dump.partial"))
+      assert File.exist?(File.join(@base, "a/db-1.dump"))
+    end
+
     test "download_url is nil and file_path resolves for streaming" do
       @adapter.upload!(@source, "a/b.dump")
 

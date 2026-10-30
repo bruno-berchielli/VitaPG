@@ -24,6 +24,17 @@ class BackupRunTest < ActiveSupport::TestCase
     assert_equal 255, @run.progress_detail.length
   end
 
+  test "progress! bumps updated_at even when nothing moved" do
+    @run.update!(status: :dumping)
+    @run.progress!(bytes: 10)
+
+    travel 1.minute do
+      assert_changes -> { @run.reload.updated_at } do
+        @run.progress!(bytes: 10)
+      end
+    end
+  end
+
   test "progress_percent only exists when the total is known" do
     @run.progress!(bytes: 25)
     assert_nil @run.progress_percent
