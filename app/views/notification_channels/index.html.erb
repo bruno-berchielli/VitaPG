@@ -1,7 +1,7 @@
 <% content_for :title, "#{t('.title')} · VitaPG" %>
 
 <%= render Ui::PageHeaderComponent.new(title: t(".title"), description: t(".description")) do |header| %>
-  <% if current_membership&.manager? %>
+  <% if workspace_manager? %>
     <% header.with_action do %>
       <%= render Ui::ButtonComponent.new(variant: :primary, href: new_notification_channel_path) do |b| %>
         <% b.with_leading_icon { render Ui::IconComponent.new(:plus, classes: "size-4") } %>
@@ -39,7 +39,7 @@
               </td>
               <td class="px-6 py-4"><%= render Ui::StatusBadgeComponent.new(status: channel.enabled? ? :enabled : :disabled) %></td>
               <td class="px-6 py-3.5 text-right">
-                <% if current_membership&.manager? %>
+                <% if workspace_manager? %>
                   <%= link_to t("actions.edit"), edit_notification_channel_path(channel), class: "rounded-full bg-ink px-3.5 py-1.5 text-xs font-semibold text-on-ink transition-opacity hover:opacity-85" %>
                 <% end %>
               </td>
@@ -50,7 +50,7 @@
     </div>
   <% else %>
     <%= render Ui::EmptyStateComponent.new(icon: :bolt, title: t(".empty.title"), description: t(".empty.description")) do |empty| %>
-      <% if current_membership&.manager? %>
+      <% if workspace_manager? %>
         <% empty.with_action do %>
           <%= render Ui::ButtonComponent.new(variant: :primary, href: new_notification_channel_path) do %><%= t(".new") %><% end %>
         <% end %>
