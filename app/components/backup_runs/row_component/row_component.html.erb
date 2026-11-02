@@ -1,10 +1,8 @@
 <%= tag.tr id: id, class: "border-t border-border transition-colors hover:bg-surface-highlight/60" do %>
-  <% if @show_routine %>
-    <td class="min-w-44 px-6 py-3.5 text-sm">
-      <%= link_to routine.name, backup_routine_path(routine), class: "font-semibold hover:underline" %>
-      <span class="block font-mono text-xs text-text-faint"><%= routine.database_connection.database_name %></span>
-    </td>
-  <% end %>
+  <td class="min-w-44 px-6 py-3.5 text-sm group-data-hide-routine/runs:hidden">
+    <%= link_to routine.name, backup_routine_path(routine), class: "font-semibold hover:underline" %>
+    <span class="block font-mono text-xs text-text-faint"><%= routine.database_connection.database_name %></span>
+  </td>
   <td class="px-6 py-3.5"><%= render Ui::StatusBadgeComponent.new(status: @run.status) %></td>
   <td class="whitespace-nowrap px-6 py-3.5 text-sm text-text-muted"><%= helpers.relative_time(@run.created_at) %></td>
   <td class="px-6 py-3.5 text-sm tabular-nums text-text-muted"><%= helpers.human_duration(@run.duration) %></td>

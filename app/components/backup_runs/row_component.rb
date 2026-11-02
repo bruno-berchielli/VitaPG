@@ -2,12 +2,15 @@
 
 # One row in a runs table. Self-refreshing: subscribes while the run is in
 # progress so status flips live without a page reload.
+#
+# The broadcast is shared by every table showing the run, so the row always
+# carries the routine cell; tables scoped to one routine hide it with
+# data-hide-routine.
 class BackupRuns::RowComponent < ApplicationComponent
   with_collection_parameter :run
 
-  def initialize(run:, show_routine: false)
+  def initialize(run:)
     @run = run
-    @show_routine = show_routine
   end
 
   def self.dom_id_for(run_id)
